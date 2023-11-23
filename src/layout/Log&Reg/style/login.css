@@ -1,0 +1,79 @@
+@media (min-width: 0px) {
+  .user {
+    position: relative;
+    background-color: #222224;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .login {
+    width: 90%;
+    min-height: 50vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .login__logo {
+    width: 70%;
+  }
+  .login__input::-webkit-input-placeholder {
+    color: #9e9e9e;
+  }
+  .login__input:-ms-input-placeholder {
+    color: #9e9e9e;
+  }
+  .login__input::-ms-input-placeholder {
+    color: #9e9e9e;
+  }
+  .login__input::placeholder {
+    color: #9e9e9e;
+  }
+  .login__input {
+    border: none;
+    background-color: #4d4d4d;
+    width: 70%;
+    padding: 7px 15px;
+    margin: 5px 0;
+  }
+  .login__remember {
+    color: #f7f7f7;
+    padding: 2% 0;
+  }
+  .login__box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .login__box__text {
+    color: #f7f7f7;
+    padding: 3% 0 5% 0;
+  }
+  .login__box__text__link {
+    color: #f7f7f7;
+    font-weight: bold;
+    padding-left: 5px;
+  }
+}
+/*# sourceMappingURL=login.css.map */
