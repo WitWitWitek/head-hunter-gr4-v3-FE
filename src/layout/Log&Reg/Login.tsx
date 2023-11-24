@@ -13,7 +13,9 @@ export const Login = () => {
         <img className="login__logo" src={logo} alt="logo MegaK" />
         <input className="login__input" type="email" placeholder="E-mail" />
         <input className="login__input" type="password" placeholder="Hasło" />
-        <p className="login__remember">Zapomniałeś hasła?</p>
+        <Link to="/remember" className="login__remember">
+          Zapomniałeś hasła?
+        </Link>
         <div className="login__box">
           <p className="login__box__text">
             Nie masz konta?
@@ -22,7 +24,7 @@ export const Login = () => {
             </Link>
           </p>
           <button className="login__box__btn btn" type="submit">
-            Login
+            Zaloguj się
           </button>
         </div>
       </form>

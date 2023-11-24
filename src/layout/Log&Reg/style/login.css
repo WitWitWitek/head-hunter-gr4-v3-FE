@@ -8,7 +8,7 @@
   }
   .login {
     width: 90%;
-    min-height: 50vh;
+    min-height: 60vh;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -29,7 +29,8 @@
             align-items: center;
   }
   .login__logo {
-    width: 70%;
+    width: 50%;
+    padding-bottom: 20px;
   }
   .login__input::-webkit-input-placeholder {
     color: #9e9e9e;
@@ -48,11 +49,17 @@
     background-color: #4d4d4d;
     width: 70%;
     padding: 7px 15px;
-    margin: 5px 0;
+    margin: 1.5px 0;
+    font-size: 1rem;
   }
   .login__remember {
+    text-decoration: none;
     color: #f7f7f7;
-    padding: 2% 0;
+    padding: 1% 0;
+    font-size: 1rem;
+  }
+  .login__input:focus {
+    outline: none;
   }
   .login__box {
     display: -webkit-box;
@@ -65,15 +72,84 @@
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
   }
   .login__box__text {
     color: #f7f7f7;
-    padding: 3% 0 5% 0;
+    padding: 1% 0 1% 0;
+    font-size: 1rem;
   }
   .login__box__text__link {
     color: #f7f7f7;
     font-weight: bold;
     padding-left: 5px;
+  }
+}
+
+@media (min-width: 375px) and (orientation: portrait) {
+  .login {
+    min-height: 43vh;
+  }
+  .login__input {
+    margin: 5px 0;
+  }
+}
+
+@media (min-width: 533px) and (orientation: landscape) {
+  .login {
+    width: 60%;
+    min-height: 70vh;
+  }
+  .login__logo {
+    width: 30%;
+  }
+  .login__input {
+    margin: 5px 0;
+  }
+}
+
+@media (min-width: 644px) and (orientation: landscape) {
+  .login {
+    min-height: 40vh;
+  }
+}
+
+@media (min-width: 800px) {
+  .login {
+    width: 35%;
+  }
+  .login__input {
+    width: 100%;
+  }
+  .login__logo {
+    width: 50%;
+  }
+  .login__remember {
+    padding-top: 8px;
+    -ms-flex-item-align: end;
+        align-self: flex-end;
+  }
+  .login__box {
+    width: 100%;
+    padding-top: 20px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+}
+
+@media (min-width: 1200px) {
+  .login {
+    width: 30%;
   }
 }
 /*# sourceMappingURL=login.css.map */
