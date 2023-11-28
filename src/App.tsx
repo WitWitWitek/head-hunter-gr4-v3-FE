@@ -1,23 +1,41 @@
+import { useSelector } from 'react-redux';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './styles/App.scss';
-import { LoginPage, RegisterPage, NotFound, TestingComponents } from './pages';
+import {
+	LoginPage,
+	RegisterPage,
+	NotFound,
+	HrView,
+	StudentView,
+	AdminView,
+} from './pages';
+import { RootState } from './app/store';
 
-const router = createBrowserRouter([
-	{
-		path: '/',
-		element: <LoginPage />,
-		errorElement: <NotFound />,
-	},
-	{
-		path: '/register',
-		element: <RegisterPage />,
-	},
-	{
-		path: '/testing-components',
-		element: <TestingComponents />,
-	},
-]);
 
 export const App = () => {
+	const role = useSelector((state: RootState) => state.auth.role);
+	const router = createBrowserRouter([
+		{
+			path: '/',
+			element: <LoginPage />,
+			errorElement: <NotFound />,
+			children: [
+				{
+					path: '/admin',
+					element: role === 'admin' ? <AdminView /> : <NotFound />,
+				},
+				{
+					path: '/student',
+					element: role === 'student' ? <StudentView /> : <NotFound />,
+				},
+				{ path: '/hr', element: role === 'hr' ? <HrView /> : <NotFound /> },
+			],
+		},
+		{
+			path: '/register',
+			element: <RegisterPage />,
+		},
+	]);
+
 	return <RouterProvider router={router} />;
 };
