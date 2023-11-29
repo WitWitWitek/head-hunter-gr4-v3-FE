@@ -40,6 +40,21 @@
     margin-top: 10px;
   }
   .error {
-    color: red;
+    color: #ff0004;
+  }
+}
+@media (min-width: 533px) and (orientation: landscape) {
+  .customInput {
+    width: 70%;
+  }
+}
+@media (min-width: 800px) {
+  .customInput {
+    width: 50%;
+  }
+}
+@media (min-width: 1200px) {
+  .customInput {
+    width: 40%;
   }
 }

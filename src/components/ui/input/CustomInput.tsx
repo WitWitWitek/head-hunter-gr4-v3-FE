@@ -1,13 +1,7 @@
 import { useField } from "formik";
 import StudentStyle from "../../../pages/StudentFormPage/StudentForm.module.scss";
+import { props } from "../../../types/StudentTypes/InputTypes";
 
-interface label {
-  label: string;
-}
-interface props extends label {
-  name: string;
-  type: string;
-}
 export const CustomInput = ({ label, ...props }: props) => {
   const [field, meta] = useField(props);
   console.log("field", field);
