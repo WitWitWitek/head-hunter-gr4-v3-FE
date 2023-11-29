@@ -4,8 +4,6 @@ import { props } from "../../../types/StudentTypes/InputTypes";
 
 export const CustomInput = ({ label, ...props }: props) => {
   const [field, meta] = useField(props);
-  console.log("field", field);
-  console.log("meta", meta);
   return (
     <div className={StudentStyle.customInput}>
       <label className={StudentStyle.customInput__label}>{label}</label>
