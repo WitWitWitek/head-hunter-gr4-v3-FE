@@ -8,10 +8,7 @@ import { Mutex } from "async-mutex";
 import { RootState } from "../store";
 import { UserRole, logIn, logOut } from "./authSlice";
 
-const QUERY_URL =
-  process.env.NODE_ENV !== "production"
-    ? "http://localhost:3001"
-    : "https://www.head-hunter-api.pl";
+const QUERY_URL = "https://www.head-hunter-api.pl";
 
 const mutex = new Mutex();
 
