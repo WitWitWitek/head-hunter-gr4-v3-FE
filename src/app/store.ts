@@ -1,31 +1,15 @@
-import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
+import apiSlice from "./api/apiSlice";
+import { authSlice } from "./api/authSlice";
 
-type UserRole = 'admin' | 'student' | 'hr' | null;
-
-interface AuthState {
-	role: UserRole;
-}
-
-const initialState: AuthState = {
-	role: null,
-};
-
-const authSlice = createSlice({
-	name: 'auth',
-	initialState,
-	reducers: {
-		setRole: (state, action: PayloadAction<UserRole>) => {
-			state.role = action.payload;
-		},
-	},
-});
-
-export const { setRole } = authSlice.actions;
-
-const store = configureStore({
-	reducer: {
-		auth: authSlice.reducer,
-	},
+export const store = configureStore({
+  reducer: {
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    auth: authSlice.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
+  devTools: true,
 });
 
 export type RootState = ReturnType<typeof store.getState>;
