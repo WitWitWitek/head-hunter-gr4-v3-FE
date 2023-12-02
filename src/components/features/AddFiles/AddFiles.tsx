@@ -101,8 +101,8 @@ function AddFiles() {
 						className={styles.hiddenFileInput}
 					/>
 					<div className={styles.fileName}>{selectedFileName}</div>
-					{fileError && <div className={styles.fileError}>{fileError}</div>}
 				</div>
+				{fileError && <div className={styles.fileError}>{fileError}</div>}
 				<div className={styles.buttonsContainer}>
 					<button onClick={handleFileRemove} className={styles.removeBtn}>
 						Usuń

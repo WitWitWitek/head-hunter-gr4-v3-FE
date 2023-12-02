@@ -23,10 +23,7 @@
             background-color: $strongRed; 
             color: $white; 
         }
-        .fileError {
-        color: $strongRed;
-        margin-top: 0.5rem;
-}
+
 
         .hiddenFileInput {
             display: none;
@@ -44,6 +41,10 @@
             height: 42px; 
         }
     }
+            .fileError {
+        color: $strongRed;
+        margin-bottom: 1rem;
+}
 
     .buttonsContainer {
         display: flex;
