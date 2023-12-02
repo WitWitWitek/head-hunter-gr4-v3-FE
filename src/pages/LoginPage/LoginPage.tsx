@@ -1,10 +1,14 @@
-import { Formik, Form } from "formik";
+import { Formik, Form, Field, FieldProps } from "formik";
 import { loginSchema } from "../../validation";
 import logo from "../../assets/images/logoMegaK.webp";
 import LoginStyle from "./Login.module.scss";
-import { Login } from "../../types/userType";
+import { LoginProps } from "../../types/userType";
 import { Button, Input } from "../../components/ui";
 import { Link } from "react-router-dom";
+interface FormValues {
+  loginEmail: string;
+  loginPassword: string;
+}
 
 export const LoginPage = () => {
   return (
@@ -13,26 +17,42 @@ export const LoginPage = () => {
         loginEmail: "",
         loginPassword: "",
       }}
-      onSubmit={(values: Login) => {
+      onSubmit={(values: LoginProps) => {
         console.log(values);
       }}
       validationSchema={loginSchema}
     >
       <div className={LoginStyle.user}>
-        <Form className={LoginStyle.login}>
+        <Form className={LoginStyle.login} noValidate>
           <img className={LoginStyle.login__logo} src={logo} alt="logo MegaK" />
-          <Input
-            placeholder="E-mail"
-            name="loginEmail"
-            type="email"
-            className={LoginStyle.login__input}
-          />
-          <Input
-            placeholder="Hasło"
-            name="loginPassword"
-            type="password"
-            className={LoginStyle.login__input}
-          />
+
+          <Field name="loginEmail">
+            {({ field, form }: FieldProps<string, FormValues>) => (
+              <Input
+                {...field}
+                hasError={form.touched.loginEmail && !!form.errors.loginEmail}
+                errorMessage={form.errors.loginEmail}
+                placeholder="E-mail"
+                type="email"
+                className={LoginStyle.login__input}
+              />
+            )}
+          </Field>
+
+          <Field name="loginPassword">
+            {({ field, form }: FieldProps<string, LoginProps>) => (
+              <Input
+                {...field}
+                hasError={
+                  form.touched.loginPassword && !!form.errors.loginPassword
+                }
+                errorMessage={form.errors.loginPassword}
+                placeholder="Hasło"
+                type="password"
+                className={`${LoginStyle.login__input}`}
+              />
+            )}
+          </Field>
           <Link to="/remind" className={LoginStyle.login__remember}>
             Zapomniałeś hasła?
           </Link>
