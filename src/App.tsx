@@ -8,12 +8,11 @@ import {
   HrView,
   StudentView,
   AdminView,
-  StudentForm,
 } from "./pages";
-import { RootState } from "./app/store";
+import { selectCurrentRole } from "./app/api/authSlice";
 
 export const App = () => {
-  const role = useSelector((state: RootState) => state.auth.role);
+  const role = useSelector(selectCurrentRole);
   const router = createBrowserRouter([
     {
       path: "/",
@@ -36,8 +35,8 @@ export const App = () => {
       element: <RegisterPage />,
     },
     {
-      path: "/studentForm",
-      element: <StudentForm />,
+      path: "/test-admin",
+      element: <AdminView />,
     },
   ]);
 

@@ -5,21 +5,28 @@ import LoginStyle from "./Login.module.scss";
 import { LoginProps } from "../../types/userType";
 import { Button, Input } from "../../components/ui";
 import { Link } from "react-router-dom";
+import { useLoginMutation } from "../../app/api/authApiSlice";
+
 interface FormValues {
   loginEmail: string;
   loginPassword: string;
 }
 
 export const LoginPage = () => {
+  const [login, { isSuccess }] = useLoginMutation();
+
   return (
     <Formik
       initialValues={{
         loginEmail: "",
         loginPassword: "",
       }}
-      onSubmit={(values: LoginProps) => {
-        console.log(values);
-      }}
+      onSubmit={async (values: LoginProps) =>
+        await login({
+          email: values.loginEmail,
+          password: values.loginPassword,
+        })
+      }
       validationSchema={loginSchema}
     >
       <div className={LoginStyle.user}>
@@ -69,6 +76,7 @@ export const LoginPage = () => {
             <Button type="submit">Zaloguj się</Button>
           </div>
         </Form>
+        {isSuccess && <p>Zalogowano</p>}
       </div>
     </Formik>
   );
