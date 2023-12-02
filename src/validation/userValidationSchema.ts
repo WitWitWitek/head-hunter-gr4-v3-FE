@@ -49,6 +49,10 @@ export const loginSchema = yup.object().shape({
 });
 
 export const createPasswordSchema = yup.object().shape({
+	loginEmail: yup
+		.string()
+		.email('Niepoprawny adres e-mail')
+		.required('Adres e-mail jest wymagany'),
 	registerPassword: yup
 		.string()
 		.min(1, 'Pole nie może być puste')
