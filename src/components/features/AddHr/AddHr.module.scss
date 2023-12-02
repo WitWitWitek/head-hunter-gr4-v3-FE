@@ -1,0 +1,21 @@
+@import '../../../styles/variables.scss'; 
+
+.container {
+  margin: 1rem;
+}
+
+.title {
+  color:$colorInput;
+  margin-bottom: 1rem; 
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap:0.3rem
+}
+
+.submitButton {
+  align-self: flex-end; 
+  margin-top: 0.5rem; 
+}

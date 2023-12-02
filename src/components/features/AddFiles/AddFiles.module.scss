@@ -1,0 +1,60 @@
+@import '../../../styles/variables.scss';
+
+.container {
+   width:459px;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .fileInputContainer {
+
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 10px;
+
+        .fileInputLabel {
+            margin-right: 5px;
+            width: 10rem;
+            text-align: center; 
+            cursor: pointer;
+            display: inline-block;
+            padding: 8px 17px;
+            background-color: $strongRed; 
+            color: $white; 
+        }
+        .fileError {
+        color: $strongRed;
+        margin-top: 0.5rem;
+}
+
+        .hiddenFileInput {
+            display: none;
+        }
+        .fileName {
+            background: $bgInput 0 0 no-repeat padding-box;
+            opacity: 1;
+            border: 0;
+            width: 100%;
+            padding: 7px 17px;
+            color: $colorInput;
+            margin-left: 5px;
+            display: flex;
+            align-items: center; 
+            height: 42px; 
+        }
+    }
+
+    .buttonsContainer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px; 
+          .removeBtn{
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            color: $white;
+        }
+    }
+}
+
