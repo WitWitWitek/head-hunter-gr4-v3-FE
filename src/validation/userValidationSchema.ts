@@ -20,7 +20,7 @@ export const passwordForgottenSchema = yup
 export const hrSchema = yup
 	.object()
 	.shape({
-		hrEmail: yup.string().email('Nieprawidłowy email').required('Podaj email'),
+		email: yup.string().email('Nieprawidłowy email').required('Podaj email'),
 
 		fullName: yup
 			.string()
