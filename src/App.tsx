@@ -34,6 +34,10 @@ export const App = () => {
       path: "/register",
       element: <RegisterPage />,
     },
+    {
+      path: "/test-admin",
+      element: <AdminView />,
+    },
   ]);
 
   return <RouterProvider router={router} />;
