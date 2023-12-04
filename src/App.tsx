@@ -10,6 +10,8 @@ import {
   AdminView,
 } from "./pages";
 import { selectCurrentRole } from "./app/api/authSlice";
+import { RemindPage } from "./pages/RemaindPage/RemaindPage";
+import { ChangePassword } from "./pages/ChangePassword/ChangePassword";
 
 export const App = () => {
   const role = useSelector(selectCurrentRole);
@@ -37,6 +39,10 @@ export const App = () => {
     {
       path: "/test-admin",
       element: <AdminView />,
+    },
+    {
+      path: "/remind",
+      element: <RemindPage />,
     },
   ]);
 

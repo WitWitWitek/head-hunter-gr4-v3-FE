@@ -1,0 +1,64 @@
+@media (min-width: 0px) {
+  .wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .remindForm {
+    width: 90%;
+    min-height: 30vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
+  .remindForm__input {
+    width: 100%;
+  }
+  button {
+    -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center;
+    margin-top: 10px;
+  }
+}
+
+@media (min-width: 533px) {
+  .remindForm {
+    width: 70%;
+  }
+}
+
+@media (min-width: 800px) {
+  .remindForm {
+    width: 50%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .remindForm {
+    width: 30%;
+  }
+}
+/*# sourceMappingURL=RemindPage.module.css.map */
