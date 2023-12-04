@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import apiSlice from "../api/apiSlice";
 import { UserRole, logIn, logOut } from "./authSlice";
 
@@ -24,7 +25,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
           const { data } = await queryFulfilled;
           const { access_token, role } = data;
           dispatch(logIn({ access_token, role }));
+          toast.success("Zalogowano poprawnie.");
         } catch (err) {
+          toast.error("Wystąpił bład w trakcie logowania.");
           dispatch(logOut());
         }
       },
@@ -32,11 +35,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
     logout: builder.mutation({
       query: () => ({
         url: "/auth/sign-out",
-        method: "POST",
+        method: "GET",
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         await queryFulfilled;
         dispatch(logOut());
+        toast.success("Wylogowano poprawnie.");
       },
     }),
   }),

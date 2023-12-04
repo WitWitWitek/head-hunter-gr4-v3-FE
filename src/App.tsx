@@ -10,6 +10,7 @@ import {
   AdminView,
 } from "./pages";
 import { selectCurrentRole } from "./app/api/authSlice";
+import AuthContainer from "./components/layout/Containers/AuthContainer/AuthContainer";
 
 export const App = () => {
   const role = useSelector(selectCurrentRole);
@@ -18,6 +19,9 @@ export const App = () => {
       path: "/",
       element: <LoginPage />,
       errorElement: <NotFound />,
+    },
+    {
+      element: <AuthContainer />,
       children: [
         {
           path: "/admin",
