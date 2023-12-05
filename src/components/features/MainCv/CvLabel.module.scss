@@ -1,0 +1,34 @@
+@import '../../../styles/variables.scss'; 
+
+.label {
+    margin: 0;
+    padding-left: 0;
+    color: $colorInput;
+    max-width: 1160px;
+    width: 100%;
+
+    @media (max-width: 600px) {
+        max-width: 100%; 
+    }
+}
+
+.title {
+    background-color: $bgInput;
+    margin: 0;
+    height: 60px;
+    line-height: 60px;
+    font-size: 20px;
+    font-weight: bold;
+    padding-left: 26px;
+    color: #F7F7F7;
+    width: 100%; 
+    word-wrap: break-word;
+}
+
+.details {
+    padding: 25px 26px;
+ flex-wrap: wrap;
+    @media (max-width: 600px) {
+        padding: 15px; 
+    }
+}

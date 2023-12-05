@@ -1,0 +1,26 @@
+@import '../../../styles/variables.scss'; 
+
+.labelWithLinks {
+    padding: 18px 0;
+    color: $colorInput;
+    width: 1150px;
+
+    a {
+        display: block;
+    }
+
+    p {
+        padding-left: 26px;
+    }
+}
+
+.title {
+    background-color: $bgInput;
+    margin: 0;
+    height: 60px;
+    line-height: 60px;
+    font-size: 20px;
+    font-weight: bold;
+    padding-left: 26px;
+    color: $colorInput;
+}

@@ -32,6 +32,8 @@
   &.active {
     background-color: $strongRed;
   }
+  &.fullWidth {
+    width: 100%;
 
   .loading {
     position: absolute;
@@ -40,6 +42,9 @@
     transform: translate(50%, -50%);
     height: 100%;
   }
+  
+}
+
 
   .loading_text {
     opacity: 0;

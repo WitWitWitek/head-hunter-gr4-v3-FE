@@ -25,7 +25,7 @@ export const LogoutButton = () => {
 	);
 
 	return (
-		<Button onClick={logOut} loading={loading}>
+		<Button fullWidth={true} onClick={logOut} loading={loading}>
 			Wyloguj
 		</Button>
 	);
