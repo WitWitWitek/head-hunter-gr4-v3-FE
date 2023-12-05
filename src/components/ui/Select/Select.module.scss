@@ -1,4 +1,4 @@
-@import '../../../styles/variables.scss';
+@import "../../../styles/variables.scss";
 .select {
   background: $bgInput 0 0 no-repeat padding-box;
   opacity: 1;
@@ -33,7 +33,7 @@
 
 .description {
   font-weight: bold;
-  text-transform: capitalize;
+  text-transform: uppercase;
   color: $inactive;
   padding-left: 5px;
 }

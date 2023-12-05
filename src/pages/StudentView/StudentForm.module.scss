@@ -37,6 +37,9 @@
   .customInput .btn {
     margin-top: 10px;
   }
+  .form .btn {
+    align-self: center;
+  }
 }
 @media (min-width: 533px) and (orientation: landscape) {
   .form {

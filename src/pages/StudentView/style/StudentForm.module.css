@@ -55,6 +55,11 @@
   .customInput .btn {
     margin-top: 10px;
   }
+  .form .btn {
+    -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center;
+  }
 }
 
 @media (min-width: 533px) and (orientation: landscape) {
