@@ -1,0 +1,43 @@
+@import '../../../styles/variables.scss';  
+.details {
+    display: flex;
+    width: 163.5px;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    row-gap: 24px;
+
+    .degree {
+        display: flex;
+        align-items: center;
+    }
+
+    p.title {
+        font-size: 14px;
+    }
+}
+
+.maxPoints, 
+.points {
+    color: $colorInput;
+    font-weight: normal;
+    font-size: 18px;
+
+    &.maxPoints {
+        padding-right: 12.5px;
+    }
+
+    &.points {
+        font-weight: bold;
+    }
+}
+
+svg {
+    &.starGrey {
+        color: $iconGrey;
+    }
+
+    &.starRed {
+        color: $strongRed;
+    }
+}

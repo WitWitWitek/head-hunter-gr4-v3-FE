@@ -1,0 +1,49 @@
+@import '../../../styles/variables.scss'; 
+
+.expectations {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 5px 17px;
+    height: 110px;
+    border-right: 1px solid $bgInput;
+    width: 260px; 
+
+    &:nth-child(1) {
+        padding-left: 0;
+    }
+
+    &:last-child {
+        border-right: 0;
+    }
+
+    @media (max-width: 600px) {
+        border-right: none;
+        border-bottom: 1px solid $bgInput;
+        align-items: center; 
+        width: 100%; 
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+}
+
+p.label {
+    font-size: 14px;
+    color: $colorInput;
+    letter-spacing: -.4px;
+
+    @media (max-width: 600px) {
+        text-align: center; 
+    }
+}
+
+p.text {
+    font-size: 16px;
+    font-weight: bold;
+
+    @media (max-width: 600px) {
+        text-align: center; 
+    }
+}
