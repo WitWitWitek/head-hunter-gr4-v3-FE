@@ -48,6 +48,24 @@ export const App = () => {
       path: "/remind",
       element: <RemindPage />,
     },
+    {
+      path: "/test-student",
+      element: <StudentView />,
+      children: [
+        {
+          index: true,
+          element: <StudentPanel />,
+        },
+        {
+          path: "edit-cv",
+          element: <StudentForm />,
+        },
+        {
+          path: "view-cv",
+          element: <Cv />,
+        },
+      ],
+    },
   ]);
 
   return <RouterProvider router={router} />;

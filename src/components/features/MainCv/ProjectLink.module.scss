@@ -1,0 +1,17 @@
+@import '../../../styles/variables.scss';  
+.projectUrl {
+    color: $blue;
+    padding-left: 26px
+}
+
+.projectLink a {
+    display: flex;
+    column-gap: 12px;
+    align-items: center;
+}
+
+.clip {
+    height: 24px;
+    color: $blue;
+}
+
