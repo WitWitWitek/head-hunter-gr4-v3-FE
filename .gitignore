@@ -12,9 +12,6 @@ dist
 dist-ssr
 *.local
 
-# npm files
-package-lock.json
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

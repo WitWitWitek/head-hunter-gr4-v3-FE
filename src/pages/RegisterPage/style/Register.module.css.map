@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,YAAY;AAAA,+CAA+C",
-    "sources": [
-        "../Register.module.scss"
-    ],
-    "names": [],
-    "file": "Register.module.css"
-}

@@ -1,54 +1,35 @@
-import { useSelector } from "react-redux";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import "./styles/App.scss";
-import {
-  LoginPage,
-  RegisterPage,
-  NotFound,
-  HrView,
-  StudentView,
-  AdminView,
-} from "./pages";
-import { selectCurrentRole } from "./app/api/authSlice";
-import AuthContainer from "./components/layout/Containers/AuthContainer/AuthContainer";
-import { RemindPage } from "./pages/RemaindPage/RemaindPage";
-// import { ChangePassword } from "./pages/ChangePassword/ChangePassword";
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
-export const App = () => {
-  const role = useSelector(selectCurrentRole);
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <LoginPage />,
-      errorElement: <NotFound />,
-    },
-    {
-      element: <AuthContainer />,
-      children: [
-        {
-          path: "/admin",
-          element: role === "admin" ? <AdminView /> : <NotFound />,
-        },
-        {
-          path: "/student",
-          element: role === "student" ? <StudentView /> : <NotFound />,
-        },
-        { path: "/hr", element: role === "hr" ? <HrView /> : <NotFound /> },
-      ],
-    },
-    {
-      path: "/register",
-      element: <RegisterPage />,
-    },
-    {
-      path: "/test-admin",
-      element: <AdminView />,
-    },
-    {
-      path: "/remind",
-      element: <RemindPage />,
-    },
-  ]);
+function App() {
+  const [count, setCount] = useState(0)
 
-  return <RouterProvider router={router} />;
-};
+  return (
+    <>
+      <div>
+        <a href="https://vitejs.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
+}
+
+export default App
