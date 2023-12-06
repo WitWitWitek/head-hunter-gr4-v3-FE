@@ -12,6 +12,8 @@ import {
 import { selectCurrentRole } from "./app/api/authSlice";
 import AuthContainer from "./components/layout/Containers/AuthContainer/AuthContainer";
 import { RemindPage } from "./pages/RemaindPage/RemaindPage";
+import { StudentPreference } from "./pages/StudentView/StudentPreference";
+import { Cv, StudentForm, StudentPanel } from "./components/features";
 // import { ChangePassword } from "./pages/ChangePassword/ChangePassword";
 
 export const App = () => {
@@ -47,6 +49,10 @@ export const App = () => {
     {
       path: "/remind",
       element: <RemindPage />,
+    },
+    {
+      path: "/preference",
+      element: <StudentPreference />,
     },
     {
       path: "/test-student",
