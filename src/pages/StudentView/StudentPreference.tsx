@@ -2,7 +2,7 @@ import { Field, FieldProps, Form, Formik } from "formik";
 import { Input } from "../../components/ui/Input/Input";
 import { Button } from "../../components/ui/Button/Button";
 import { StudentFilteredValidation } from "../../validation";
-import Style from "./StudentForm.module.scss";
+import styles from "../../components/features/StudentForm/StudentForm.module.scss";
 import { Select } from "../../components/ui";
 interface FilterValues {
   courseCompletionRating: number;
@@ -37,8 +37,8 @@ export const StudentPreference = () => {
       }}
       validationSchema={StudentFilteredValidation}
     >
-      <div className={Style.wrapper}>
-        <Form className={Style.form} noValidate>
+      <div className={styles.wrapper}>
+        <Form className={styles.form} noValidate>
           <Field name="courseCompletionRating">
             {({ field, form }: FieldProps<string, FilterValues>) => (
               <Input
@@ -180,7 +180,7 @@ export const StudentPreference = () => {
               />
             )}
           </Field>
-          <Button type="submit" className={Style.btn}>
+          <Button type="submit" className={styles.btn}>
             Potwierdź
           </Button>
         </Form>
