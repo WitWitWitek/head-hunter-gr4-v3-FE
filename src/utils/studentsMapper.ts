@@ -1,4 +1,4 @@
-import { CreateStudentType } from "../app/api/userApiSlice";
+import { CreateStudentType } from "../types/createStudentType";
 
 export const studentsMapper = (students: CreateStudentType[]) =>
   students.map((student) => ({
