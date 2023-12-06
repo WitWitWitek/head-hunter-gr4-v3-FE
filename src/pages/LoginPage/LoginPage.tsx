@@ -4,8 +4,11 @@ import logo from "../../assets/images/logoMegaK.webp";
 import LoginStyle from "./Login.module.scss";
 import { LoginProps } from "../../types/userType";
 import { Button, Input } from "../../components/ui";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../app/api/authApiSlice";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { selectCurrentRole } from "../../app/api/authSlice";
 
 interface FormValues {
   loginEmail: string;
@@ -14,6 +17,12 @@ interface FormValues {
 
 export const LoginPage = () => {
   const [login, { isSuccess }] = useLoginMutation();
+  const role = useSelector(selectCurrentRole);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    isSuccess && role && navigate(`/${role}`);
+  }, [isSuccess, role]);
 
   return (
     <Formik

@@ -10,8 +10,11 @@ import {
   AdminView,
 } from "./pages";
 import { selectCurrentRole } from "./app/api/authSlice";
+import AuthContainer from "./components/layout/Containers/AuthContainer/AuthContainer";
 import { RemindPage } from "./pages/RemaindPage/RemaindPage";
 import { StudentPreference } from "./pages/StudentView/StudentPreference";
+import { Cv, StudentForm, StudentPanel } from "./components/features";
+// import { ChangePassword } from "./pages/ChangePassword/ChangePassword";
 
 export const App = () => {
   const role = useSelector(selectCurrentRole);
@@ -20,6 +23,9 @@ export const App = () => {
       path: "/",
       element: <LoginPage />,
       errorElement: <NotFound />,
+    },
+    {
+      element: <AuthContainer />,
       children: [
         {
           path: "/admin",
@@ -47,6 +53,24 @@ export const App = () => {
     {
       path: "/preference",
       element: <StudentPreference />,
+    },
+    {
+      path: "/test-student",
+      element: <StudentView />,
+      children: [
+        {
+          index: true,
+          element: <StudentPanel />,
+        },
+        {
+          path: "edit-cv",
+          element: <StudentForm />,
+        },
+        {
+          path: "view-cv",
+          element: <Cv />,
+        },
+      ],
     },
   ]);
 

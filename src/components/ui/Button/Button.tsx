@@ -6,6 +6,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	customClasses?: string;
 	status?: 'active' | 'disabled';
 	loading?: boolean;
+	fullWidth?: boolean;
 }
 
 export const Button = ({
@@ -13,18 +14,21 @@ export const Button = ({
 	customClasses = '',
 	status = 'active',
 	loading = false,
+	fullWidth = false,
 	...rest
 }: Props) => {
 	return (
 		<button
 			{...rest}
-			className={`${styles.button} ${styles[status]} ${customClasses}`}
+			className={`${styles.button} ${styles[status]} ${customClasses} ${
+				fullWidth ? styles.fullWidth : ''
+			}`}
 			disabled={status === 'disabled' || loading}
 		>
 			{loading ? (
 				<>
 					<SpinnerCircular size={20} color="#e02635" />
-					<span style={{ marginLeft: '10px' }}>{children}</span>{' '}
+					<span style={{ marginLeft: '10px' }}>{children}</span>
 				</>
 			) : (
 				children

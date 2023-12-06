@@ -1,0 +1,81 @@
+@import '../../../styles/variables.scss';
+.contactInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 20px;
+    height: 718px;
+    padding: 25px 0;
+    background-color:$bgInput;
+    @media (max-width: 992px) {
+       height: 100%;
+       text-align: center;
+    }
+}
+
+.cvUser {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cvUser p:nth-child(1) {
+    font-size: 24px;
+    line-height: 39px;
+    font-weight: 600;
+    color: $colorInput;
+}
+
+.cvUser p:nth-child(2) {
+    display: flex;
+    align-items: center;
+    column-gap: 9px;
+    color: $blue;
+}
+
+.cvContact {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 25px;
+     @media (max-width: 992px) {
+      
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          column-gap: 20px;
+       
+    }
+}
+
+.cvContact p {
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+}
+
+.cvContact p span {
+    font-size: 16px;
+    line-height: 27px;
+    color: $colorInput;
+}
+
+.cvAbout {
+    display: flex;
+    flex-direction: column;
+    padding-left: 25px;
+    padding-right: 28px;
+}
+
+.cvAbout p:nth-child(1) {
+    font-size: 16px;
+    line-height: 27px;
+    color: $iconGrey;
+    font-weight: 600;
+}
+
+.cvAbout p:nth-child(2) {
+    font-size: 16px;
+    line-height: 27px;
+    color: $colorInput;
+}

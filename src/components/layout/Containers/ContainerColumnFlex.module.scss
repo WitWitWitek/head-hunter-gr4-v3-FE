@@ -1,0 +1,17 @@
+
+@import '../../../styles/variables.scss'; 
+
+.container {
+  max-width: 1430px;
+  margin: 2rem auto;
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+ flex-wrap:1;
+
+
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+}
