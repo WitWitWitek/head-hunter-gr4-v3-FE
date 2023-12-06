@@ -10,8 +10,9 @@ import {
   AdminView,
 } from "./pages";
 import { selectCurrentRole } from "./app/api/authSlice";
-import { StudentForm, StudentPanel, Cv } from "./components/features";
+import AuthContainer from "./components/layout/Containers/AuthContainer/AuthContainer";
 import { RemindPage } from "./pages/RemaindPage/RemaindPage";
+// import { ChangePassword } from "./pages/ChangePassword/ChangePassword";
 
 export const App = () => {
   const role = useSelector(selectCurrentRole);
@@ -20,6 +21,9 @@ export const App = () => {
       path: "/",
       element: <LoginPage />,
       errorElement: <NotFound />,
+    },
+    {
+      element: <AuthContainer />,
       children: [
         {
           path: "/admin",
