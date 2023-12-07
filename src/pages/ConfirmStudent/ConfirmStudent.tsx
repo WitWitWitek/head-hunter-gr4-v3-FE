@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useFormik } from "formik";
 import styles from "./ConfirmStudent.module.scss";
 import { Button, Input } from "../../components/ui";
@@ -6,11 +6,17 @@ import { confirmStudentPasswordSchema } from "../../validation";
 import { ConfirmStudentFormType } from "../../types/ConfirmStudentType";
 import { useConfirmStudentMutation } from "../../app/api/userApiSlice";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 export default function ConfirmStudent() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
-  const [confirmStudent] = useConfirmStudentMutation();
+  const [confirmStudent, { isSuccess }] = useConfirmStudentMutation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    isSuccess && navigate(`/`);
+  }, [isSuccess, navigate]);
 
   const formik = useFormik<ConfirmStudentFormType>({
     initialValues: {

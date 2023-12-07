@@ -27,8 +27,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
     }),
     confirmStudent: builder.mutation<void, ConfirmStudentRequest>({
       query: ({ token, password }) => ({
-        url: `/user/confirm/${token}`, // połaczyć z BE
-        method: "POST",
+        url: `/user/confirm/${token}`,
+        method: "PATCH",
         body: { password },
       }),
       async onQueryStarted(_, { queryFulfilled }) {
