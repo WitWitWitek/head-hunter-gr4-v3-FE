@@ -24,7 +24,8 @@ export const studentValidationSchema = yup.object().shape({
 	githubUserName: yup
 		.string()
 		.nullable()
-		.max(255, 'Wprowadzona nazwa jest za długa'),
+		.max(255, 'Wprowadzona nazwa jest za długa')
+		.required('Podaj swoją nazwę użytkownika GitHuba'),
 
 	bio: yup.string().max(500, 'Wprowadzony tekst jest za długi'),
 
@@ -43,43 +44,39 @@ export const studentValidationSchema = yup.object().shape({
 		})
 		.max(6, 'Za duża wartość'),
 
-	monthsOfCommercialExp: yup
-		.string()
-		.test('correct-data', 'Podaj liczbę całkowitą lub 0', (val) => {
-			if (typeof val === 'undefined') {
-				return true;
-			}
-			return val === '0' || /^[1-9]\d*$/.test(val);
-		})
-		.max(3, 'Za duża wartość'),
-
 	education: yup.string().max(10000, 'Wprowadzony tekst jest za długi'),
 
 	workExperience: yup.string().max(10000, 'Wprowadzony tekst jest za długi'),
 
 	courses: yup.string().max(10000, 'Wprowadzony tekst jest za długi'),
 
-	portfolioInput: yup
-		.string()
-		.nullable()
-		.matches(
-			/^[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_~#?&//=]*)$/,
-			'Niepoprawny adres URL'
-		),
+	projectUrls: yup.array().of(
+		yup
+			.string()
+			.nullable()
+			.matches(
+				/^[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_~#?&//=]*)$/,
+				'Niepoprawny adres URL'
+			)
+			.required(
+				'Podaj adres URL - podanie linku do projektu zaliczeniowego jest obowiązkowe'
+			)
+	),
+	portfolioUrls: yup.array().of(
+		yup
+			.string()
+			.nullable()
+			.matches(
+				/^[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_~#?&//=]*)$/,
+				'Niepoprawny adres URL'
+			)
+	),
 
-	projectScrum: yup
-		.string()
-		.nullable()
-		.matches(
-			/^[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_~#?&//=]*)$/,
-			'Niepoprawny adres URL'
-		),
-
-	projectInput: yup
-		.string()
-		.nullable()
-		.matches(
-			/^[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_~#?&//=]*)$/,
-			'Niepoprawny adres URL'
-		),
+	// projectScrum: yup
+	// 	.string()
+	// 	.nullable()
+	// 	.matches(
+	// 		/^[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_~#?&//=]*)$/,
+	// 		'Niepoprawny adres URL'
+	// 	),
 });

@@ -50,15 +50,13 @@ export const StudentFilteredValidation = yup.object().shape({
 
 	monthsOfCommercialExp: yup
 		.string()
-		.nullable()
-		.test(
-			'correct-data',
-			'Podaj liczbę całkowitą',
-			(val) =>
-				val !== null &&
-				val !== undefined &&
-				!val.includes('.') &&
-				!val.includes(',')
-		)
+		.test('correct-data', 'Podaj liczbę całkowitą lub 0', (val) => {
+			if (typeof val === 'undefined') {
+				return true;
+			}
+			return val === '0' || /^[1-9]\d*$/.test(val);
+		})
 		.max(3, 'Za duża wartość'),
 });
+
+

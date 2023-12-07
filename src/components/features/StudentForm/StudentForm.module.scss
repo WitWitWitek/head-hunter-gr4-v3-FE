@@ -5,6 +5,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin:32px auto;
   }
   .form {
     width: 80%;
@@ -13,7 +14,18 @@
     justify-content: center;
     align-items: center;
     padding-top: 20px;
+    padding-bottom: 3rem;
+    .linksContainer{
+      width:100%
+    }
+      .link{
+        width:100%;
+        margin-top:12px
+      
+      }
   }
+
+
   input {
     width: 100%;
     padding: 7px 15px;
@@ -34,12 +46,10 @@
   .customInput:last-child {
     margin-bottom: 10px;
   }
-  .customInput .btn {
+  .customInput  {
     margin-top: 10px;
   }
-  .form .btn {
-    align-self: center;
-  }
+
 }
 @media (min-width: 533px) and (orientation: landscape) {
   .form {

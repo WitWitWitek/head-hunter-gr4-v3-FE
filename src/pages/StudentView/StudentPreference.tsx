@@ -1,21 +1,30 @@
 import { Field, FieldProps, Form, Formik } from "formik";
 import { Input } from "../../components/ui/Input/Input";
 import { Button } from "../../components/ui/Button/Button";
-import { StudentFilteredValidation } from "../../validation";
+import {
+	StudentFilteredValidation,
+	studentValidationSchema,
+} from '../../validation';
 import styles from "../../components/features/StudentForm/StudentForm.module.scss";
 import { Select } from "../../components/ui";
+import * as Yup from 'yup';
 interface FilterValues {
-  courseCompletionRating: number;
-  activityAndEngagementRating: number;
-  ownProjectCodeRating: number;
-  teamWorkScrumRating: number;
-  preferredWorkLocation: string;
-  consentForUnpaidInternship: boolean;
-  contractType: string;
-  minSalary: string;
-  maxSalary: string;
-  monthsOfCommercialExp: string;
+	courseCompletionRating: number;
+	activityAndEngagementRating: number;
+	ownProjectCodeRating: number;
+	teamWorkScrumRating: number;
+	preferredWorkLocation: string;
+	consentForUnpaidInternship: boolean;
+	contractType: string;
+	minSalary: string;
+	maxSalary: string;
+	monthsOfCommercialExp: string;
 }
+
+const combinedValidationSchema = Yup.object().shape({
+	...studentValidationSchema.fields,
+	...StudentFilteredValidation.fields,
+});
 
 export const StudentPreference = () => {
   return (
