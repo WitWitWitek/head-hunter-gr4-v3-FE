@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { checkGitHubUsernameTrue } from '../utils/checkGithubUsernameTrue';
 
 export const studentValidationSchema = yup.object().shape({
 	email: yup
@@ -25,7 +26,24 @@ export const studentValidationSchema = yup.object().shape({
 		.string()
 		.nullable()
 		.max(255, 'Wprowadzona nazwa jest za długa')
-		.required('Podaj swoją nazwę użytkownika GitHuba'),
+		.required('Podaj swoją nazwę użytkownika GitHuba')
+		.test(
+			'check-github-username',
+			'Ten login GitHuba nie istnieje',
+			async function (value) {
+				if (!value) {
+					return true;
+				}
+
+				try {
+					const isAvailable = await checkGitHubUsernameTrue(value);
+					return isAvailable;
+				} catch (error) {
+					console.error('Błąd:', error);
+					return false;
+				}
+			}
+		),
 
 	bio: yup.string().max(500, 'Wprowadzony tekst jest za długi'),
 
