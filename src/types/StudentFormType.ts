@@ -1,3 +1,5 @@
+export type DynamicField = string | number | boolean | string[] | undefined;
+
 export interface StudentFormType {
 	email: string;
 	tel: string;
@@ -13,4 +15,10 @@ export interface StudentFormType {
 	courses: string;
 	projectUrls: string[];
 	portfolioUrls: string[];
+	preferredWorkLocation: string;
+	consentForUnpaidInternship: boolean;
+	contractType: string;
+	minSalary: string;
+	maxSalary: string;
+	[key: string]: DynamicField;
 }

@@ -1,29 +1,8 @@
 import { Formik, Form, FieldProps, Field, FieldArray } from 'formik';
-import {
-	studentValidationSchema,
-	StudentFilteredValidation,
-} from '../../../validation';
+import { studentValidationSchema } from '../../../validation';
 import StudentStyle from './StudentForm.module.scss';
 import { StudentFormType } from '../../../types/StudentFormType';
 import { Input, TextArea, Select, Button } from '../../ui';
-import * as Yup from 'yup';
-
-const combinedValidationSchema = Yup.object().shape({
-	...studentValidationSchema.fields,
-	...StudentFilteredValidation.fields,
-});
-interface FilterValues {
-	courseCompletionRating: number;
-	activityAndEngagementRating: number;
-	ownProjectCodeRating: number;
-	teamWorkScrumRating: number;
-	preferredWorkLocation: string;
-	consentForUnpaidInternship: boolean;
-	contractType: string;
-	minSalary: string;
-	maxSalary: string;
-	monthsOfCommercialExp: string;
-}
 
 const DynamicLinksFieldArray = ({
 	name,
@@ -36,10 +15,10 @@ const DynamicLinksFieldArray = ({
 		name={name}
 		render={(arrayHelpers) => (
 			<div className={StudentStyle.linksContainer}>
-				{arrayHelpers.form.values[name].map((link: string, index: number) => (
+				{arrayHelpers.form.values[name].map((_: string, index: number) => (
 					<div key={index} className={StudentStyle.link}>
 						<Field name={`${name}.${index}`}>
-							{({ field, form }: any) => (
+							{({ field, form }: FieldProps<string, StudentFormType>) => (
 								<Input
 									{...field}
 									description={index === 0 ? description : ''}
@@ -81,10 +60,6 @@ export const StudentForm = () => {
 				courses: '',
 				portfolioUrls: [''],
 				projectUrls: [''],
-				courseCompletionRating: 0,
-				activityAndEngagementRating: 0,
-				ownProjectCodeRating: 0,
-				teamWorkScrumRating: 0,
 				preferredWorkLocation: '',
 				consentForUnpaidInternship: false,
 				contractType: '',
@@ -92,12 +67,13 @@ export const StudentForm = () => {
 				maxSalary: '',
 			}}
 			onSubmit={(values: StudentFormType) => {
+				console.log('hello world');
 				console.log(values);
 			}}
-			validationSchema={combinedValidationSchema}
+			validationSchema={studentValidationSchema}
 		>
 			<div className={StudentStyle.wrapper}>
-				<Form className={StudentStyle.form} noValidate>
+				<Form className={StudentStyle.form}>
 					<h2 style={{ color: 'white', margin: '40px 0 20px' }}>
 						Dane Osobowe
 					</h2>
@@ -158,71 +134,7 @@ export const StudentForm = () => {
 							/>
 						)}
 					</Field>
-					{/* tego ponizej nie ma do wypelnienia dla studenta - to sa dane importowane z pliku HR */}
-					{/* <Field name="courseCompletionRating">
-						{({ field, form }: FieldProps<string, FilterValues>) => (
-							<Input
-								{...field}
-								description="Ocena przejścia kursu"
-								hasError={
-									form.touched.courseCompletionRating &&
-									!!form.errors.courseCompletionRating
-								}
-								errorMessage={form.errors.courseCompletionRating}
-								type="number"
-								min={1}
-								max={5}
-							/>
-						)}
-					</Field>
-					<Field name="activityAndEngagementRating">
-						{({ field, form }: FieldProps<string, FilterValues>) => (
-							<Input
-								{...field}
-								description="Ocena zaangażowania w kurs"
-								hasError={
-									form.touched.activityAndEngagementRating &&
-									!!form.errors.activityAndEngagementRating
-								}
-								errorMessage={form.errors.activityAndEngagementRating}
-								type="number"
-								min={1}
-								max={5}
-							/>
-						)}
-					</Field>
-					<Field name="ownProjectCodeRating">
-						{({ field, form }: FieldProps<string, FilterValues>) => (
-							<Input
-								{...field}
-								description="Ocena z projektu własnego"
-								hasError={
-									form.touched.ownProjectCodeRating &&
-									!!form.errors.ownProjectCodeRating
-								}
-								errorMessage={form.errors.ownProjectCodeRating}
-								type="number"
-								min={1}
-								max={5}
-							/>
-						)}
-					</Field>
-					<Field name="teamWorkScrumRating">
-						{({ field, form }: FieldProps<string, FilterValues>) => (
-							<Input
-								{...field}
-								description="Ocena z pracy w zespole"
-								hasError={
-									form.touched.teamWorkScrumRating &&
-									!!form.errors.teamWorkScrumRating
-								}
-								errorMessage={form.errors.teamWorkScrumRating}
-								type="number"
-								min={1}
-								max={5}
-							/>
-						)}
-					</Field> */}
+
 					<h2 style={{ color: 'white', margin: '40px 0 20px' }}>
 						Preferencje dotyczące zatrudnienia
 					</h2>
@@ -252,8 +164,8 @@ export const StudentForm = () => {
 							/>
 						)}
 					</Field>
-					<Field name="referredWorkLocation">
-						{({ field }: FieldProps<string, FilterValues>) => (
+					<Field name="preferredWorkLocation">
+						{({ field }: FieldProps<string, StudentFormType>) => (
 							<Select
 								{...field}
 								description="Preferowane miejsce pracy"
@@ -269,7 +181,7 @@ export const StudentForm = () => {
 						)}
 					</Field>
 					<Field name="consentForUnpaidInternship">
-						{({ field }: FieldProps<string, FilterValues>) => (
+						{({ field }: FieldProps<string, StudentFormType>) => (
 							<Select
 								{...field}
 								description="Bezpłatny staż"
@@ -279,7 +191,7 @@ export const StudentForm = () => {
 						)}
 					</Field>
 					<Field name="contractType">
-						{({ field }: FieldProps<string, FilterValues>) => (
+						{({ field }: FieldProps<string, StudentFormType>) => (
 							<Select
 								{...field}
 								description="Typ kontraktu"
@@ -294,7 +206,7 @@ export const StudentForm = () => {
 						)}
 					</Field>
 					<Field name="minSalary">
-						{({ field, form }: FieldProps<string, FilterValues>) => (
+						{({ field, form }: FieldProps<string, StudentFormType>) => (
 							<Input
 								{...field}
 								description="Minimalne wynagrodzenie"
@@ -305,7 +217,7 @@ export const StudentForm = () => {
 						)}
 					</Field>
 					<Field name="maxSalary">
-						{({ field, form }: FieldProps<string, FilterValues>) => (
+						{({ field, form }: FieldProps<string, StudentFormType>) => (
 							<Input
 								{...field}
 								description="Maksymalne wynagrodzenie"
@@ -316,7 +228,7 @@ export const StudentForm = () => {
 						)}
 					</Field>
 					<Field name="monthsOfCommercialExp">
-						{({ field, form }: FieldProps<string, FilterValues>) => (
+						{({ field, form }: FieldProps<string, StudentFormType>) => (
 							<Input
 								{...field}
 								description="Doświadczenie komercyjne(miesiące)"
@@ -355,46 +267,6 @@ export const StudentForm = () => {
 							<TextArea description="Kursy" {...field}></TextArea>
 						)}
 					</Field>
-					{/* <Field name="projectScrum">
-						{({ field, form }: FieldProps<string, StudentFormType>) => (
-							<Input
-								{...field}
-								description="Link do projektu scrum"
-								hasError={
-									form.touched.projectScrum && !!form.errors.projectScrum
-								}
-								errorMessage={form.errors.projectScrum}
-								type="text"
-							/>
-						)}
-					</Field> */}
-					{/* <Field name="portfolioInput">
-						{({ field, form }: FieldProps<string, StudentFormType>) => (
-							<Input
-								{...field}
-								description="Link do portfolio"
-								hasError={
-									form.touched.portfolioInput && !!form.errors.portfolioInput
-								}
-								errorMessage={form.errors.portfolioInput}
-								type="text"
-							/>
-						)}
-					</Field>
-
-					<Field name="projectInput">
-						{({ field, form }: FieldProps<string, StudentFormType>) => (
-							<Input
-								{...field}
-								description="Link do projektu zaliczeniowego"
-								hasError={
-									form.touched.projectInput && !!form.errors.projectInput
-								}
-								errorMessage={form.errors.projectInput}
-								type="text"
-							/>
-						)}
-					</Field> */}
 
 					<DynamicLinksFieldArray
 						name="projectUrls"

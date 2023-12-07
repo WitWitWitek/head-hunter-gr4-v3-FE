@@ -55,7 +55,7 @@ export const studentValidationSchema = yup.object().shape({
 			.string()
 			.nullable()
 			.matches(
-				/^[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_~#?&//=]*)$/,
+				/^(http[s]?:\/\/)?([\w-]+\.)+[\w-]+([\w-./?%&=]*)?$/,
 				'Niepoprawny adres URL'
 			)
 			.required(
@@ -67,16 +67,52 @@ export const studentValidationSchema = yup.object().shape({
 			.string()
 			.nullable()
 			.matches(
-				/^[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_~#?&//=]*)$/,
+				/^(http[s]?:\/\/)?([\w-]+\.)+[\w-]+([\w-./?%&=]*)?$/,
 				'Niepoprawny adres URL'
 			)
 	),
+	preferredWorkLocation: yup
+		.string()
+		.required('Wymagane jest podanie preferowanego miejsca pracy'),
+	consentForUnpaidInternship: yup
+		.boolean()
+		.required('Musisz zaznaczyć jedna z opcji'),
+	contractType: yup.string().required('Wymagany jest wybór typu kontraktu'),
+	minSalary: yup
+		.string()
+		.nullable()
+		.test(
+			'correct-data',
+			'Podaj liczbę całkowitą',
+			(val) =>
+				val !== null &&
+				val !== undefined &&
+				!val.includes('.') &&
+				!val.includes(',')
+		)
+		.max(6, 'Za duża wartość'),
 
-	// projectScrum: yup
-	// 	.string()
-	// 	.nullable()
-	// 	.matches(
-	// 		/^[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_~#?&//=]*)$/,
-	// 		'Niepoprawny adres URL'
-	// 	),
+	maxSalary: yup
+		.string()
+		.nullable()
+		.test(
+			'correct-data',
+			'Podaj liczbę całkowitą',
+			(val) =>
+				val !== null &&
+				val !== undefined &&
+				!val.includes('.') &&
+				!val.includes(',')
+		)
+		.max(6, 'Za duża wartość'),
+
+	monthsOfCommercialExp: yup
+		.string()
+		.test('correct-data', 'Podaj liczbę całkowitą lub 0', (val) => {
+			if (typeof val === 'undefined') {
+				return true;
+			}
+			return val === '0' || /^[1-9]\d*$/.test(val);
+		})
+		.max(3, 'Za duża wartość'),
 });
