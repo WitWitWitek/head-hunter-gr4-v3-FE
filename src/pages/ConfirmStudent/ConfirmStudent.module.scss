@@ -13,9 +13,17 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap:2rem;
+
+  .logo{
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+  }
 }
 
 .container {
+  max-width:1200px;
   width: 100%;
 }
 
