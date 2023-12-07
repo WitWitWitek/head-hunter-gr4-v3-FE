@@ -4,11 +4,13 @@ import styles from "./ConfirmStudent.module.scss";
 import { Button, Input } from "../../components/ui";
 import { confirmStudentPasswordSchema } from "../../validation";
 import { ConfirmStudentFormType } from "../../types/ConfirmStudentType";
+import { useConfirmStudentMutation } from "../../app/api/userApiSlice";
+import { toast } from "react-toastify";
 
 export default function ConfirmStudent() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
-  console.log(token);
+  const [confirmStudent] = useConfirmStudentMutation();
 
   const formik = useFormik<ConfirmStudentFormType>({
     initialValues: {
@@ -16,8 +18,12 @@ export default function ConfirmStudent() {
       confirmPassword: "",
     },
     validationSchema: confirmStudentPasswordSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      if (token) {
+        await confirmStudent({ token, password: values.password });
+      } else {
+        toast.error("Token jest wymagany.");
+      }
     },
   });
 

@@ -1,6 +1,7 @@
 import apiSlice from "../api/apiSlice";
 import { toast } from "react-toastify";
 import { CreateStudentType } from "../../types/createStudentType";
+import { ConfirmStudentRequest } from "../../types/ConfirmStudentType";
 
 type CreateUserRequest = {
   students: CreateStudentType[];
@@ -24,7 +25,24 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
+    confirmStudent: builder.mutation<void, ConfirmStudentRequest>({
+      query: ({ token, password }) => ({
+        url: `/user/confirm/${token}`, // połaczyć z BE
+        method: "POST",
+        body: { password },
+      }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          toast.success("Użytkownik zweryfikowany. Zaloguj się.");
+        } catch (err) {
+          console.log(err);
+          toast.error("Wystąpił problem z weryfikacją.");
+        }
+      },
+    }),
   }),
 });
 
-export const { useCreateStudentMutation } = authApiSlice;
+export const { useCreateStudentMutation, useConfirmStudentMutation } =
+  authApiSlice;
