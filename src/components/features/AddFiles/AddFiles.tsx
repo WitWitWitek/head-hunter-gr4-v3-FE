@@ -8,89 +8,15 @@ import { CreateStudentType } from "../../../types/createStudentType";
 import { useCreateStudentMutation } from "../../../app/api/userApiSlice";
 import { studentsMapper } from "../../../utils/studentsMapper";
 import { Text } from '../../ui';
+import {
+	validateJSON,
+	validateCSVRow,
+	CSVRow,
+} from '../../../validation/inputFilesValidators';
 
-const isValidEmail = (email: string) =>
-	/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email);
-const isNumberInRange = (num: number) => num >= 1 && num <= 5;
-const isValidURL = (url: string) => {
-	try {
-		new URL(url);
-		return true;
-	} catch (e) {
-		return false;
-	}
-};
 
-interface JSONData {
-	email: string;
-	courseCompletion: number;
-	courseEngagement: number;
-	projectDegree: number;
-	teamProjectDegree: number;
-	bonusProjectUrls: string[];
-}
 
-const validateJSON = (jsonData: JSONData[]): string => {
-	if (!Array.isArray(jsonData)) {
-		return 'JSON data must be an array.';
-	}
 
-	for (const item of jsonData) {
-		const {
-			email,
-			courseCompletion,
-			courseEngagement,
-			projectDegree,
-			teamProjectDegree,
-			bonusProjectUrls,
-		} = item;
-
-		if (
-			!isValidEmail(email) ||
-			!isNumberInRange(courseCompletion) ||
-			!isNumberInRange(courseEngagement) ||
-			!isNumberInRange(projectDegree) ||
-			!isNumberInRange(teamProjectDegree) ||
-			!Array.isArray(bonusProjectUrls) ||
-			!bonusProjectUrls.every(isValidURL)
-		) {
-			return 'Błędnie dane wejściowe w pliku JSON. Zweryfikuj zawartość pliku.';
-		}
-	}
-
-	return '';
-};
-
-interface CSVRow {
-	email: string;
-	courseCompletion: string;
-	courseEngagement: string;
-	projectDegree: string;
-	teamProjectDegree: string;
-	bonusProjectUrls: string;
-}
-const validateCSVRow = (row: CSVRow): boolean => {
-	const {
-		email,
-		courseCompletion,
-		courseEngagement,
-		projectDegree,
-		teamProjectDegree,
-		bonusProjectUrls,
-	} = row;
-
-	if (
-		!isValidEmail(email) ||
-		!isNumberInRange(parseInt(courseCompletion)) ||
-		!isNumberInRange(parseInt(courseEngagement)) ||
-		!isNumberInRange(parseInt(projectDegree)) ||
-		!isNumberInRange(parseInt(teamProjectDegree)) ||
-		!bonusProjectUrls.split(',').every(isValidURL)
-	) {
-		return false;
-	}
-	return true;
-};
 
 function AddFiles() {
 	const [loading, setLoading] = useState(false);
