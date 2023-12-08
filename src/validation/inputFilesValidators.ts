@@ -24,12 +24,15 @@ export interface JSONData {
 	bonusProjectUrls: string[];
 }
 
-export const validateJSON = (jsonData: JSONData[]): string => {
+export const validateJSON = (jsonData: JSONData[]): string[] => {
+	const errors: string[] = [];
+
 	if (!Array.isArray(jsonData)) {
-		return 'JSON data must be an array.';
+		errors.push('JSON data must be an array.');
+		return errors;
 	}
 
-	for (const item of jsonData) {
+	jsonData.forEach((item, index) => {
 		const {
 			email,
 			courseCompletion,
@@ -39,20 +42,41 @@ export const validateJSON = (jsonData: JSONData[]): string => {
 			bonusProjectUrls,
 		} = item;
 
+		if (!isValidEmail(email)) {
+			errors.push(`Błąd w rekordzie ${index + 1}: nieprawidłowy email.`);
+		}
 		if (
-			!isValidEmail(email) ||
+			!email ||
+			!courseCompletion ||
+			!courseEngagement ||
+			!projectDegree ||
+			!teamProjectDegree ||
+			!bonusProjectUrls
+		) {
+			errors.push(`Błąd w rekordzie ${index + 1}: brakujące pole/pola.`);
+			return;
+		}
+		if (
 			!isNumberInRange(courseCompletion) ||
 			!isNumberInRange(courseEngagement) ||
 			!isNumberInRange(projectDegree) ||
-			!isNumberInRange(teamProjectDegree) ||
+			!isNumberInRange(teamProjectDegree)
+		) {
+			errors.push(
+				`Błąd w rekordzie ${index + 1}: nieprawidłowe wartości liczbowe.`
+			);
+		}
+		if (
 			!Array.isArray(bonusProjectUrls) ||
 			!bonusProjectUrls.every(isValidURL)
 		) {
-			return 'Błędnie dane wejściowe w pliku JSON. Zweryfikuj zawartość pliku.';
+			errors.push(
+				`Błąd w rekordzie ${index + 1}: nieprawidłowe URL-e w bonusProjectUrls.`
+			);
 		}
-	}
+	});
 
-	return '';
+	return errors;
 };
 
 export interface CSVRow {
@@ -64,7 +88,10 @@ export interface CSVRow {
 	bonusProjectUrls: string;
 }
 
-export const validateCSVRow = (row: CSVRow): boolean => {
+export const validateCSVRow = (
+	row: CSVRow,
+	rowIndex: number
+): { isValid: boolean; error?: string } => {
 	const {
 		email,
 		courseCompletion,
@@ -74,12 +101,42 @@ export const validateCSVRow = (row: CSVRow): boolean => {
 		bonusProjectUrls,
 	} = row;
 
-	return (
-		isValidEmail(email) &&
-		isNumberInRange(parseInt(courseCompletion)) &&
-		isNumberInRange(parseInt(courseEngagement)) &&
-		isNumberInRange(parseInt(projectDegree)) &&
-		isNumberInRange(parseInt(teamProjectDegree)) &&
-		bonusProjectUrls.split(',').every(isValidURL)
-	);
+	if (!isValidEmail(email)) {
+		return {
+			isValid: false,
+			error: `Błąd w wierszu ${rowIndex}: nieprawidłowy email.`,
+		};
+	}
+	if (
+		!email ||
+		!courseCompletion ||
+		!courseEngagement ||
+		!projectDegree ||
+		!teamProjectDegree ||
+		!bonusProjectUrls
+	) {
+		return {
+			isValid: false,
+			error: `Błąd w wierszu ${rowIndex}: brakujące pole/pola.`,
+		};
+	}
+	if (
+		!isNumberInRange(parseInt(courseCompletion)) ||
+		!isNumberInRange(parseInt(courseEngagement)) ||
+		!isNumberInRange(parseInt(projectDegree)) ||
+		!isNumberInRange(parseInt(teamProjectDegree))
+	) {
+		return {
+			isValid: false,
+			error: `Błąd w wierszu ${rowIndex}: nieprawidłowe wartości liczbowe.`,
+		};
+	}
+	if (!bonusProjectUrls.split(',').every(isValidURL)) {
+		return {
+			isValid: false,
+			error: `Błąd w wierszu ${rowIndex}: nieprawidłowe URL-e.`,
+		};
+	}
+	return { isValid: true };
 };
+

@@ -1,0 +1,28 @@
+[
+	{
+		"email": "test@test.pl",
+		"courseCompletion": 4,
+		"projectDegree": 4,
+		"teamProjectDegree": 5,
+		"bonusProjectUrls": [
+			"https://github.com/ghusername/projectname",
+			"https://github.com/ghusername/projectname2",
+			"https://github.com/ghusername/projectname3"
+		]
+	},
+	{
+		"courseCompletion": 4,
+		"courseEngagement": 5,
+		"projectDegree": 3,
+		"teamProjectDegree": 5,
+		"bonusProjectUrls": ["https://github.com/ghusername/projectname"]
+	},
+	{
+		"email": "mail@mail.com",
+		"teamProjectDegree": 5,
+		"bonusProjectUrls": [
+			"https://github.com/ghusername/projectname",
+			"https://github.com/ghusername/projectname"
+		]
+	}
+]

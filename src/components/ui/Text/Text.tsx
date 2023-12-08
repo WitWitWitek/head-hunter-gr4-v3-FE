@@ -6,7 +6,7 @@ interface Props
 		PropsWithChildren {
 	customClasses?: string;
 	weight?: 'bold' | 'normal' | 'light';
-	color?: 'white' | 'gray';
+	color?: 'white' | 'red' | 'gray';
 }
 
 export const Text = ({

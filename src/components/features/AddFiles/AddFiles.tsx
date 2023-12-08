@@ -22,6 +22,16 @@ function AddFiles() {
 	const [students, setStudents] = useState<CreateStudentType[]>();
 	const [createStudent, { isSuccess }] = useCreateStudentMutation();
 	const [rowCount, setRowCount] = useState(0);
+	const [csvErrors, setCsvErrors] = useState<string[]>([]);
+	const [jsonErrors, setJsonErrors] = useState<string[]>([]);
+	const resetImport = () => {
+		setCsvErrors([]);
+		setJsonErrors([]);
+		setFileError('');
+		setSelectedFileName('');
+		setRowCount(0);
+		formik.setFieldValue('file', null);
+	};
 
 	const sendStudents = async () => {
 		students && (await createStudent({ students: [...students] }));
@@ -54,15 +64,16 @@ function AddFiles() {
 			Papa.parse<CSVRow>(file, {
 				header: true,
 				complete: (results) => {
-					let isValid = true;
-					for (const row of results.data) {
-						if (!validateCSVRow(row)) {
-							isValid = false;
-							break;
+					const errors: string[] = [];
+					results.data.forEach((row, index) => {
+						const validation = validateCSVRow(row, index + 1);
+						if (!validation.isValid) {
+							errors.push(validation.error || `Błąd w wierszu ${index + 1}`);
 						}
-					}
+					});
 
-					if (!isValid) {
+					if (errors.length > 0) {
+						setCsvErrors(errors);
 						setLoading(false);
 						toast.error('Nieprawidłowy format CSV.');
 					} else {
@@ -84,21 +95,23 @@ function AddFiles() {
 				const result = event.target?.result;
 				if (typeof result === 'string') {
 					const jsonData = JSON.parse(result);
-					const validationError = validateJSON(jsonData);
-					if (validationError) {
+					const errors = validateJSON(jsonData);
+					if (errors.length > 0) {
+						setJsonErrors(errors);
 						setLoading(false);
-						toast.error(validationError);
+						toast.error(errors);
 						return;
+					} else {
+						const students = studentsMapper(
+							jsonData as unknown as CreateStudentType[]
+						);
+						setStudents(() => students);
+						setLoading(false);
+						setRowCount(jsonData.length);
+						toast.success(
+							`Plik JSON został pomyślnie wczytany. Dodano ${jsonData.length} kursantów/a`
+						);
 					}
-					const students = studentsMapper(
-						jsonData as unknown as CreateStudentType[]
-					);
-					setStudents(() => students);
-					setLoading(false);
-					setRowCount(jsonData.length);
-					toast.success(
-						`Plik JSON został pomyślnie wczytany. Dodano ${jsonData.length} kursantów/a`
-					);
 				}
 			};
 			reader.readAsText(file);
@@ -162,6 +175,32 @@ function AddFiles() {
 						</Text>
 					</div>
 				)}
+				{csvErrors.length > 0 && (
+					<div className={styles.fileError}>
+						{csvErrors.map((error, index) => (
+							<Text key={index} weight="light" color="red">
+								{error}
+							</Text>
+						))}
+						<Button type="button" onClick={resetImport}>
+							Resetuj błędny import
+						</Button>
+					</div>
+				)}
+
+				{jsonErrors.length > 0 && (
+					<div className={styles.fileError}>
+						{jsonErrors.map((error, index) => (
+							<Text key={index} weight="light" color="red">
+								{error}
+							</Text>
+						))}
+						<Button type="button" onClick={resetImport}>
+							Resetuj błędny import
+						</Button>
+					</div>
+				)}
+
 				<div className={styles.buttonsContainer}>
 					<button onClick={handleFileRemove} className={styles.removeBtn}>
 						Usuń
