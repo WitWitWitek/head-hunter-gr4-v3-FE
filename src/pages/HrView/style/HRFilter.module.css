@@ -1,0 +1,87 @@
+@media (min-width: 0px) {
+  .wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .panel {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 90%;
+    background-color: #0a0a0a;
+    padding: 10px;
+  }
+  .panel__brand {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    padding-bottom: 10px;
+  }
+  .panel__brand__title {
+    color: #f7f7f7;
+  }
+  .panel__brand__btn {
+    color: #f7f7f7;
+    border: none;
+    background-color: #0b8bd4;
+    padding: 4px 8px;
+    font-size: 0.9rem;
+  }
+  .panel__mark {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .panel__mark__box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .panel__mark__title {
+    color: #f7f7f7;
+  }
+  .box__buttons {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    font-size: 1rem;
+    padding: 3px 9px;
+    margin-left: 5px;
+    background-color: #4d4d4d;
+    border: none;
+    color: #f7f7f7;
+  }
+  .star {
+    padding-left: 2px;
+    color: #ff0004;
+  }
+}
+/*# sourceMappingURL=HRFilter.module.css.map */

@@ -11,7 +11,7 @@ import {
 } from "./pages";
 import { selectCurrentRole } from "./app/api/authSlice";
 import { RemindPage } from "./pages/RemaindPage/RemaindPage";
-import { StudentPreference } from "./pages/StudentView/StudentPreference";
+import { HRFilter } from "./pages/HrView/HRFilter";
 
 export const App = () => {
   const role = useSelector(selectCurrentRole);
@@ -45,8 +45,8 @@ export const App = () => {
       element: <RemindPage />,
     },
     {
-      path: "/preference",
-      element: <StudentPreference />,
+      path: "/filterr",
+      element: <HRFilter />,
     },
   ]);
 
