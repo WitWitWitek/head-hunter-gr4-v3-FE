@@ -1,214 +1,241 @@
-import { Formik, Form, FieldProps, Field } from 'formik';
+import { useFormik } from 'formik';
 import { studentValidationSchema } from '../../../validation';
 import StudentStyle from './StudentForm.module.scss';
-import { StudentFormType } from '../../../types/StudentFormType';
-import { Input, TextArea } from '../../ui';
-
+import {
+	IStudentFormData,
+	ExpectedContractType,
+	ExpectedTypeWork,
+} from '../../../types/StudentFormType';
+import { Input, TextArea, Select, Button } from '../../ui';
+import { toast } from 'react-toastify';
 export const StudentForm = () => {
+	const formik = useFormik<IStudentFormData>({
+		initialValues: {
+			email: '',
+			tel: '',
+			firstName: '',
+			lastName: '',
+			githubUsername: '',
+			bio: '',
+			targetWorkCity: '',
+			expectedSalary: 0,
+			monthsOfCommercialExp: 0,
+			education: '',
+			workExperience: '',
+			courses: '',
+			portfolioUrls: [''],
+			projectUrls: [''],
+			canTakeApprenticeship: false,
+			expectedContractType: ExpectedContractType.IRRELEVANT,
+			expectedTypeWork: ExpectedTypeWork.IRRELEVANT,
+		},
+		validationSchema: studentValidationSchema,
+		onSubmit: (values, { setSubmitting }) => {
+			console.log('Form data', values);
+			alert(JSON.stringify(values, null, 2));
+			setSubmitting(false);
+			toast.success('Formularz został poprawnie wypełniony!');
+		},
+	});
+
+	type ArrayFieldNames = 'projectUrls' | 'portfolioUrls';
+
+	const addLink = (name: ArrayFieldNames) => {
+		const currentLinks = formik.values[name] || [];
+		const links = [...currentLinks, ''];
+
+		formik.setFieldValue(name, links);
+	};
+
+	const removeLink = (name: ArrayFieldNames, index: number) => {
+		const currentLinks = formik.values[name] || [];
+
+		if (Array.isArray(currentLinks)) {
+			const links = [...currentLinks];
+			if (index >= 0 && index < links.length) {
+				links.splice(index, 1);
+				formik.setFieldValue(name, links);
+			}
+		}
+	};
 	return (
-		<Formik
-			initialValues={{
-				email: '',
-				tel: '',
-				firstName: '',
-				lastName: '',
-				githubUserName: '',
-				bio: '',
-				targetWorkCity: '',
-				expectedSalary: 0,
-				monthsOfCommercialExp: 0,
-				education: '',
-				workExperience: '',
-				courses: '',
-				portfolioInput: '',
-				projectScrum: '',
-				projectInput: '',
-			}}
-			onSubmit={(values: StudentFormType) => {
-				console.log(values);
-			}}
-			validationSchema={studentValidationSchema}
-		>
-			<div className={StudentStyle.wrapper}>
-				<Form className={StudentStyle.form} noValidate>
-					<Field name="email">
-						{({ field, form }: FieldProps<string, StudentFormType>) => (
-							<Input
-								{...field}
-								description="E-mail"
-								hasError={form.touched.email && !!form.errors.email}
-								errorMessage={form.errors.email}
-								type="email"
-							/>
-						)}
-					</Field>
+		<div className={StudentStyle.wrapper}>
+			<form onSubmit={formik.handleSubmit} className={StudentStyle.form}>
+				<h2 style={{ color: 'white', margin: '40px 0 20px' }}>Dane Osobowe</h2>
+				<Input
+					description="E-mail"
+					hasError={formik.touched.email && !!formik.errors.email}
+					errorMessage={formik.errors.email}
+					{...formik.getFieldProps('email')}
+					type="email"
+				/>
+				<Input
+					description="Nr. telefonu"
+					hasError={formik.touched.tel && !!formik.errors.tel}
+					errorMessage={formik.errors.tel}
+					{...formik.getFieldProps('tel')}
+					type="text"
+				/>
+				<Input
+					description="Imię"
+					hasError={formik.touched.firstName && !!formik.errors.firstName}
+					errorMessage={formik.errors.firstName}
+					{...formik.getFieldProps('firstName')}
+					type="text"
+				/>
+				<Input
+					description="Nazwisko"
+					hasError={formik.touched.lastName && !!formik.errors.lastName}
+					errorMessage={formik.errors.lastName}
+					{...formik.getFieldProps('lastName')}
+					type="text"
+				/>
+				<Input
+					description="Login GitHuba"
+					hasError={
+						formik.touched.githubUsername && !!formik.errors.githubUsername
+					}
+					errorMessage={formik.errors.githubUsername}
+					{...formik.getFieldProps('githubUsername')}
+					type="text"
+				/>
+				<h2 style={{ color: 'white', margin: '40px 0 20px' }}>
+					Preferencje dotyczące zatrudnienia
+				</h2>
+				<Input
+					description="Docelowe miasto pracy"
+					hasError={
+						formik.touched.targetWorkCity && !!formik.errors.targetWorkCity
+					}
+					errorMessage={formik.errors.targetWorkCity}
+					{...formik.getFieldProps('targetWorkCity')}
+					type="text"
+				/>
+				<Input
+					description="Oczekiwane wynagrodzenie"
+					hasError={
+						formik.touched.expectedSalary && !!formik.errors.expectedSalary
+					}
+					errorMessage={formik.errors.expectedSalary}
+					{...formik.getFieldProps('expectedSalary')}
+					type="number"
+				/>
+				<Select
+					description="Preferowane miejsce pracy"
+					value={formik.values.expectedTypeWork}
+					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
+					name="expectedTypeWork"
+					options={Object.values(ExpectedTypeWork)}
+				/>
 
-					<Field name="tel">
-						{({ field, form }: FieldProps<string, StudentFormType>) => (
-							<Input
-								{...field}
-								description="Nr. telefonu"
-								hasError={form.touched.tel && !!form.errors.tel}
-								errorMessage={form.errors.tel}
-								type="number"
-							/>
-						)}
-					</Field>
+				<Select
+					description="Bezpłatny staż"
+					value={formik.values.canTakeApprenticeship ? 'Tak' : 'Nie'}
+					onChange={(e) =>
+						formik.setFieldValue(
+							'consentForUnpaidInternship',
+							e.target.value === 'Tak'
+						)
+					}
+					onBlur={formik.handleBlur}
+					name="consentForUnpaidInternship"
+					options={['Tak', 'Nie']}
+				/>
 
-					<Field name="firstName">
-						{({ field, form }: FieldProps<string, StudentFormType>) => (
+				<Select
+					description="Oczekiwany typ kontraktu"
+					value={formik.values.expectedContractType}
+					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
+					name="expectedContractType"
+					options={Object.values(ExpectedContractType)}
+				/>
+
+				<Input
+					description="Doświadczenie komercyjne (miesiące)"
+					hasError={
+						formik.touched.monthsOfCommercialExp &&
+						!!formik.errors.monthsOfCommercialExp
+					}
+					errorMessage={formik.errors.monthsOfCommercialExp}
+					{...formik.getFieldProps('monthsOfCommercialExp')}
+					type="text"
+				/>
+				<h2 style={{ color: 'white', margin: '40px 0 20px' }}>
+					Pozostałe dane kandydata
+				</h2>
+				<TextArea description="Życiorys" {...formik.getFieldProps('bio')} />
+				<TextArea
+					description="Przebieg edukacji"
+					{...formik.getFieldProps('education')}
+				/>
+				<TextArea
+					description="Doświadczenie zawodowe"
+					{...formik.getFieldProps('workExperience')}
+				/>
+				<TextArea description="Kursy" {...formik.getFieldProps('courses')} />
+				<div className={StudentStyle.linksContainer}>
+					{formik.values.projectUrls &&
+						formik.values.projectUrls.map((_, index) => (
+							<div key={index} className={StudentStyle.link}>
+								<Input
+									description={`Link do projektu ${index + 1}`}
+									hasError={
+										formik.touched.projectUrls &&
+										!!formik.errors.projectUrls?.[index]
+									}
+									errorMessage={formik.errors.projectUrls?.[index]}
+									{...formik.getFieldProps(`projectUrls.${index}`)}
+									type="text"
+								/>
+								{index > 0 && (
+									<Button
+										type="button"
+										onClick={() => removeLink('projectUrls', index)}
+									>
+										Usuń
+									</Button>
+								)}
+							</div>
+						))}
+					<Button type="button" onClick={() => addLink('projectUrls')}>
+						Dodaj kolejny link
+					</Button>
+				</div>
+
+				<div className={StudentStyle.linksContainer}>
+					{formik.values.portfolioUrls?.map((_, index) => (
+						<div key={index} className={StudentStyle.link}>
 							<Input
-								{...field}
-								description="Imię"
-								hasError={form.touched.firstName && !!form.errors.firstName}
-								errorMessage={form.errors.firstName}
+								description={`Link do portfolio ${index + 1}`}
+								hasError={
+									formik.touched.portfolioUrls &&
+									!!formik.errors.portfolioUrls?.[index]
+								}
+								errorMessage={formik.errors.portfolioUrls?.[index]}
+								{...formik.getFieldProps(`portfolioUrls.${index}`)}
 								type="text"
 							/>
-						)}
-					</Field>
+							{index > 0 && (
+								<Button
+									type="button"
+									onClick={() => removeLink('portfolioUrls', index)}
+								>
+									Usuń
+								</Button>
+							)}
+						</div>
+					))}
+					<Button type="button" onClick={() => addLink('portfolioUrls')}>
+						Dodaj kolejny link
+					</Button>
+				</div>
 
-					<Field name="lastName">
-						{({ field, form }: FieldProps<string, StudentFormType>) => (
-							<Input
-								{...field}
-								description="Nazwisko"
-								hasError={form.touched.lastName && !!form.errors.lastName}
-								errorMessage={form.errors.lastName}
-								type="text"
-							/>
-						)}
-					</Field>
-
-					<Field name="githubUserName">
-						{({ field, form }: FieldProps<string, StudentFormType>) => (
-							<Input
-								{...field}
-								description="Link do GitHuba"
-								hasError={
-									form.touched.githubUserName && !!form.errors.githubUserName
-								}
-								errorMessage={form.errors.githubUserName}
-								type="text"
-							/>
-						)}
-					</Field>
-
-					<Field name="bio">
-						{({ field }: FieldProps<string, StudentFormType>) => (
-							<TextArea description="Życiorys" {...field}></TextArea>
-						)}
-					</Field>
-
-					<Field name="targetWorkCity">
-						{({ field, form }: FieldProps<string, StudentFormType>) => (
-							<Input
-								{...field}
-								description="Docelowe miasto pracy"
-								hasError={
-									form.touched.targetWorkCity && !!form.errors.targetWorkCity
-								}
-								errorMessage={form.errors.targetWorkCity}
-								type="text"
-							/>
-						)}
-					</Field>
-
-					<Field name="expectedSalary">
-						{({ field, form }: FieldProps<string, StudentFormType>) => (
-							<Input
-								{...field}
-								description="Oczekiwane wynagrodzenie"
-								hasError={
-									form.touched.expectedSalary && !!form.errors.expectedSalary
-								}
-								errorMessage={form.errors.expectedSalary}
-								type="number"
-							/>
-						)}
-					</Field>
-
-					<Field name="monthsOfCommercialExp">
-						{({ field, form }: FieldProps<string, StudentFormType>) => (
-							<Input
-								{...field}
-								description="Doświadczenie komercyjne(W miesiącach)"
-								hasError={
-									form.touched.monthsOfCommercialExp &&
-									!!form.errors.monthsOfCommercialExp
-								}
-								errorMessage={form.errors.monthsOfCommercialExp}
-								type="number"
-							/>
-						)}
-					</Field>
-
-					<Field name="education">
-						{({ field }: FieldProps<string, StudentFormType>) => (
-							<TextArea description="Przebieg edukacji" {...field}></TextArea>
-						)}
-					</Field>
-
-					<Field name="workExperience">
-						{({ field }: FieldProps<string, StudentFormType>) => (
-							<TextArea
-								description="Doświadczenie zawodowe"
-								{...field}
-							></TextArea>
-						)}
-					</Field>
-
-					<Field name="courses">
-						{({ field }: FieldProps<string, StudentFormType>) => (
-							<TextArea description="Kursy" {...field}></TextArea>
-						)}
-					</Field>
-
-					<Field name="portfolioInput">
-						{({ field, form }: FieldProps<string, StudentFormType>) => (
-							<Input
-								{...field}
-								description="Link do portfolio"
-								hasError={
-									form.touched.portfolioInput && !!form.errors.portfolioInput
-								}
-								errorMessage={form.errors.portfolioInput}
-								type="text"
-							/>
-						)}
-					</Field>
-
-					<Field name="projectScrum">
-						{({ field, form }: FieldProps<string, StudentFormType>) => (
-							<Input
-								{...field}
-								description="Link do projketu scrum"
-								hasError={
-									form.touched.projectScrum && !!form.errors.projectScrum
-								}
-								errorMessage={form.errors.projectScrum}
-								type="text"
-							/>
-						)}
-					</Field>
-
-					<Field name="projectInput">
-						{({ field, form }: FieldProps<string, StudentFormType>) => (
-							<Input
-								{...field}
-								description="Link do projektu grupowego"
-								hasError={
-									form.touched.projectInput && !!form.errors.projectInput
-								}
-								errorMessage={form.errors.projectInput}
-								type="text"
-							/>
-						)}
-					</Field>
-					<button type="submit" className="btn">
-						Wyślij
-					</button>
-				</Form>
-			</div>
-		</Formik>
+				<Button fullWidth type="submit" loading={formik.isSubmitting}>
+					{formik.isSubmitting ? 'Wysyłanie...' : 'Wyślij'}
+				</Button>
+			</form>
+		</div>
 	);
 };

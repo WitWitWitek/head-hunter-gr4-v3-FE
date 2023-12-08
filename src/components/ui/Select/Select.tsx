@@ -13,15 +13,11 @@ export const Select = ({
 	options,
 	description,
 	onChange,
+	value,
+	name,
 	fullSize = true,
 	...rest
 }: Props) => {
-	const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		if (onChange) {
-			onChange(e);
-		}
-	};
-
 	return (
 		<div
 			className={`${styles.select_group} ${fullSize ? styles.full_size : ''}`}
@@ -29,7 +25,13 @@ export const Select = ({
 			{description && (
 				<span className={styles.description}>{description}:</span>
 			)}
-			<select className={styles.select} onChange={handleSelectChange} {...rest}>
+			<select
+				className={styles.select}
+				onChange={onChange}
+				value={value}
+				name={name}
+				{...rest}
+			>
 				{options.map((option, index) => (
 					<option key={index} value={option}>
 						{option}
@@ -39,3 +41,4 @@ export const Select = ({
 		</div>
 	);
 };
+
