@@ -1,0 +1,13 @@
+@import '../../../styles/variables.scss';
+.container{
+    margin:16px 0
+}
+.linkContainer{
+    a{color:$blue;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    svg{ color:$blue; margin-right:1rem}
+    }
+
+}

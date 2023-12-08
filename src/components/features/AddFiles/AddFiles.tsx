@@ -13,10 +13,7 @@ import {
 	validateCSVRow,
 	CSVRow,
 } from '../../../validation/inputFilesValidators';
-
-
-
-
+import FileTemplatesForImport from '../FileTemplatesForImport/FileTemplatesForImport';
 
 function AddFiles() {
 	const [loading, setLoading] = useState(false);
@@ -28,6 +25,7 @@ function AddFiles() {
 
 	const sendStudents = async () => {
 		students && (await createStudent({ students: [...students] }));
+		setRowCount(0);
 	};
 
 	const formik = useFormik({
@@ -141,6 +139,7 @@ function AddFiles() {
 	return (
 		<div className={styles.container}>
 			<h2 style={{ color: 'white' }}>Dodawanie listy kursantów</h2>
+			<FileTemplatesForImport />
 			<form onSubmit={formik.handleSubmit} className={styles.form}>
 				<div className={styles.fileInputContainer}>
 					<label htmlFor="fileInput" className={`${styles.fileInputLabel}`}>
