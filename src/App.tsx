@@ -14,7 +14,7 @@ import AuthContainer from "./components/layout/Containers/AuthContainer/AuthCont
 import { RemindPage } from "./pages/RemaindPage/RemaindPage";
 import { StudentPreference } from "./pages/StudentView/StudentPreference";
 import { Cv, StudentForm, StudentPanel } from "./components/features";
-import ConfirmStudent from "./pages/ConfirmStudent/ConfirmStudent";
+import ConfirmUser from "./pages/ConfirmStudent/ConfirmStudent";
 // import { ChangePassword } from "./pages/ChangePassword/ChangePassword";
 
 export const App = () => {
@@ -74,8 +74,8 @@ export const App = () => {
       ],
     },
     {
-      path: "/confirm/student",
-      element: <ConfirmStudent />,
+      path: "/confirm",
+      element: <ConfirmUser />,
     },
   ]);
 
