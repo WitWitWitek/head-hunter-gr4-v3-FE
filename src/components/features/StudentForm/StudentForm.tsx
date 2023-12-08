@@ -1,17 +1,21 @@
 import { useFormik } from 'formik';
 import { studentValidationSchema } from '../../../validation';
 import StudentStyle from './StudentForm.module.scss';
-import { StudentFormType } from '../../../types/StudentFormType';
-import { Input, TextArea, Select, Button, Spinner } from '../../ui';
-
+import {
+	IStudentFormData,
+	ExpectedContractType,
+	ExpectedTypeWork,
+} from '../../../types/StudentFormType';
+import { Input, TextArea, Select, Button } from '../../ui';
+import { toast } from 'react-toastify';
 export const StudentForm = () => {
-	const formik = useFormik<StudentFormType>({
+	const formik = useFormik<IStudentFormData>({
 		initialValues: {
 			email: '',
 			tel: '',
 			firstName: '',
 			lastName: '',
-			githubUserName: '',
+			githubUsername: '',
 			bio: '',
 			targetWorkCity: '',
 			expectedSalary: 0,
@@ -21,36 +25,42 @@ export const StudentForm = () => {
 			courses: '',
 			portfolioUrls: [''],
 			projectUrls: [''],
-			preferredWorkLocation: '',
-			consentForUnpaidInternship: false,
-			contractType: '',
-			minSalary: '',
-			maxSalary: '',
+			canTakeApprenticeship: false,
+			expectedContractType: ExpectedContractType.IRRELEVANT,
+			expectedTypeWork: ExpectedTypeWork.IRRELEVANT,
 		},
 		validationSchema: studentValidationSchema,
-		onSubmit: (values) => {
+		onSubmit: (values, { setSubmitting }) => {
 			console.log('Form data', values);
+			alert(JSON.stringify(values, null, 2));
+			setSubmitting(false);
+			toast.success('Formularz został poprawnie wypełniony!');
 		},
 	});
+
 	type ArrayFieldNames = 'projectUrls' | 'portfolioUrls';
 
 	const addLink = (name: ArrayFieldNames) => {
-		const links = [...formik.values[name], ''];
+		const currentLinks = formik.values[name] || [];
+		const links = [...currentLinks, ''];
+
 		formik.setFieldValue(name, links);
 	};
 
 	const removeLink = (name: ArrayFieldNames, index: number) => {
-		const links = [...formik.values[name]];
-		links.splice(index, 1);
-		formik.setFieldValue(name, links);
+		const currentLinks = formik.values[name] || [];
+
+		if (Array.isArray(currentLinks)) {
+			const links = [...currentLinks];
+			if (index >= 0 && index < links.length) {
+				links.splice(index, 1);
+				formik.setFieldValue(name, links);
+			}
+		}
 	};
-	if (formik.isSubmitting) {
-		return <Spinner />;
-	}
 	return (
 		<div className={StudentStyle.wrapper}>
 			<form onSubmit={formik.handleSubmit} className={StudentStyle.form}>
-				{/* Dane Osobowe */}
 				<h2 style={{ color: 'white', margin: '40px 0 20px' }}>Dane Osobowe</h2>
 				<Input
 					description="E-mail"
@@ -64,7 +74,7 @@ export const StudentForm = () => {
 					hasError={formik.touched.tel && !!formik.errors.tel}
 					errorMessage={formik.errors.tel}
 					{...formik.getFieldProps('tel')}
-					type="number"
+					type="text"
 				/>
 				<Input
 					description="Imię"
@@ -83,14 +93,12 @@ export const StudentForm = () => {
 				<Input
 					description="Login GitHuba"
 					hasError={
-						formik.touched.githubUserName && !!formik.errors.githubUserName
+						formik.touched.githubUsername && !!formik.errors.githubUsername
 					}
-					errorMessage={formik.errors.githubUserName}
-					{...formik.getFieldProps('githubUserName')}
+					errorMessage={formik.errors.githubUsername}
+					{...formik.getFieldProps('githubUsername')}
 					type="text"
 				/>
-
-				{/* Preferencje dotyczące zatrudnienia */}
 				<h2 style={{ color: 'white', margin: '40px 0 20px' }}>
 					Preferencje dotyczące zatrudnienia
 				</h2>
@@ -114,21 +122,16 @@ export const StudentForm = () => {
 				/>
 				<Select
 					description="Preferowane miejsce pracy"
-					value={formik.values.preferredWorkLocation}
+					value={formik.values.expectedTypeWork}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					name="preferredWorkLocation"
-					options={[
-						'Bez znaczenia',
-						'Na miejscu',
-						'Gotowość do przeprowadzki',
-						'Wyłącznie zdalnie',
-						'Hybrydowo',
-					]}
+					name="expectedTypeWork"
+					options={Object.values(ExpectedTypeWork)}
 				/>
+
 				<Select
 					description="Bezpłatny staż"
-					value={formik.values.consentForUnpaidInternship ? 'Tak' : 'Nie'}
+					value={formik.values.canTakeApprenticeship ? 'Tak' : 'Nie'}
 					onChange={(e) =>
 						formik.setFieldValue(
 							'consentForUnpaidInternship',
@@ -141,33 +144,14 @@ export const StudentForm = () => {
 				/>
 
 				<Select
-					description="Typ kontraktu"
-					value={formik.values.contractType}
+					description="Oczekiwany typ kontraktu"
+					value={formik.values.expectedContractType}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					name="contractType"
-					options={[
-						'Brak preferencji',
-						'Tylko UoP',
-						'Możliwe B2B',
-						'Możliwe UZ/UoD',
-					]}
+					name="expectedContractType"
+					options={Object.values(ExpectedContractType)}
 				/>
 
-				<Input
-					description="Minimalne wynagrodzenie"
-					hasError={formik.touched.minSalary && !!formik.errors.minSalary}
-					errorMessage={formik.errors.minSalary}
-					{...formik.getFieldProps('minSalary')}
-					type="number"
-				/>
-				<Input
-					description="Maksymalne wynagrodzenie"
-					hasError={formik.touched.maxSalary && !!formik.errors.maxSalary}
-					errorMessage={formik.errors.maxSalary}
-					{...formik.getFieldProps('maxSalary')}
-					type="text"
-				/>
 				<Input
 					description="Doświadczenie komercyjne (miesiące)"
 					hasError={
@@ -178,8 +162,6 @@ export const StudentForm = () => {
 					{...formik.getFieldProps('monthsOfCommercialExp')}
 					type="text"
 				/>
-
-				{/* Pozostałe dane kandydata */}
 				<h2 style={{ color: 'white', margin: '40px 0 20px' }}>
 					Pozostałe dane kandydata
 				</h2>
@@ -193,39 +175,37 @@ export const StudentForm = () => {
 					{...formik.getFieldProps('workExperience')}
 				/>
 				<TextArea description="Kursy" {...formik.getFieldProps('courses')} />
-
-				{/* Dynamiczne linki dla projectUrls */}
 				<div className={StudentStyle.linksContainer}>
-					{formik.values.projectUrls.map((_, index) => (
-						<div key={index} className={StudentStyle.link}>
-							<Input
-								description={`Link do projektu ${index + 1}`}
-								hasError={
-									formik.touched.projectUrls &&
-									!!formik.errors.projectUrls?.[index]
-								}
-								errorMessage={formik.errors.projectUrls?.[index]}
-								{...formik.getFieldProps(`projectUrls.${index}`)}
-								type="text"
-							/>
-							{index > 0 && (
-								<Button
-									type="button"
-									onClick={() => removeLink('projectUrls', index)}
-								>
-									Usuń
-								</Button>
-							)}
-						</div>
-					))}
-
+					{formik.values.projectUrls &&
+						formik.values.projectUrls.map((_, index) => (
+							<div key={index} className={StudentStyle.link}>
+								<Input
+									description={`Link do projektu ${index + 1}`}
+									hasError={
+										formik.touched.projectUrls &&
+										!!formik.errors.projectUrls?.[index]
+									}
+									errorMessage={formik.errors.projectUrls?.[index]}
+									{...formik.getFieldProps(`projectUrls.${index}`)}
+									type="text"
+								/>
+								{index > 0 && (
+									<Button
+										type="button"
+										onClick={() => removeLink('projectUrls', index)}
+									>
+										Usuń
+									</Button>
+								)}
+							</div>
+						))}
 					<Button type="button" onClick={() => addLink('projectUrls')}>
 						Dodaj kolejny link
 					</Button>
 				</div>
-				{/* Dynamiczne linki dla portfolioUrls */}
+
 				<div className={StudentStyle.linksContainer}>
-					{formik.values.portfolioUrls.map((_, index) => (
+					{formik.values.portfolioUrls?.map((_, index) => (
 						<div key={index} className={StudentStyle.link}>
 							<Input
 								description={`Link do portfolio ${index + 1}`}

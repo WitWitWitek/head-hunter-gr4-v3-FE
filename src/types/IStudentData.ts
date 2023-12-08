@@ -16,8 +16,8 @@ export interface IStudentData {
 	lastName: string;
 	monthsOfCommercialExp: number;
 	portfolioUrls: string[] | null;
-	projectDegree: number;
 	projectUrls: string[];
+	projectDegree: number;
 	targetWorkCity: string;
 	teamProjectDegree: number;
 	tel: string;

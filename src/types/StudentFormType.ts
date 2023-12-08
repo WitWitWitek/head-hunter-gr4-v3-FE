@@ -1,24 +1,32 @@
-export type DynamicField = string | number | boolean | string[] | undefined;
-
-export interface StudentFormType {
-	email: string;
-	tel: string;
-	firstName: string;
-	lastName: string;
-	githubUserName: string;
+export interface IStudentFormData {
 	bio: string;
-	targetWorkCity: string;
-	expectedSalary: number;
-	monthsOfCommercialExp: number;
-	education: string;
-	workExperience: string;
+	canTakeApprenticeship: boolean;
 	courses: string;
+	education: string | null;
+	email: string;
+	expectedContractType: ExpectedContractType;
+	expectedSalary: number | null;
+	expectedTypeWork: ExpectedTypeWork;
+	firstName: string;
+	githubUsername: string;
+	lastName: string;
+	monthsOfCommercialExp: number;
+	portfolioUrls?: string[] | null;
 	projectUrls: string[];
-	portfolioUrls: string[];
-	preferredWorkLocation: string;
-	consentForUnpaidInternship: boolean;
-	contractType: string;
-	minSalary: string;
-	maxSalary: string;
-	[key: string]: DynamicField;
+	targetWorkCity: string;
+	tel: string;
+	workExperience: string;
+}
+export enum ExpectedContractType {
+	UoP = 'Tylko UoP',
+	B2B = 'Możliwe B2B',
+	UZ_UoD = 'Możliwe UZ/UoD',
+	IRRELEVANT = 'Brak preferencji',
+}
+export enum ExpectedTypeWork {
+	AT_LOCATION = 'Na miejscu',
+	CHANGE_OF_LOCATION = 'Gotowość do przeprowadzki',
+	REMOTE = 'Wyłącznie zdalnie',
+	HYBRID = 'Hybrydowo',
+	IRRELEVANT = 'Bez znaczenia',
 }
