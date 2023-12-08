@@ -7,3 +7,10 @@ export type CreateStudentType = {
   teamProjectDegree: number;
   courseEngagement: number;
 };
+
+export type CreateHrType = {
+  email: string;
+  fullName: string;
+  company: string;
+  maxReservedStudents: number;
+};

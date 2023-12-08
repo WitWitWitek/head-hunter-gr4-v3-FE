@@ -1,0 +1,44 @@
+@use "../../styles/variables" as *;
+
+.heading {
+  width: 80%;
+  text-align: center;
+  color: $white;
+}
+
+.wrapper {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap:2rem;
+
+  .logo{
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+  }
+}
+
+.container {
+  max-width:1200px;
+  width: 100%;
+}
+
+.form {
+  width: 80%;
+  margin: auto;
+}
+
+@media (min-width: 533px) and (orientation: landscape) {
+  .form {
+    width: 70%;
+  }
+}
+@media (min-width: 800px) {
+  .form {
+    width: 50%;
+  }
+}
