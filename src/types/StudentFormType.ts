@@ -39,3 +39,14 @@ export type UpdateUserRequest = {
   relatedEntityId: string;
   studentFormData: IStudentFormData;
 };
+
+export type GetUserDataRequest = {
+  role: Omit<UserRole, "null">;
+};
+
+export interface GetUserDataResponse {
+  email: string;
+  student: {
+    profile: Omit<IStudentFormData, "email"> | null;
+  };
+}

@@ -2,7 +2,14 @@ import apiSlice from "../api/apiSlice";
 import { toast } from "react-toastify";
 import { CreateHrType, CreateStudentType } from "../../types/createStudentType";
 import { ConfirmUserRequest } from "../../types/ConfirmStudentType";
-import { UpdateUserRequest } from "../../types/StudentFormType";
+import {
+  ExpectedContractType,
+  ExpectedTypeWork,
+  GetUserDataRequest,
+  GetUserDataResponse,
+  IStudentFormData,
+  UpdateUserRequest,
+} from "../../types/StudentFormType";
 
 type CreateUserRequest = {
   students: CreateStudentType[];
@@ -61,10 +68,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
       },
     }),
     updateUserProfile: builder.mutation<string, UpdateUserRequest>({
-      query: (args) => ({
-        url: `/${args.role}/${args.relatedEntityId}`,
+      query: ({ role, relatedEntityId, studentFormData }) => ({
+        url: `/${role}/${relatedEntityId}`,
         method: "PATCH",
-        body: { ...args.studentFormData },
+        body: { ...studentFormData },
       }),
       async onQueryStarted(_, { queryFulfilled }) {
         try {
@@ -76,6 +83,37 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
+    getUserData: builder.mutation<IStudentFormData, GetUserDataRequest>({
+      query: ({ role }) => ({
+        url: `/${role}/get-one`,
+        method: "GET",
+      }),
+      transformResponse: (response: GetUserDataResponse): IStudentFormData => ({
+        email: response.email,
+        phone: response.student.profile?.phone ?? "",
+        firstName: response.student.profile?.firstName ?? "",
+        lastName: response.student.profile?.lastName ?? "",
+        githubUsername: response.student.profile?.githubUsername ?? "",
+        bio: response.student.profile?.bio ?? "",
+        targetWorkCity: response.student.profile?.targetWorkCity ?? "",
+        expectedSalary: response.student.profile?.expectedSalary ?? 0,
+        canTakeApprenticeship:
+          response.student.profile?.canTakeApprenticeship ?? false,
+        courses: response.student.profile?.courses ?? "",
+        education: response.student.profile?.education ?? "",
+        expectedContractType:
+          response.student.profile?.expectedContractType ??
+          ExpectedContractType.IRRELEVANT,
+        expectedTypeWork:
+          response.student.profile?.expectedTypeWork ??
+          ExpectedTypeWork.IRRELEVANT,
+        monthsOfCommercialExp:
+          response.student.profile?.monthsOfCommercialExp ?? 0,
+        portfolioUrls: response.student.profile?.projectUrls ?? [""],
+        projectUrls: response.student.profile?.projectUrls ?? [""],
+        workExperience: response.student.profile?.workExperience ?? "",
+      }),
+    }),
   }),
 });
 
@@ -84,4 +122,5 @@ export const {
   useCreateHrMutation,
   useConfirmUserMutation,
   useUpdateUserProfileMutation,
+  useGetUserDataMutation,
 } = authApiSlice;

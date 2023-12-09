@@ -7,40 +7,56 @@ import {
   ExpectedTypeWork,
 } from "../../../types/StudentFormType";
 import { Input, TextArea, Select, Button } from "../../ui";
-import { useUpdateUserProfileMutation } from "../../../app/api/userApiSlice";
+import {
+  useGetUserDataMutation,
+  useUpdateUserProfileMutation,
+} from "../../../app/api/userApiSlice";
 import { useSelector } from "react-redux";
 import {
   selectCurrentRole,
   selectRelatedEntityId,
 } from "../../../app/api/authSlice";
+import { useEffect, useState } from "react";
 export const StudentForm = () => {
   const [updateUser] = useUpdateUserProfileMutation();
+  const [getUserData] = useGetUserDataMutation();
   const relatedEntityId = useSelector(selectRelatedEntityId);
   const role = useSelector(selectCurrentRole);
+  const [initialValues, setInitialValues] = useState<IStudentFormData>({
+    email: "",
+    phone: "",
+    firstName: "",
+    lastName: "",
+    githubUsername: "",
+    bio: "",
+    targetWorkCity: "",
+    expectedSalary: 0,
+    monthsOfCommercialExp: 0,
+    education: "",
+    workExperience: "",
+    courses: "",
+    portfolioUrls: [""],
+    projectUrls: [""],
+    canTakeApprenticeship: false,
+    expectedContractType: ExpectedContractType.IRRELEVANT,
+    expectedTypeWork: ExpectedTypeWork.IRRELEVANT,
+  });
+
+  useEffect(() => {
+    const getStudentData = async () => {
+      if (role) {
+        const userData = await getUserData({ role }).unwrap();
+        setInitialValues(() => userData);
+      }
+    };
+    getStudentData();
+  }, []);
 
   const formik = useFormik<IStudentFormData>({
-    initialValues: {
-      email: "",
-      phone: "",
-      firstName: "",
-      lastName: "",
-      githubUsername: "",
-      bio: "",
-      targetWorkCity: "",
-      expectedSalary: 0,
-      monthsOfCommercialExp: 0,
-      education: "",
-      workExperience: "",
-      courses: "",
-      portfolioUrls: [""],
-      projectUrls: [""],
-      canTakeApprenticeship: false,
-      expectedContractType: ExpectedContractType.IRRELEVANT,
-      expectedTypeWork: ExpectedTypeWork.IRRELEVANT,
-    },
+    initialValues: initialValues,
     validationSchema: studentValidationSchema,
+    enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log("Form data", relatedEntityId, role);
       relatedEntityId &&
         role &&
         (await updateUser({
