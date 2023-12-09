@@ -189,7 +189,7 @@ export const StudentForm = () => {
           }
           errorMessage={formik.errors.monthsOfCommercialExp}
           {...formik.getFieldProps("monthsOfCommercialExp")}
-          type="text"
+          type="number"
         />
         <h2 style={{ color: "white", margin: "40px 0 20px" }}>
           Pozostałe dane kandydata

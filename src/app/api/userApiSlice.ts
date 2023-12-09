@@ -7,9 +7,9 @@ import {
   ExpectedTypeWork,
   GetUserDataRequest,
   GetUserDataResponse,
-  IStudentFormData,
   UpdateUserRequest,
 } from "../../types/StudentFormType";
+import { IStudentData } from "../../types/IStudentData";
 
 type CreateUserRequest = {
   students: CreateStudentType[];
@@ -83,13 +83,19 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
-    getUserData: builder.mutation<IStudentFormData, GetUserDataRequest>({
+    getUserData: builder.mutation<IStudentData, GetUserDataRequest>({
       query: ({ role }) => ({
         url: `/${role}/get-one`,
         method: "GET",
       }),
-      transformResponse: (response: GetUserDataResponse): IStudentFormData => ({
+      transformResponse: (response: GetUserDataResponse): IStudentData => ({
+        id: response.id,
         email: response.email,
+        bonusProjectUrls: response.student.bonusProjectUrls ?? [""],
+        courseCompletion: response.student.courseCompletion ?? 1,
+        courseEngagment: response.student.courseEngagment ?? 1,
+        projectDegree: response.student.projectDegree ?? 1,
+        teamProjectDegree: response.student.teamProjectDegree ?? 1,
         phone: response.student.profile?.phone ?? "",
         firstName: response.student.profile?.firstName ?? "",
         lastName: response.student.profile?.lastName ?? "",

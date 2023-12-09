@@ -45,8 +45,16 @@ export type GetUserDataRequest = {
 };
 
 export interface GetUserDataResponse {
+  id: string;
   email: string;
   student: {
+    courseCompletion: number;
+    courseEngagment: number;
+    projectDegree: number;
+    teamProjectDegree: number;
+    bonusProjectUrls: string[];
+    status: string;
+    isActive: boolean;
     profile: Omit<IStudentFormData, "email"> | null;
   };
 }
