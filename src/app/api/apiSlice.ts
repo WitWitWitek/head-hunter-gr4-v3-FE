@@ -6,7 +6,8 @@ import type {
 } from "@reduxjs/toolkit/query";
 import { Mutex } from "async-mutex";
 import { RootState } from "../store";
-import { UserRole, logIn, logOut } from "./authSlice";
+import { logIn, logOut } from "./authSlice";
+import { LoginResponse } from "./authApiSlice";
 
 const QUERY_URL = "https://head-hunter-api.pl";
 
@@ -49,11 +50,9 @@ const baseQueryWithReauth: BaseQueryFn<
           extraOptions
         );
         if (refreshResult.data) {
-          const { access_token, role } = refreshResult.data as {
-            access_token: string;
-            role: UserRole;
-          };
-          api.dispatch(logIn({ access_token, role }));
+          const { access_token, role, relatedEntityId } =
+            refreshResult.data as LoginResponse;
+          api.dispatch(logIn({ access_token, role, relatedEntityId }));
           result = await baseQuery(args, api, extraOptions);
         } else {
           api.dispatch(logOut());

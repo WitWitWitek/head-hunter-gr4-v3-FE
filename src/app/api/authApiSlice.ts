@@ -10,6 +10,7 @@ export interface LoginRequest {
 export interface LoginResponse {
   access_token: string;
   role: UserRole;
+  relatedEntityId: string | null;
 }
 
 export const authApiSlice = apiSlice.injectEndpoints({
@@ -23,8 +24,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          const { access_token, role } = data;
-          dispatch(logIn({ access_token, role }));
+          const { access_token, role, relatedEntityId } = data;
+          dispatch(logIn({ access_token, role, relatedEntityId }));
           toast.success("Zalogowano poprawnie.");
         } catch (err) {
           toast.error("Wystąpił bład w trakcie logowania.");

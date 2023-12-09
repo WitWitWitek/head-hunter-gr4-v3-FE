@@ -2,6 +2,7 @@ import apiSlice from "../api/apiSlice";
 import { toast } from "react-toastify";
 import { CreateHrType, CreateStudentType } from "../../types/createStudentType";
 import { ConfirmUserRequest } from "../../types/ConfirmStudentType";
+import { UpdateUserRequest } from "../../types/StudentFormType";
 
 type CreateUserRequest = {
   students: CreateStudentType[];
@@ -59,6 +60,22 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
+    updateUserProfile: builder.mutation<string, UpdateUserRequest>({
+      query: (args) => ({
+        url: `/${args.role}/${args.relatedEntityId}`,
+        method: "PATCH",
+        body: { ...args.studentFormData },
+      }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          toast.success("Profil użytkownika zaktualizowany pomyślnie.");
+        } catch (err) {
+          console.log(err);
+          toast.error("Wystąpił błąd w trakcie aktualizowania użytkownika.");
+        }
+      },
+    }),
   }),
 });
 
@@ -66,4 +83,5 @@ export const {
   useCreateStudentMutation,
   useCreateHrMutation,
   useConfirmUserMutation,
+  useUpdateUserProfileMutation,
 } = authApiSlice;

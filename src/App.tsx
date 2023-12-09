@@ -35,6 +35,20 @@ export const App = () => {
         {
           path: "/student",
           element: role === "student" ? <StudentView /> : <NotFound />,
+          children: [
+            {
+              index: true,
+              element: <StudentPanel />,
+            },
+            {
+              path: "edit-cv",
+              element: <StudentForm />,
+            },
+            {
+              path: "view-cv",
+              element: <Cv />,
+            },
+          ],
         },
         { path: "/hr", element: role === "hr" ? <HrView /> : <NotFound /> },
       ],
