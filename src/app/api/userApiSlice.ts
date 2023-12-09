@@ -3,13 +3,11 @@ import { toast } from "react-toastify";
 import { CreateHrType, CreateStudentType } from "../../types/createStudentType";
 import { ConfirmUserRequest } from "../../types/ConfirmStudentType";
 import {
-  ExpectedContractType,
-  ExpectedTypeWork,
   GetUserDataRequest,
-  GetUserDataResponse,
   UpdateUserRequest,
 } from "../../types/StudentFormType";
 import { IStudentData } from "../../types/IStudentData";
+import { transformUserData } from "../../utils/transformUserData";
 
 type CreateUserRequest = {
   students: CreateStudentType[];
@@ -88,37 +86,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         url: `/${role}/get-one`,
         method: "GET",
       }),
-      transformResponse: (response: GetUserDataResponse): IStudentData => ({
-        id: response.id,
-        email: response.email,
-        bonusProjectUrls: response.student.bonusProjectUrls ?? [""],
-        courseCompletion: response.student.courseCompletion ?? 1,
-        courseEngagment: response.student.courseEngagment ?? 1,
-        projectDegree: response.student.projectDegree ?? 1,
-        teamProjectDegree: response.student.teamProjectDegree ?? 1,
-        phone: response.student.profile?.phone ?? "",
-        firstName: response.student.profile?.firstName ?? "",
-        lastName: response.student.profile?.lastName ?? "",
-        githubUsername: response.student.profile?.githubUsername ?? "",
-        bio: response.student.profile?.bio ?? "",
-        targetWorkCity: response.student.profile?.targetWorkCity ?? "",
-        expectedSalary: response.student.profile?.expectedSalary ?? 0,
-        canTakeApprenticeship:
-          response.student.profile?.canTakeApprenticeship ?? false,
-        courses: response.student.profile?.courses ?? "",
-        education: response.student.profile?.education ?? "",
-        expectedContractType:
-          response.student.profile?.expectedContractType ??
-          ExpectedContractType.IRRELEVANT,
-        expectedTypeWork:
-          response.student.profile?.expectedTypeWork ??
-          ExpectedTypeWork.IRRELEVANT,
-        monthsOfCommercialExp:
-          response.student.profile?.monthsOfCommercialExp ?? 0,
-        portfolioUrls: response.student.profile?.projectUrls ?? [""],
-        projectUrls: response.student.profile?.projectUrls ?? [""],
-        workExperience: response.student.profile?.workExperience ?? "",
-      }),
+      transformResponse: transformUserData,
     }),
   }),
 });

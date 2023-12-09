@@ -9,7 +9,7 @@ import { RootState } from "../store";
 import { logIn, logOut } from "./authSlice";
 import { LoginResponse } from "./authApiSlice";
 
-const QUERY_URL = "http://localhost:3001";
+const QUERY_URL = "https://head-hunter-api.pl";
 
 const mutex = new Mutex();
 
