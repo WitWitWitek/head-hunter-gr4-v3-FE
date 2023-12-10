@@ -17,7 +17,6 @@ const AddHr = () => {
       },
       validationSchema: hrSchema,
       onSubmit: async (values) => {
-        console.log(values);
         await createHr({ ...values });
       },
     });
