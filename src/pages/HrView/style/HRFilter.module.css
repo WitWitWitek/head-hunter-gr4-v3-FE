@@ -11,6 +11,8 @@
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 99;
   }
   .panel {
     display: -webkit-box;
@@ -42,6 +44,7 @@
     background-color: #0b8bd4;
     padding: 4px 8px;
     font-size: 0.9rem;
+    cursor: pointer;
   }
   .panel__mark {
     display: -webkit-box;
@@ -62,6 +65,24 @@
   .panel__mark__title {
     color: #f7f7f7;
   }
+  .box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .box__vote {
+    color: #f7f7f7;
+    padding-left: 12px;
+    font-size: 1.05rem;
+  }
+  .box__check {
+    width: 10%;
+    margin: 3px 0;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
   .box__buttons {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -78,10 +99,38 @@
     background-color: #4d4d4d;
     border: none;
     color: #f7f7f7;
+    cursor: pointer;
+  }
+  .box__input {
+    width: 70%;
+  }
+  .month {
+    width: 50%;
+  }
+  .box__name {
+    color: #f7f7f7;
+    font-weight: bold;
+    font-size: 1rem;
+    padding-right: 20px;
   }
   .star {
     padding-left: 2px;
     color: #ff0004;
+  }
+}
+
+@media (min-width: 533px) and (orientation: landscape) {
+  .panel {
+    width: 60%;
+  }
+  .month {
+    width: 30%;
+  }
+}
+
+@media (min-width: 800px) {
+  .panel {
+    width: 35%;
   }
 }
 /*# sourceMappingURL=HRFilter.module.css.map */
