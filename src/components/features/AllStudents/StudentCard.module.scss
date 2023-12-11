@@ -14,7 +14,7 @@
 .studentCard{
     display: flex;
     justify-content: space-between;
-    background-color: #292A2B;
+    background-color:$bgInput;
     cursor: pointer;
     padding: 12px 0;
     margin-right:35px;
@@ -31,7 +31,7 @@
     align-items: center;
     column-gap: 63px;
     font-size: 18px;
-    color: #F7F7F7;
+    color: $white;
     padding: 10px 38px;
     flex-grow: 1;
 }
@@ -65,10 +65,10 @@
 
 .reservation span:first-child{
     font-size: 14px;
-    color: #CFCFCF;
+    color: $inactive;
 }
 .reservation span:last-child{
     font-size: 16px;
-    color: #F7F7F7;
+    color: $white;
     letter-spacing: 1.6px;
 }
