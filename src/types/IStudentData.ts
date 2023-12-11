@@ -1,27 +1,27 @@
 export interface IStudentData {
-  bio: string;
-  bonusProjectUrls: string[];
-  canTakeApprenticeship: boolean;
-  courseCompletion: number;
-  courseEngagment: number;
-  courses: string;
-  education: string | null;
-  email: string;
-  expectedContractType: ExpectedContractType;
-  expectedSalary: number | null;
-  expectedTypeWork: ExpectedTypeWork;
-  firstName: string;
-  githubUsername: string;
-  id: string;
-  lastName: string;
-  monthsOfCommercialExp: number;
-  portfolioUrls: string[] | null;
-  projectUrls: string[];
-  projectDegree: number;
-  targetWorkCity: string;
-  teamProjectDegree: number;
-  phone: string;
-  workExperience: string;
+	bio: string;
+	bonusProjectUrls: string[];
+	canTakeApprenticeship: boolean;
+	courseCompletion: number;
+	courseEngagement: number;
+	courses: string;
+	education: string | null;
+	email: string;
+	expectedContractType: ExpectedContractType;
+	expectedSalary: number | null;
+	expectedTypeWork: ExpectedTypeWork;
+	firstName: string;
+	githubUsername: string;
+	id: string;
+	lastName: string;
+	monthsOfCommercialExp: number;
+	portfolioUrls: string[] | null;
+	projectUrls: string[];
+	projectDegree: number;
+	targetWorkCity: string;
+	teamProjectDegree: number;
+	phone: string;
+	workExperience: string;
 }
 export enum ExpectedContractType {
   UoP = "Tylko UoP",

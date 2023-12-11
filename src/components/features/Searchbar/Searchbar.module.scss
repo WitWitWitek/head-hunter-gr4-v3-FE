@@ -1,5 +1,8 @@
 @import '../../../styles/variables.scss'; 
 
+.container{
+    background-color: $bgInput;
+}
 .searchbar {
     display: flex;
     justify-content: space-between;
@@ -37,8 +40,16 @@
     font-size: 16px;
     transition: .3s;
     margin-top: 0;
+    
 
     &:hover {
         background-color: $strongRed;
     }
+}
+
+.divider{
+    border-bottom: 3px solid $sectionContent;
+    height:4px;
+    margin:0 20px;
+    padding:0 22px;
 }

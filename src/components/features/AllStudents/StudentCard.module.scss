@@ -1,0 +1,74 @@
+@import '../../../styles/variables.scss';  
+.container {
+    background-color: #292A2B;
+}
+
+.studentDetails{
+    display: flex;
+    flex-direction: column;
+    max-width: 1430px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.studentCard{
+    display: flex;
+    justify-content: space-between;
+    background-color: #292A2B;
+    cursor: pointer;
+    padding: 12px 0;
+    margin-right:35px;
+    max-height: 70px;
+    align-items: center;
+}
+.separator{
+    border-bottom: 10px solid $bgNav;
+    margin:0 20px;
+}
+
+.studentName {
+    display: flex;
+    align-items: center;
+    column-gap: 63px;
+    font-size: 18px;
+    color: #F7F7F7;
+    padding: 10px 38px;
+    flex-grow: 1;
+}
+
+.studentName div:nth-of-type(2) {
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+}
+
+.studentButtons {
+    display: flex;
+    column-gap: 20px;
+    align-items: center;
+    justify-content: center;
+    margin-top:0;
+    margin-right:10px
+
+}
+
+
+.hideSeparator {
+    display: none;
+}
+.reservation {
+    margin:0 48px 0 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.reservation span:first-child{
+    font-size: 14px;
+    color: #CFCFCF;
+}
+.reservation span:last-child{
+    font-size: 16px;
+    color: #F7F7F7;
+    letter-spacing: 1.6px;
+}
