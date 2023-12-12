@@ -1,4 +1,4 @@
-import { Input } from "../../components/ui";
+import { Button, Input } from "../../components/ui";
 import { FilterBtn } from "./FilterBtn";
 import HR from "./HRFilter.module.scss";
 
@@ -67,6 +67,10 @@ export const HRFilter = () => {
             Ilość miesięcy doświadczenie komercyjnego kandydata w programowaniu
           </h3>
           <Input className={HR.month} placeholder="0 miesięcy" type="number" />
+        </div>
+        <div className={HR.finalBtn}>
+          <button className={HR.finalBtn__cancel}>Anuluj</button>
+          <Button>Pokaż wyniki</Button>
         </div>
       </section>
     </div>

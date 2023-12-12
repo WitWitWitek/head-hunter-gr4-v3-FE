@@ -117,6 +117,29 @@
     padding-left: 2px;
     color: #ff0004;
   }
+  .finalBtn {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding-top: 15px;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+  }
+  .finalBtn__cancel {
+    border: none;
+    background-color: transparent;
+    color: #f7f7f7;
+    padding-right: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .btnChange {
+    background-color: #ff0004;
+  }
+  .star-change {
+    color: #f7f7f7;
+  }
 }
 
 @media (min-width: 533px) and (orientation: landscape) {
