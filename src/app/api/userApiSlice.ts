@@ -4,10 +4,15 @@ import { CreateHrType, CreateStudentType } from "../../types/createStudentType";
 import { ConfirmUserRequest } from "../../types/ConfirmStudentType";
 import {
   GetUserDataRequest,
+  StudentListToHrRequest,
   UpdateUserRequest,
+  StudentListToHrResponseTransformed,
 } from "../../types/StudentFormType";
 import { IStudentData } from "../../types/IStudentData";
-import { transformUserData } from "../../utils/transformUserData";
+import {
+  transformStudentToHrData,
+  transformUserData,
+} from "../../utils/transformUserData";
 
 type CreateUserRequest = {
   students: CreateStudentType[];
@@ -88,6 +93,16 @@ export const authApiSlice = apiSlice.injectEndpoints({
       }),
       transformResponse: transformUserData,
     }),
+    getAllStudentsToHr: builder.mutation<
+      StudentListToHrResponseTransformed,
+      StudentListToHrRequest
+    >({
+      query: ({ page = 1, limit = 10 }) => ({
+        url: `/student/hrstudentlist?page=${page}&limit=${limit}`,
+        method: "POST",
+      }),
+      transformResponse: transformStudentToHrData,
+    }),
   }),
 });
 
@@ -97,4 +112,5 @@ export const {
   useConfirmUserMutation,
   useUpdateUserProfileMutation,
   useGetUserDataMutation,
+  useGetAllStudentsToHrMutation,
 } = authApiSlice;
