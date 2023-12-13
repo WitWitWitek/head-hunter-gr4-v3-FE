@@ -3,6 +3,7 @@ import {
   GetUserDataResponse,
   StudentListToHrResponseTransformed,
   StudentListToHrReponse,
+  StudentListToInterview,
 } from "../types/StudentFormType";
 import {
   ExpectedContractType,
@@ -12,7 +13,7 @@ import {
 export const transformUserData = (
   response: GetUserDataResponse
 ): IStudentData => ({
-  id: response.id,
+  id: response.student.id,
   email: response.email,
   bonusProjectUrls: response.student?.bonusProjectUrls ?? [""],
   courseCompletion: response.student?.courseCompletion ?? 0,
@@ -46,5 +47,11 @@ export const transformStudentToHrData = (
 ): StudentListToHrResponseTransformed => ({
   studentsCount: response.studentsCount,
   lastPage: response.lastPage,
+  students: response.students.map((student) => transformUserData(student)),
+});
+
+export const transformStudentsToInterview = (
+  response: StudentListToHrReponse
+): StudentListToInterview => ({
   students: response.students.map((student) => transformUserData(student)),
 });

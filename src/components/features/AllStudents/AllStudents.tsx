@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { StudentCard } from "./StudentCard";
 import { Pagination } from "../Pagination/Pagination";
-import { useDispatch } from "react-redux";
-import { addStudentToTalk } from "../../../app/talkStudentsSlice";
-import { useGetAllStudentsToHrMutation } from "../../../app/api/userApiSlice";
+import {
+  useAddStudentToInterviewMutation,
+  useGetAllStudentsToHrMutation,
+} from "../../../app/api/userApiSlice";
 import { IStudentData } from "../../../types/IStudentData";
 
 const AllStudents = () => {
@@ -12,7 +13,7 @@ const AllStudents = () => {
   const [students, setStudents] = useState<IStudentData[]>([]);
   const [lastPage, setLastPage] = useState<number>(1);
   const [getStudentsToHr] = useGetAllStudentsToHrMutation();
-  const dispatch = useDispatch();
+  const [addStudentToTalk] = useAddStudentToInterviewMutation();
 
   useEffect(() => {
     const fetchStudentsData = async () => {
@@ -26,9 +27,8 @@ const AllStudents = () => {
     fetchStudentsData();
   }, [currentPage, itemsPerPage]);
 
-  const getToTalk = (id: string) => {
-    dispatch(addStudentToTalk(id));
-    console.log(`Zarezerwowano rozmowę ze studentem o ID: ${id}`);
+  const getToTalk = async (id: string) => {
+    await addStudentToTalk({ studentId: id });
   };
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);

@@ -7,10 +7,13 @@ import {
   StudentListToHrRequest,
   UpdateUserRequest,
   StudentListToHrResponseTransformed,
+  AddStudentToInterviewRequest,
+  StudentListToInterview,
 } from "../../types/StudentFormType";
 import { IStudentData } from "../../types/IStudentData";
 import {
   transformStudentToHrData,
+  transformStudentsToInterview,
   transformUserData,
 } from "../../utils/transformUserData";
 
@@ -101,7 +104,36 @@ export const authApiSlice = apiSlice.injectEndpoints({
         url: `/student/hrstudentlist?page=${page}&limit=${limit}`,
         method: "POST",
       }),
+      invalidatesTags: ["Student"],
       transformResponse: transformStudentToHrData,
+    }),
+    getStudentSToInterview: builder.mutation<StudentListToInterview, "">({
+      query: () => ({
+        url: `/hr/interviews`,
+        method: "GET",
+      }),
+      invalidatesTags: ["Student"],
+      transformResponse: transformStudentsToInterview,
+    }),
+    addStudentToInterview: builder.mutation<
+      string,
+      AddStudentToInterviewRequest
+    >({
+      query: ({ studentId }) => ({
+        url: `/hr/interviews/${studentId}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Student"],
+    }),
+    deleteStudentFromInterview: builder.mutation<
+      string,
+      AddStudentToInterviewRequest
+    >({
+      query: ({ studentId }) => ({
+        url: `/hr/interviews/${studentId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Student"],
     }),
   }),
 });
@@ -113,4 +145,7 @@ export const {
   useUpdateUserProfileMutation,
   useGetUserDataMutation,
   useGetAllStudentsToHrMutation,
+  useGetStudentSToInterviewMutation,
+  useAddStudentToInterviewMutation,
+  useDeleteStudentFromInterviewMutation,
 } = authApiSlice;

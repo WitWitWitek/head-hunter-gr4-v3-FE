@@ -49,6 +49,7 @@ export interface GetUserDataResponse {
   id: string;
   email: string;
   student: {
+    id: string;
     courseCompletion: number;
     courseEngagement: number;
     projectDegree: number;
@@ -74,5 +75,17 @@ export interface StudentListToHrReponse {
 export interface StudentListToHrResponseTransformed {
   studentsCount: number;
   lastPage: number;
+  students: IStudentData[];
+}
+
+export type AddStudentToInterviewRequest = {
+  studentId: string;
+};
+
+export interface StudentListToInterviewReponse {
+  students: GetUserDataResponse[];
+}
+
+export interface StudentListToInterview {
   students: IStudentData[];
 }

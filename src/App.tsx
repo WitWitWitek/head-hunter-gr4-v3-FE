@@ -19,7 +19,7 @@ import {
   StudentPanel,
   AllStudents,
   ToTalk,
-  StudentCV,
+  // StudentCV,
 } from "./components/features";
 import ConfirmUser from "./pages/ConfirmStudent/ConfirmStudent";
 // import { ChangePassword } from "./pages/ChangePassword/ChangePassword";
@@ -115,10 +115,10 @@ export const App = () => {
         { path: "to-talk", element: <ToTalk /> },
       ],
     },
-    {
-      path: "/test-hr/student-cv/:studentId",
-      element: <StudentCV />,
-    },
+    // {
+    //   path: "/test-hr/student-cv/:studentId",
+    //   element: <StudentCV />,
+    // },
     {
       path: "/confirm",
       element: <ConfirmUser />,
