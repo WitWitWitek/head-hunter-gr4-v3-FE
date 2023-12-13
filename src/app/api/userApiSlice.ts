@@ -4,10 +4,18 @@ import { CreateHrType, CreateStudentType } from "../../types/createStudentType";
 import { ConfirmUserRequest } from "../../types/ConfirmStudentType";
 import {
   GetUserDataRequest,
+  StudentListToHrRequest,
   UpdateUserRequest,
+  StudentListToHrResponseTransformed,
+  AddStudentToInterviewRequest,
+  StudentListToInterview,
 } from "../../types/StudentFormType";
 import { IStudentData } from "../../types/IStudentData";
-import { transformUserData } from "../../utils/transformUserData";
+import {
+  transformStudentToHrData,
+  transformStudentsToInterview,
+  transformUserData,
+} from "../../utils/transformUserData";
 
 type CreateUserRequest = {
   students: CreateStudentType[];
@@ -88,6 +96,45 @@ export const authApiSlice = apiSlice.injectEndpoints({
       }),
       transformResponse: transformUserData,
     }),
+    getAllStudentsToHr: builder.mutation<
+      StudentListToHrResponseTransformed,
+      StudentListToHrRequest
+    >({
+      query: ({ page = 1, limit = 10 }) => ({
+        url: `/student/hrstudentlist?page=${page}&limit=${limit}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Student"],
+      transformResponse: transformStudentToHrData,
+    }),
+    getStudentSToInterview: builder.mutation<StudentListToInterview, "">({
+      query: () => ({
+        url: `/hr/interviews`,
+        method: "GET",
+      }),
+      invalidatesTags: ["Student"],
+      transformResponse: transformStudentsToInterview,
+    }),
+    addStudentToInterview: builder.mutation<
+      string,
+      AddStudentToInterviewRequest
+    >({
+      query: ({ studentId }) => ({
+        url: `/hr/interviews/${studentId}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Student"],
+    }),
+    deleteStudentFromInterview: builder.mutation<
+      string,
+      AddStudentToInterviewRequest
+    >({
+      query: ({ studentId }) => ({
+        url: `/hr/interviews/${studentId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Student"],
+    }),
   }),
 });
 
@@ -97,4 +144,8 @@ export const {
   useConfirmUserMutation,
   useUpdateUserProfileMutation,
   useGetUserDataMutation,
+  useGetAllStudentsToHrMutation,
+  useGetStudentSToInterviewMutation,
+  useAddStudentToInterviewMutation,
+  useDeleteStudentFromInterviewMutation,
 } = authApiSlice;

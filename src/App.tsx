@@ -13,7 +13,14 @@ import { selectCurrentRole } from "./app/api/authSlice";
 import AuthContainer from "./components/layout/Containers/AuthContainer/AuthContainer";
 import { RemindPage } from "./pages/RemaindPage/RemaindPage";
 import { StudentPreference } from "./pages/StudentView/StudentPreference";
-import { Cv, StudentForm, StudentPanel } from "./components/features";
+import {
+  Cv,
+  StudentForm,
+  StudentPanel,
+  AllStudents,
+  ToTalk,
+  // StudentCV,
+} from "./components/features";
 import ConfirmUser from "./pages/ConfirmStudent/ConfirmStudent";
 // import { ChangePassword } from "./pages/ChangePassword/ChangePassword";
 
@@ -50,7 +57,17 @@ export const App = () => {
             },
           ],
         },
-        { path: "/hr", element: role === "hr" ? <HrView /> : <NotFound /> },
+        {
+          path: "/hr",
+          element: role === "hr" ? <HrView /> : <NotFound />,
+          children: [
+            {
+              index: true,
+              element: <AllStudents />,
+            },
+            { path: "to-talk", element: <ToTalk /> },
+          ],
+        },
       ],
     },
     {
@@ -87,6 +104,21 @@ export const App = () => {
         },
       ],
     },
+    {
+      path: "/test-hr",
+      element: <HrView />,
+      children: [
+        {
+          index: true,
+          element: <AllStudents />,
+        },
+        { path: "to-talk", element: <ToTalk /> },
+      ],
+    },
+    // {
+    //   path: "/test-hr/student-cv/:studentId",
+    //   element: <StudentCV />,
+    // },
     {
       path: "/confirm",
       element: <ConfirmUser />,

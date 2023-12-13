@@ -1,0 +1,53 @@
+@import '../../../styles/variables.scss'; 
+.description {
+    display: flex;
+    background-color: $bgNav;
+    width: 100%;
+    overflow: hidden;
+    align-items: center;
+    border-bottom: 15px solid $bgInput;
+}
+
+.descriptionItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 18px;
+    flex-grow: 1;
+    border-right: .1em solid $bgInput;
+    min-width: 100px;
+    padding: 17px 10px;
+
+}
+.descriptionItem:nth-child(7) {
+    min-width: 120px;
+}
+.descriptionItem:nth-child(9) {
+    min-width: 110px;
+    padding:4px 0px 0 4px;
+}
+.descriptionItem:nth-child(8) {
+    min-width: 150px;
+      padding:4px 0px 0 4px;
+}
+.descriptionItem:nth-child(5) {
+    min-width: 140px;
+}
+.descriptionItem:nth-child(10) {
+    padding:4px 0px 0 4px;
+    min-width: 140px;
+    border-right: .1em solid $bgNav;
+
+
+}
+.descriptionItem p {
+    font-size: 12px;
+    letter-spacing: -.2px;
+    color: $inactive;
+    place-self: flex-start;
+}
+
+.descriptionItem p:nth-child(2){
+    font-size: 15px;
+    text-align: left;
+}

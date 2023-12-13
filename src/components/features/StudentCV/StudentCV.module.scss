@@ -1,0 +1,41 @@
+.container {
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    width: 100%; 
+    margin: 0 auto; 
+    min-height: 100vh; 
+
+    @media (max-width: 1430px) {
+        max-width: 100%;
+    }
+}
+
+.content {
+    max-width: 1430px; 
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start; 
+    gap: 3px; 
+    margin-top: 16px; 
+     .backwardsBtn {
+        position: absolute;
+        left: -80px; 
+        top: 0px; 
+        
+    }
+
+    @media (max-width: 992px) {
+        flex-direction: column; 
+        align-items: center;
+    }
+ 
+    @media (max-width: 768px) {
+        max-width: 100%; 
+    }
+}
+
+
+.sidebar{width:100%}

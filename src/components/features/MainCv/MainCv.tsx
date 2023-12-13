@@ -11,7 +11,7 @@ interface IMainCv {
 const MainCv = (props: IMainCv) => {
 	const {
 		courseCompletion,
-		courseEngagment,
+		courseEngagement,
 		projectDegree,
 		teamProjectDegree,
 		bonusProjectUrls,
@@ -35,7 +35,7 @@ const MainCv = (props: IMainCv) => {
 					<CvDegrees title="Ocena przejścia kursu" degree={courseCompletion} />
 					<CvDegrees
 						title="Ocena aktywności i zaangażowania na kursie"
-						degree={courseEngagment}
+						degree={courseEngagement}
 					/>
 					<CvDegrees
 						title="Ocena kodu w projekcie własnym"

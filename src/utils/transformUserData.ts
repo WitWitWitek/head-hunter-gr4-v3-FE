@@ -1,5 +1,10 @@
 import { IStudentData } from "../types/IStudentData";
-import { GetUserDataResponse } from "../types/StudentFormType";
+import {
+  GetUserDataResponse,
+  StudentListToHrResponseTransformed,
+  StudentListToHrReponse,
+  StudentListToInterview,
+} from "../types/StudentFormType";
 import {
   ExpectedContractType,
   ExpectedTypeWork,
@@ -8,14 +13,14 @@ import {
 export const transformUserData = (
   response: GetUserDataResponse
 ): IStudentData => ({
-  id: response.id,
+  id: response.student.id,
   email: response.email,
-  bonusProjectUrls: response.student.bonusProjectUrls ?? [""],
-  courseCompletion: response.student.courseCompletion ?? 0,
-  courseEngagment: response.student.courseEngagment ?? 0,
-  projectDegree: response.student.projectDegree ?? 0,
-  teamProjectDegree: response.student.teamProjectDegree ?? 0,
-  phone: response.student.profile?.phone ?? "",
+  bonusProjectUrls: response.student?.bonusProjectUrls ?? [""],
+  courseCompletion: response.student?.courseCompletion ?? 0,
+  courseEngagement: response.student?.courseEngagement ?? 0,
+  projectDegree: response.student?.projectDegree ?? 0,
+  teamProjectDegree: response.student?.teamProjectDegree ?? 0,
+  phone: response.student?.profile?.phone ?? "",
   firstName: response.student.profile?.firstName ?? "",
   lastName: response.student.profile?.lastName ?? "",
   githubUsername: response.student.profile?.githubUsername ?? "",
@@ -35,4 +40,18 @@ export const transformUserData = (
   portfolioUrls: response.student.profile?.projectUrls ?? [""],
   projectUrls: response.student.profile?.projectUrls ?? [""],
   workExperience: response.student.profile?.workExperience ?? "",
+});
+
+export const transformStudentToHrData = (
+  response: StudentListToHrReponse
+): StudentListToHrResponseTransformed => ({
+  studentsCount: response.studentsCount,
+  lastPage: response.lastPage,
+  students: response.students.map((student) => transformUserData(student)),
+});
+
+export const transformStudentsToInterview = (
+  response: StudentListToHrReponse
+): StudentListToInterview => ({
+  students: response.students.map((student) => transformUserData(student)),
 });

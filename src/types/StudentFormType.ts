@@ -1,4 +1,5 @@
 import { UserRole } from "../app/api/authSlice";
+import { IStudentData } from "./IStudentData";
 
 export interface IStudentFormData {
   bio: string;
@@ -48,8 +49,9 @@ export interface GetUserDataResponse {
   id: string;
   email: string;
   student: {
+    id: string;
     courseCompletion: number;
-    courseEngagment: number;
+    courseEngagement: number;
     projectDegree: number;
     teamProjectDegree: number;
     bonusProjectUrls: string[];
@@ -57,4 +59,33 @@ export interface GetUserDataResponse {
     isActive: boolean;
     profile: Omit<IStudentFormData, "email"> | null;
   };
+}
+
+export type StudentListToHrRequest = {
+  page: number;
+  limit: number;
+};
+
+export interface StudentListToHrReponse {
+  studentsCount: number;
+  lastPage: number;
+  students: GetUserDataResponse[];
+}
+
+export interface StudentListToHrResponseTransformed {
+  studentsCount: number;
+  lastPage: number;
+  students: IStudentData[];
+}
+
+export type AddStudentToInterviewRequest = {
+  studentId: string;
+};
+
+export interface StudentListToInterviewReponse {
+  students: GetUserDataResponse[];
+}
+
+export interface StudentListToInterview {
+  students: IStudentData[];
 }

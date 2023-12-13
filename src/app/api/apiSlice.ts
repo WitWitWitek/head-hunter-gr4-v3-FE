@@ -72,7 +72,7 @@ const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithReauth,
   refetchOnMountOrArgChange: true,
-  tagTypes: [],
+  tagTypes: ["Student"],
   endpoints: () => ({}),
 });
 
