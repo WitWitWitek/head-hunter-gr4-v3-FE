@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { StudentCard } from "./StudentCard";
-import { dummyStudents } from "../../../../dummyStudents";
 import { Pagination } from "../Pagination/Pagination";
 import { useDispatch } from "react-redux";
 import { addStudentToTalk } from "../../../app/talkStudentsSlice";
@@ -11,6 +10,7 @@ const AllStudents = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [students, setStudents] = useState<IStudentData[]>([]);
+  const [lastPage, setLastPage] = useState<number>(1);
   const [getStudentsToHr] = useGetAllStudentsToHrMutation();
   const dispatch = useDispatch();
 
@@ -21,6 +21,7 @@ const AllStudents = () => {
         limit: itemsPerPage,
       }).unwrap();
       setStudents(() => data.students);
+      setLastPage(() => data.lastPage);
     };
     fetchStudentsData();
   }, [currentPage, itemsPerPage]);
@@ -31,7 +32,10 @@ const AllStudents = () => {
   };
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-  const changeItemsPerPage = (number: number) => setItemsPerPage(number);
+  const changeItemsPerPage = (number: number) => {
+    setItemsPerPage(number);
+    setCurrentPage(() => 1);
+  };
 
   return (
     <>
@@ -47,7 +51,7 @@ const AllStudents = () => {
       </div>
       <Pagination
         itemsPerPage={itemsPerPage}
-        totalItems={students.length}
+        lastPage={lastPage}
         paginate={paginate}
         changeItemsPerPage={changeItemsPerPage}
         currentPage={currentPage}
