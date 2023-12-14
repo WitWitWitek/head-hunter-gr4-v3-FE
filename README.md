@@ -52,7 +52,7 @@ This application simplifies connecting HR departments, including headhunters, wi
 ## Getting Started 
 
 To use FE, remember to download the server from the link and run it according to the instructions provided 
-[go to BE repository](https://github.com/WitWitWitek/head-hunter-gr4-v3-FE)
+[go to BE repository](https://github.com/WitWitWitek/head-hunter-gr4-v3-BE)
 
 1. **Clone the repository**:
    ```bash
@@ -76,4 +76,33 @@ To use FE, remember to download the server from the link and run it according to
 
 
 
-  
+  Certainly! I'll add three subsections to your README: "Contributors," "License," and a summary of learning experiences regarding teamwork and remote collaboration.
+
+---
+
+
+## Contributors
+List the team members who contributed to this project. You can format it as a simple list or provide more details like roles or contact information.
+
+- Contributor 1
+- Contributor 2
+- Contributor 3
+- ...
+
+## License
+
+This project is licensed under the MIT License. The MIT License is a permissive free software license originating at the Massachusetts Institute of Technology (MIT). It puts only very limited restriction on reuse and has, therefore, high license compatibility.
+
+
+##  What We Learned
+
+In the process of developing this project, our team navigated various challenges that provided valuable lessons in teamwork, especially under difficult conditions such as remote collaboration and time constraints. Key takeaways include:
+
+- **Effective Communication**: Learning to communicate clearly and efficiently was crucial for remote teamwork.
+- **Time Management**: Balancing different time zones and personal schedules taught us the importance of time management.
+- **Flexibility and Adaptation**: Adapting to unforeseen challenges and being flexible in our approach was vital.
+- **Collaboration Tools**: Utilizing various digital tools enhanced our ability to work together despite being remote.
+- **Team Cohesion**: Despite the distance, we learned to work as a cohesive unit, supporting and learning from each other.
+
+This project not only helped us enhance our technical skills but also strengthened our capabilities in working as a part of a diverse, distributed team.
+
