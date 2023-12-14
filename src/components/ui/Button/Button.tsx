@@ -7,6 +7,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	status?: 'active' | 'disabled';
 	loading?: boolean;
 	fullWidth?: boolean;
+	color?: string;
 }
 
 export const Button = ({
@@ -15,8 +16,12 @@ export const Button = ({
 	status = 'active',
 	loading = false,
 	fullWidth = false,
+	color,
 	...rest
 }: Props) => {
+	const buttonStyle = {
+		backgroundColor: color,
+	};
 	return (
 		<button
 			{...rest}
@@ -24,6 +29,7 @@ export const Button = ({
 				fullWidth ? styles.fullWidth : ''
 			}`}
 			disabled={status === 'disabled' || loading}
+			style={buttonStyle}
 		>
 			{loading ? (
 				<>

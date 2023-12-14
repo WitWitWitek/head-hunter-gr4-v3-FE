@@ -100,9 +100,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
       StudentListToHrResponseTransformed,
       StudentListToHrRequest
     >({
-      query: ({ page = 1, limit = 10 }) => ({
+      query: ({ page = 1, limit = 10, queryParams }) => ({
         url: `/student/hrstudentlist?page=${page}&limit=${limit}`,
         method: "POST",
+        body: { ...queryParams },
       }),
       invalidatesTags: ["Student"],
       transformResponse: transformStudentToHrData,

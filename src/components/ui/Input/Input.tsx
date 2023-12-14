@@ -6,6 +6,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	hasError?: boolean;
 	errorMessage?: string;
 	warningMessage?: string;
+	descriptionClass?: string;
 }
 
 export const Input = ({
@@ -13,6 +14,7 @@ export const Input = ({
 	hasError,
 	errorMessage,
 	warningMessage,
+	descriptionClass = '',
 	...rest
 }: Props) => {
 	const message = hasError ? errorMessage : warningMessage;
@@ -21,7 +23,9 @@ export const Input = ({
 	return (
 		<div className={styles.input_group}>
 			{description && (
-				<span className={styles.description}>{description}:</span>
+				<span className={`${styles.description} ${descriptionClass}`}>
+					{description}:
+				</span>
 			)}
 			<input
 				className={`${styles.input} ${

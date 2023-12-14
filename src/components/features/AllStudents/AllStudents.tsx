@@ -6,12 +6,19 @@ import {
   useGetAllStudentsToHrMutation,
 } from "../../../app/api/userApiSlice";
 import { IStudentData } from "../../../types/IStudentData";
+import Searchbar from "../Searchbar/Searchbar";
+import { StudentQueryValues } from "../../../types/StudentFormType";
+import { FormValues } from "../Filter/FilterDialog";
+import { transformQueryParams } from "../../../utils/transformQueryParams";
 
 const AllStudents = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+  const [queryParams, setQueryParams] = useState<StudentQueryValues>({});
+
   const [students, setStudents] = useState<IStudentData[]>([]);
   const [lastPage, setLastPage] = useState<number>(1);
+
   const [getStudentsToHr] = useGetAllStudentsToHrMutation();
   const [addStudentToTalk] = useAddStudentToInterviewMutation();
 
@@ -20,12 +27,13 @@ const AllStudents = () => {
       const data = await getStudentsToHr({
         page: currentPage,
         limit: itemsPerPage,
+        queryParams,
       }).unwrap();
       setStudents(() => data.students);
       setLastPage(() => data.lastPage);
     };
     fetchStudentsData();
-  }, [currentPage, itemsPerPage]);
+  }, [currentPage, itemsPerPage, queryParams]);
 
   const getToTalk = async (id: string) => {
     await addStudentToTalk({ studentId: id });
@@ -37,8 +45,14 @@ const AllStudents = () => {
     setCurrentPage(() => 1);
   };
 
+  const filterStudentWithQueryParams = (params: FormValues) => {
+    const transformedParams = transformQueryParams(params);
+    setQueryParams(() => transformedParams);
+  };
+
   return (
     <>
+      <Searchbar setQueryParams={filterStudentWithQueryParams} />
       <div>
         {students.map((student, index) => (
           <StudentCard

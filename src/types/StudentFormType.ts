@@ -64,6 +64,7 @@ export interface GetUserDataResponse {
 export type StudentListToHrRequest = {
   page: number;
   limit: number;
+  queryParams: StudentQueryValues;
 };
 
 export interface StudentListToHrReponse {
@@ -88,4 +89,16 @@ export interface StudentListToInterviewReponse {
 
 export interface StudentListToInterview {
   students: IStudentData[];
+}
+
+export interface StudentQueryValues {
+  canTakeApprenticeship?: boolean;
+  teamProjectDegree?: number;
+  courseCompletion?: number;
+  courseEngagement?: number;
+  projectDegree?: number;
+  monthsOfCommercialExp?: number;
+  expectedTypeWork?: string[];
+  expectedContractType?: string[];
+  expectedSalary?: [number, number];
 }
