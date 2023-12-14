@@ -1,25 +1,27 @@
 import * as yup from 'yup';
 
 export const StudentFilteredValidation = yup.object().shape({
-	courseCompletionRating: yup
+	courseCompletion: yup
 		.number()
 		.required('Ocena przejścia kursu jest wymagana'),
-	activityAndEngagementRating: yup
+	courseEngagement: yup
 		.number()
 		.required('Ocena aktywności i zaangażowania na kursie jest wymagana'),
-	ownProjectCodeRating: yup
+	projectDegree: yup
 		.number()
 		.required('Ocena kodu w projekcie własnym jest wymagana'),
-	teamWorkScrumRating: yup
+	teamProjectDegree: yup
 		.number()
 		.required('Ocena pracy w zespole w Scrum jest wymagana'),
-	preferredWorkLocation: yup
+	expectedTypeWork: yup
 		.string()
 		.required('Wymagane jest podanie preferowanego miejsca pracy'),
-	consentForUnpaidInternship: yup
+	canTakeApprenticeship: yup
 		.boolean()
 		.required('Musisz zaznaczyć jedna z opcji'),
-	contractType: yup.string().required('Wymagany jest wybór typu kontraktu'),
+	expectedContractType: yup
+		.string()
+		.required('Wymagany jest wybór typu kontraktu'),
 	minSalary: yup
 		.string()
 		.nullable()

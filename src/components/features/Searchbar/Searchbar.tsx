@@ -13,7 +13,11 @@ const Searchbar = () => {
 	return (
 		<div className={styles.container}>
 			<div className={styles.searchbar}>
-				<input type="search" placeholder="Szukaj" />
+				<input
+					className={styles.searchInput}
+					type="search"
+					placeholder="Szukaj"
+				/>
 				<button onClick={openDialog}>
 					<MdFilterAlt className={styles.icon} size={22} color="#4D4D4D" />
 					Filtrowanie
