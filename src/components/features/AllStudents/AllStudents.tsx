@@ -15,7 +15,7 @@ const AllStudents = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [queryParams, setQueryParams] = useState<StudentQueryValues>({});
-
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [students, setStudents] = useState<IStudentData[]>([]);
   const [lastPage, setLastPage] = useState<number>(1);
 
@@ -28,12 +28,13 @@ const AllStudents = () => {
         page: currentPage,
         limit: itemsPerPage,
         queryParams,
+        search: searchQuery,
       }).unwrap();
       setStudents(() => data.students);
       setLastPage(() => data.lastPage);
     };
     fetchStudentsData();
-  }, [currentPage, itemsPerPage, queryParams]);
+  }, [currentPage, itemsPerPage, queryParams, searchQuery]);
 
   const getToTalk = async (id: string) => {
     await addStudentToTalk({ studentId: id });
@@ -50,9 +51,15 @@ const AllStudents = () => {
     setQueryParams(() => transformedParams);
   };
 
+  const filterStudentWithSearchQuery = (text: string) =>
+    setSearchQuery(() => text);
+
   return (
     <>
-      <Searchbar setQueryParams={filterStudentWithQueryParams} />
+      <Searchbar
+        setQueryParams={filterStudentWithQueryParams}
+        setSearchQuery={filterStudentWithSearchQuery}
+      />
       <div>
         {students.map((student, index) => (
           <StudentCard

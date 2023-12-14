@@ -64,6 +64,7 @@ export interface GetUserDataResponse {
 export type StudentListToHrRequest = {
   page: number;
   limit: number;
+  search: string;
   queryParams: StudentQueryValues;
 };
 

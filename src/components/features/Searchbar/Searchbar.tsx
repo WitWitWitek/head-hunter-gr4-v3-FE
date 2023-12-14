@@ -6,9 +6,10 @@ import { FormValues } from "../Filter/FilterDialog";
 
 interface SearchBarProps {
   setQueryParams: (params: FormValues) => void;
+  setSearchQuery: (text: string) => void;
 }
 
-const Searchbar = ({ setQueryParams }: SearchBarProps) => {
+const Searchbar = ({ setQueryParams, setSearchQuery }: SearchBarProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const openDialog = () => {
     setIsDialogOpen(true);
@@ -23,6 +24,7 @@ const Searchbar = ({ setQueryParams }: SearchBarProps) => {
           className={styles.searchInput}
           type="search"
           placeholder="Szukaj"
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
         <button onClick={openDialog}>
           <MdFilterAlt className={styles.icon} size={22} color="#4D4D4D" />

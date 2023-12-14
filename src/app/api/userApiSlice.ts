@@ -100,8 +100,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
       StudentListToHrResponseTransformed,
       StudentListToHrRequest
     >({
-      query: ({ page = 1, limit = 10, queryParams }) => ({
-        url: `/student/hrstudentlist?page=${page}&limit=${limit}`,
+      query: ({ page = 1, limit = 10, queryParams, search }) => ({
+        url: `/student/hrstudentlist?page=${page}&limit=${limit}${
+          search ? `&search=${search}` : ""
+        }`,
         method: "POST",
         body: { ...queryParams },
       }),
