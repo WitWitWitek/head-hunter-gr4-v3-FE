@@ -2,8 +2,6 @@
 
 This application is a capstone project for the Mega K course, 3rd edition, designed to evaluate group performance in a Scrum framework. It facilitates connections between HR professionals and IT job seekers, with a focus on showcasing the skills and competencies of the course's participants.
 
-
-
 ## Live 
 
 [HEAD HUNTER LIVE](https://head-hunter-ynt4.onrender.com/)
@@ -74,14 +72,14 @@ To use FE, remember to download the server from the link and run it according to
    npm run dev
    ```
    
-
 ## Contributors
-List the team members who contributed to this project. You can format it as a simple list or provide more details like roles or contact information.
+Team members from both repositories FE & BE
 
-- Contributor 1
-- Contributor 2
-- Contributor 3
-- ...
+- [WitWitWitek](https://github.com/WitWitWitek)
+- [PmitPoland](https://github.com/PmitPoland)
+- [wiesienk](https://github.com/wiesienk)
+- [Insterek](https://github.com/Insterek)
+- [kozerka](https://github.com/kozerka)
 
 ## License
 
