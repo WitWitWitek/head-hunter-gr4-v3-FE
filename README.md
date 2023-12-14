@@ -52,7 +52,7 @@ This application simplifies connecting HR departments, including headhunters, wi
 ## Getting Started 
 
 To use FE, remember to download the server from the link and run it according to the instructions provided 
-[go to BE repository](..............)
+[go to BE repository](https://github.com/WitWitWitek/head-hunter-gr4-v3-FE)
 
 1. **Clone the repository**:
    ```bash
