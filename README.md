@@ -73,13 +73,7 @@ To use FE, remember to download the server from the link and run it according to
    ```bash
    npm run dev
    ```
-
-
-
-  Certainly! I'll add three subsections to your README: "Contributors," "License," and a summary of learning experiences regarding teamwork and remote collaboration.
-
----
-
+   
 
 ## Contributors
 List the team members who contributed to this project. You can format it as a simple list or provide more details like roles or contact information.
