@@ -1,222 +1,209 @@
 import styles from './FilterDialog.module.scss';
 import { Button, Input } from '../../ui';
+import { StudentFilteredValidation } from '../../../validation';
+import { useFormik } from 'formik';
+import {
+	ExpectedContractType,
+	ExpectedTypeWork,
+} from '../../../types/IStudentData';
 interface FilterDialogProps {
 	isOpen: boolean;
 	onClose: () => void;
 }
+interface FormValues {
+	teamProjectDegree: string;
+	courseCompletion: string;
+	courseEngagement: string;
+	projectDegree: string;
+	expectedTypeWork: string[];
+	expectedContractType: string[];
+	canTakeApprenticeship: boolean;
+	minSalary: number | null;
+	maxSalary: number | null;
+	monthsOfCommercialExp: number;
+}
 
 const FilterDialog: React.FC<FilterDialogProps> = ({ isOpen, onClose }) => {
+	const formik = useFormik<FormValues>({
+		initialValues: {
+			teamProjectDegree: '',
+			courseCompletion: '',
+			courseEngagement: '',
+			projectDegree: '',
+			expectedTypeWork: [],
+			expectedContractType: [],
+			canTakeApprenticeship: false,
+			minSalary: null,
+			maxSalary: null,
+			monthsOfCommercialExp: 0,
+		},
+		validationSchema: StudentFilteredValidation,
+		onSubmit: (values) => {
+			console.log(values);
+		},
+		validateOnChange: true,
+		validateOnBlur: true,
+	});
+	const { handleSubmit, handleChange, setFieldValue, values, errors, touched } =
+		formik;
+
+	const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		const currentValues = values[name as keyof FormValues] as string[];
+
+		if (currentValues.includes(value)) {
+			formik.setFieldValue(
+				name,
+				currentValues.filter((item: string) => item !== value)
+			);
+		} else {
+			formik.setFieldValue(name, [...currentValues, value]);
+		}
+	};
+	const handleClear = () => {
+		formik.resetForm();
+	};
+
+	const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setFieldValue(name, value === 'true');
+	};
 	return (
 		<div className={styles.dialogContainer} data-open={isOpen}>
 			<dialog open={isOpen} onClose={onClose}>
-				<div className={styles.heading}>
-					<h2>Filtrowanie</h2>
-					<button className={styles.clearBtn}>Wyczyść wszystkie</button>
-				</div>
-				<form>
+				<form onSubmit={handleSubmit}>
+					<div className={styles.heading}>
+						<h2>Filtrowanie</h2>
+						<button className={styles.clearBtn} onClick={handleClear}>
+							Wyczyść wszystkie
+						</button>
+					</div>
 					<div className={styles.points}>
 						<Input
 							type="number"
 							id="teamProjectDegree"
 							name="teamProjectDegree"
-							min="1"
-							max="5"
 							placeholder="Wpisz minimalną ocenę w zakresie od 1 do 5"
 							description="Ocena pracy w zespole w Scrum"
 							descriptionClass={styles.customDescription}
+							onChange={handleChange}
+							value={values.teamProjectDegree}
+							hasError={touched.teamProjectDegree && !!errors.teamProjectDegree}
+							errorMessage={errors.teamProjectDegree}
 						/>
 						<Input
 							type="number"
 							id="courseCompletion"
 							name="courseCompletion"
-							min="1"
-							max="5"
 							placeholder="Wpisz minimalną ocenę w zakresie od 1 do 5"
 							description="Ocena przejścia kursu"
 							descriptionClass={styles.customDescription}
+							onChange={handleChange}
+							value={values.courseCompletion}
+							hasError={touched.courseCompletion && !!errors.courseCompletion}
+							errorMessage={errors.courseCompletion}
 						/>
 						<Input
 							type="number"
 							id="courseEngagement"
 							name="courseEngagement"
-							min="1"
-							max="5"
 							placeholder="Wpisz minimalną ocenę w zakresie od 1 do 5"
 							description="Ocena aktywności i zaangażowania na kursie"
 							descriptionClass={styles.customDescription}
+							onChange={handleChange}
+							value={values.courseEngagement}
+							hasError={touched.courseEngagement && !!errors.courseEngagement}
+							errorMessage={errors.courseEngagement}
 						/>
 						<Input
 							type="number"
 							id="projectDegree"
 							name="projectDegree"
-							min="1"
-							max="5"
 							placeholder="Wpisz minimalną ocenę w zakresie od 1 do 5"
 							description="Ocena kodu w projekcie własnym"
 							descriptionClass={styles.customDescription}
+							onChange={handleChange}
+							value={values.projectDegree}
+							hasError={touched.projectDegree && !!errors.projectDegree}
+							errorMessage={errors.projectDegree}
 						/>
 					</div>
 
 					<fieldset className={styles.fieldset}>
 						<legend>Preferowane miejsce pracy</legend>
 						<div className={styles.checkboxGroup}>
-							<div className={styles.checkboxWrapper}>
-								<input
-									type="checkbox"
-									id="remote"
-									name="expectedTypeWork"
-									value="remote"
-									className={styles.checkboxInput}
-								/>
-								<label htmlFor="remote" className={styles.checkboxLabel}>
-									Wyłącznie zdalnie
-								</label>
-							</div>
-
-							<div className={styles.checkboxWrapper}>
-								<input
-									type="checkbox"
-									id="onsite"
-									name="expectedTypeWork"
-									value="onsite"
-									className={styles.checkboxInput}
-								/>
-								<label htmlFor="onsite" className={styles.checkboxLabel}>
-									Na miejscu
-								</label>
-							</div>
-
-							<div className={styles.checkboxWrapper}>
-								<input
-									type="checkbox"
-									id="noPreference"
-									name="expectedTypeWork"
-									value="noPreference"
-									className={styles.checkboxInput}
-								/>
-								<label htmlFor="noPreference" className={styles.checkboxLabel}>
-									Bez znaczenia
-								</label>
-							</div>
-
-							<div className={styles.checkboxWrapper}>
-								<input
-									type="checkbox"
-									id="relocationReady"
-									name="expectedTypeWork"
-									value="relocationReady"
-									className={styles.checkboxInput}
-								/>
-								<label
-									htmlFor="relocationReady"
-									className={styles.checkboxLabel}
-								>
-									Gotowość do przeprowadzki
-								</label>
-							</div>
-
-							<div className={styles.checkboxWrapper}>
-								<input
-									type="checkbox"
-									id="hybrid"
-									name="expectedTypeWork"
-									value="hybrid"
-									className={styles.checkboxInput}
-								/>
-								<label htmlFor="hybrid" className={styles.checkboxLabel}>
-									Hybrydowo
-								</label>
-							</div>
+							{Object.entries(ExpectedTypeWork).map(([key, value]) => (
+								<div key={key} className={styles.checkboxWrapper}>
+									<input
+										type="checkbox"
+										id={key}
+										name="expectedTypeWork"
+										value={key}
+										checked={values.expectedTypeWork.includes(key)}
+										onChange={handleCheckboxChange}
+										className={styles.checkboxInput}
+									/>
+									<label htmlFor={key} className={styles.checkboxLabel}>
+										{value}
+									</label>
+								</div>
+							))}
 						</div>
+						{touched.expectedTypeWork && errors.expectedTypeWork && (
+							<div className={styles.errorText}>{errors.expectedTypeWork}</div>
+						)}
 					</fieldset>
 
 					<fieldset className={styles.fieldset}>
 						<legend>Oczekiwany typ kontraktu</legend>
 						<div className={styles.checkboxGroup}>
-							<div className={styles.checkboxWrapper}>
-								<input
-									type="checkbox"
-									id="UoP"
-									name="expectedContractType"
-									value="UoP"
-									className={styles.checkboxInput}
-								/>
-								<label htmlFor="UoP" className={styles.checkboxLabel}>
-									Tylko UoP
-								</label>
-							</div>
-
-							<div className={styles.checkboxWrapper}>
-								<input
-									type="checkbox"
-									id="noPreference"
-									name="expectedContractType"
-									value="noPreference"
-									className={styles.checkboxInput}
-								/>
-								<label htmlFor="noPreference" className={styles.checkboxLabel}>
-									Brak preferencji
-								</label>
-							</div>
-
-							<div className={styles.checkboxWrapper}>
-								<input
-									type="checkbox"
-									id="UZUoD"
-									name="expectedContractType"
-									value="UZUoD"
-									className={styles.checkboxInput}
-								/>
-								<label htmlFor="UZUoD" className={styles.checkboxLabel}>
-									Możliwe UZ/UoD
-								</label>
-							</div>
-
-							<div className={styles.checkboxWrapper}>
-								<input
-									type="checkbox"
-									id="hybrid"
-									name="expectedContractType"
-									value="hybrid"
-									className={styles.checkboxInput}
-								/>
-								<label htmlFor="hybrid" className={styles.checkboxLabel}>
-									Hybrydowo
-								</label>
-							</div>
-
-							<div className={styles.checkboxWrapper}>
-								<input
-									type="checkbox"
-									id="B2B"
-									name="expectedContractType"
-									value="B2B"
-									className={styles.checkboxInput}
-								/>
-								<label htmlFor="B2B" className={styles.checkboxLabel}>
-									Możliwe B2B
-								</label>
-							</div>
+							{Object.entries(ExpectedContractType).map(([key, value]) => (
+								<div key={key} className={styles.checkboxWrapper}>
+									<input
+										type="checkbox"
+										id={key}
+										name="expectedContractType"
+										value={key}
+										checked={values.expectedContractType.includes(key)}
+										onChange={handleCheckboxChange}
+										className={styles.checkboxInput}
+									/>
+									<label htmlFor={key} className={styles.checkboxLabel}>
+										{value}
+									</label>
+								</div>
+							))}
 						</div>
+						{touched.expectedContractType && errors.expectedContractType && (
+							<div className={styles.errorText}>
+								{errors.expectedContractType}
+							</div>
+						)}
 					</fieldset>
 					<fieldset className={styles.salary}>
 						<legend>Oczekiwane wynagrodzenie miesięczne netto</legend>
 						<div className={styles.salaryInputGroup}>
 							<p>Od:</p>
 							<Input
-								type="text"
-								id="salaryMin"
-								name="expectedSalaryMin"
+								type="number"
+								id="minSalary"
+								name="minSalary"
 								placeholder="np. 1000 zł"
-								descriptionClass={styles.customDescription}
+								onChange={handleChange}
+								value={values.minSalary}
+								hasError={touched.minSalary && !!errors.minSalary}
+								errorMessage={errors.minSalary}
 							/>
 							<p>Do:</p>
 							<Input
-								type="text"
-								id="salaryMax"
-								name="expectedSalaryMax"
+								type="number"
+								id="maxSalary"
+								name="maxSalary"
 								placeholder="np. 10000 zł"
-								descriptionClass={styles.customDescription}
+								onChange={handleChange}
+								value={values.maxSalary}
+								hasError={touched.maxSalary && !!errors.maxSalary}
+								errorMessage={errors.maxSalary}
 							/>
 						</div>
 					</fieldset>
@@ -226,15 +213,33 @@ const FilterDialog: React.FC<FilterDialogProps> = ({ isOpen, onClose }) => {
 							Zgoda na odbycie bezpłatnych praktyk/stażu na początek
 						</legend>
 						<label>
-							<input type="radio" name="canTakeApprenticeship" value="true" />{' '}
+							<input
+								type="radio"
+								id="canTakeApprenticeshipTrue"
+								name="canTakeApprenticeship"
+								value="true"
+								onChange={handleRadioChange}
+								checked={values.canTakeApprenticeship === true}
+							/>{' '}
 							Tak
 						</label>
 						<label>
-							<input type="radio" name="canTakeApprenticeship" value="false" />{' '}
+							<input
+								type="radio"
+								id="canTakeApprenticeshipFalse"
+								name="canTakeApprenticeship"
+								value="false"
+								onChange={handleRadioChange}
+								checked={values.canTakeApprenticeship === false}
+							/>{' '}
 							Nie
 						</label>
+						{touched.canTakeApprenticeship && errors.canTakeApprenticeship && (
+							<div className={styles.errorText}>
+								{errors.canTakeApprenticeship}
+							</div>
+						)}
 					</fieldset>
-
 					<div className={styles.expMonths}>
 						<Input
 							type="number"
@@ -244,6 +249,12 @@ const FilterDialog: React.FC<FilterDialogProps> = ({ isOpen, onClose }) => {
 							placeholder="0 miesięcy"
 							description="Ilość miesięcy doświadczenia komercyjnego kandydata w programowaniu"
 							descriptionClass={styles.customDescription}
+							onChange={handleChange}
+							value={values.monthsOfCommercialExp}
+							hasError={
+								touched.monthsOfCommercialExp && !!errors.monthsOfCommercialExp
+							}
+							errorMessage={errors.monthsOfCommercialExp}
 						/>
 					</div>
 
@@ -251,7 +262,7 @@ const FilterDialog: React.FC<FilterDialogProps> = ({ isOpen, onClose }) => {
 						<Button color={'#0A0A0A'} onClick={onClose}>
 							Anuluj
 						</Button>
-						<Button>Pokaż wyniki</Button>
+						<Button type={'submit'}>Pokaż wyniki</Button>
 					</div>
 				</form>
 			</dialog>
