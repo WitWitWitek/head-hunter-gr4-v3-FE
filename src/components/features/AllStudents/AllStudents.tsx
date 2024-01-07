@@ -12,12 +12,12 @@ import { FormValues } from "../Filter/FilterDialog";
 import { transformQueryParams } from "../../../utils/transformQueryParams";
 
 const AllStudents = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+  const [currentPage, setCurrentPage] = useState(1);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
   const [queryParams, setQueryParams] = useState<StudentQueryValues>({});
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [students, setStudents] = useState<IStudentData[]>([]);
-  const [lastPage, setLastPage] = useState<number>(1);
+  const [lastPage, setLastPage] = useState(1);
 
   const [getStudentsToHr] = useGetAllStudentsToHrMutation();
   const [addStudentToTalk] = useAddStudentToInterviewMutation();
