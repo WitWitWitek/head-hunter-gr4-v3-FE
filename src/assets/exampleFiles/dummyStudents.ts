@@ -2,7 +2,7 @@ import {
 	ExpectedContractType,
 	ExpectedTypeWork,
 	IStudentData,
-} from './src/types/IStudentData';
+} from '../../types/IStudentData';
 export const dummyStudents: IStudentData[] = [
 	{
 		bio: 'Pasjonat programowania z doświadczeniem w JavaScript.',

@@ -7,6 +7,9 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    .rowCount {
+        color:$white;
+    }
     .fileInputContainer {
 
         display: flex;
