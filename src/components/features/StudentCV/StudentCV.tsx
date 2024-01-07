@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import styles from './StudentCV.module.scss';
 import StudentSidebar from '../StudentSidebar/StudentSidebar';
 import MainCv from '../MainCv/MainCv';
-import { dummyStudents } from '../../../../dummyStudents';
+import { dummyStudents } from '../../../assets/exampleFiles/dummyStudents';
 import NavbarMain from '../NavbarMain/NavbarMain';
 import { BackwardsBtn } from '../../ui';
 import { useLocation } from 'react-router-dom';

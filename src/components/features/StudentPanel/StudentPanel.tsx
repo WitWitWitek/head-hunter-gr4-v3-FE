@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "../../ui";
 import styles from "./StudentPanel.module.scss";
-import { dummyStudent } from "../../../../dummyStudent";
+import { dummyStudent } from '../../../assets/exampleFiles/dummyStudent';
 
 // dla HR nie bedzie przy podgladzie cv widac tego gornego panelu z menu
 const StudentPanel = () => {
