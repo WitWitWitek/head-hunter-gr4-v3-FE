@@ -13,6 +13,10 @@ export interface LoginResponse {
   relatedEntityId: string | null;
 }
 
+export interface ErrorResponse {
+  error: { data: { message: string } };
+}
+
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<LoginResponse, LoginRequest>({
@@ -28,7 +32,11 @@ export const authApiSlice = apiSlice.injectEndpoints({
           dispatch(logIn({ access_token, role, relatedEntityId }));
           toast.success("Zalogowano poprawnie.");
         } catch (err) {
-          toast.error("Wystąpił bład w trakcie logowania.");
+          console.log(err);
+          const message = (err as ErrorResponse)?.error?.data?.message;
+          toast.error(
+            message ? message : "Wystąpił problem w trakcie logowania."
+          );
           dispatch(logOut());
         }
       },
