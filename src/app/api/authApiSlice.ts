@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import apiSlice from "../api/apiSlice";
 import { UserRole, logIn, logOut } from "./authSlice";
+import { rtkErrorHandler } from "../../utils/rtkErrorHandler";
 
 export interface LoginRequest {
   email: string;
@@ -32,10 +33,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
           dispatch(logIn({ access_token, role, relatedEntityId }));
           toast.success("Zalogowano poprawnie.");
         } catch (err) {
-          console.log(err);
-          const message = (err as ErrorResponse)?.error?.data?.message;
           toast.error(
-            message ? message : "Wystąpił problem w trakcie logowania."
+            rtkErrorHandler(err, "Wystąpił problem w trakcie logowania.")
           );
           dispatch(logOut());
         }

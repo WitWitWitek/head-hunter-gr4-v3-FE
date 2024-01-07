@@ -17,11 +17,6 @@ interface FilterValues {
   monthsOfCommercialExp: string;
 }
 
-// const combinedValidationSchema = Yup.object().shape({
-// 	...studentValidationSchema.fields,
-// 	...StudentFilteredValidation.fields,
-// });
-
 export const StudentPreference = () => {
   return (
     <Formik

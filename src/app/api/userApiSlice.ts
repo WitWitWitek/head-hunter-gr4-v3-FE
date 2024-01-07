@@ -16,6 +16,7 @@ import {
   transformStudentsToInterview,
   transformUserData,
 } from "../../utils/transformUserData";
+import { rtkErrorHandler } from "../../utils/rtkErrorHandler";
 
 type CreateUserRequest = {
   students: CreateStudentType[];
@@ -34,9 +35,11 @@ export const authApiSlice = apiSlice.injectEndpoints({
           await queryFulfilled;
           toast.success("Studenci dodani pomyślnie");
         } catch (err) {
-          console.log(err);
           toast.error(
-            "Wystąpił błąd w trakcie dodwania studentów. Sprwadź swój plik."
+            rtkErrorHandler(
+              err,
+              "Wystąpił błąd w trakcie dodwania studentów. Sprwadź swój plik."
+            )
           );
         }
       },
@@ -52,8 +55,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
           await queryFulfilled;
           toast.success("Konto HR dodane.");
         } catch (err) {
-          console.log(err);
-          toast.error("Wystąpił błąd w trakcie dodwania HR.");
+          toast.error(
+            rtkErrorHandler(err, "Wystąpił błąd w trakcie dodwania HR.")
+          );
         }
       },
     }),
@@ -68,8 +72,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
           await queryFulfilled;
           toast.success("Użytkownik zweryfikowany. Zaloguj się.");
         } catch (err) {
-          console.log(err);
-          toast.error("Wystąpił problem z weryfikacją.");
+          toast.error(rtkErrorHandler(err, "Wystąpił problem z weryfikacją."));
         }
       },
     }),
@@ -84,8 +87,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
           await queryFulfilled;
           toast.success("Profil użytkownika zaktualizowany pomyślnie.");
         } catch (err) {
-          console.log(err);
-          toast.error("Wystąpił błąd w trakcie aktualizowania użytkownika.");
+          toast.error(
+            rtkErrorHandler(
+              err,
+              "Wystąpił błąd w trakcie aktualizowania użytkownika."
+            )
+          );
         }
       },
     }),
@@ -96,7 +103,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
       }),
       transformResponse: transformUserData,
     }),
-    getAllStudentsToHr: builder.mutation<
+    getAllStudentsToHr: builder.query<
       StudentListToHrResponseTransformed,
       StudentListToHrRequest
     >({
@@ -107,15 +114,15 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: { ...queryParams },
       }),
-      invalidatesTags: ["Student"],
+      providesTags: ["Student"],
       transformResponse: transformStudentToHrData,
     }),
-    getStudentSToInterview: builder.mutation<StudentListToInterview, "">({
+    getStudentSToInterview: builder.query<StudentListToInterview, "">({
       query: () => ({
         url: `/hr/interviews`,
         method: "GET",
       }),
-      invalidatesTags: ["Student"],
+      providesTags: ["Student"],
       transformResponse: transformStudentsToInterview,
     }),
     addStudentToInterview: builder.mutation<
@@ -127,6 +134,14 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "PATCH",
       }),
       invalidatesTags: ["Student"],
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          toast.success("Student dodany do rozmowy.");
+        } catch (err) {
+          toast.error(rtkErrorHandler(err));
+        }
+      },
     }),
     deleteStudentFromInterview: builder.mutation<
       string,
@@ -137,6 +152,14 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
       invalidatesTags: ["Student"],
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          toast.success("Student usunięty z listy.");
+        } catch (err) {
+          toast.error(rtkErrorHandler(err));
+        }
+      },
     }),
   }),
 });
@@ -147,8 +170,8 @@ export const {
   useConfirmUserMutation,
   useUpdateUserProfileMutation,
   useGetUserDataMutation,
-  useGetAllStudentsToHrMutation,
-  useGetStudentSToInterviewMutation,
+  useGetAllStudentsToHrQuery,
+  useGetStudentSToInterviewQuery,
   useAddStudentToInterviewMutation,
   useDeleteStudentFromInterviewMutation,
 } = authApiSlice;
