@@ -5,7 +5,7 @@ import { Avatar, Button, Text } from '../../ui';
 import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
 import { useState } from 'react';
 import { LogoutButton } from '../LogoutButton/LogoutButton';
-import { dummyStudent } from '../../../../dummyStudent';
+import { dummyStudent } from '../../../assets/exampleFiles/dummyStudent';
 
 const NavbarMain = () => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);

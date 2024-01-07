@@ -1,8 +1,8 @@
 import {
-  IStudentData,
-  ExpectedContractType,
-  ExpectedTypeWork,
-} from "./src/types/IStudentData";
+	IStudentData,
+	ExpectedContractType,
+	ExpectedTypeWork,
+} from '../../types/IStudentData';
 
 export const dummyStudent: IStudentData = {
 	id: '67890',

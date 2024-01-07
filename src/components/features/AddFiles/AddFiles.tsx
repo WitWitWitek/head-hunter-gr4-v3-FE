@@ -1,19 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useFormik } from "formik";
-import { Spinner, Button } from "../../ui";
-import { toast } from "react-toastify";
-import Papa from "papaparse";
-import styles from "./AddFiles.module.scss";
-import { CreateStudentType } from "../../../types/createStudentType";
-import { useCreateStudentMutation } from "../../../app/api/userApiSlice";
-import { studentsMapper } from "../../../utils/studentsMapper";
-import { Text } from '../../ui';
-import {
-	validateJSON,
-	validateCSVRow,
-	CSVRow,
-} from '../../../validation/inputFilesValidators';
+import React, { useState, useEffect } from 'react';
+import { useFormik } from 'formik';
+import { Spinner } from '../../ui';
+import styles from './AddFiles.module.scss';
+import { CreateStudentType } from '../../../types/createStudentType';
+import { useCreateStudentMutation } from '../../../app/api/userApiSlice';
 import FileTemplatesForImport from '../FileTemplatesForImport/FileTemplatesForImport';
+import FileInput from './FileInput';
+import ErrorDisplay from './ErrorDisplay';
+import ImportButtons from './ImportButtons';
+import { useFileUpload } from '../../../hooks/useFileUpload';
 
 function AddFiles() {
 	const [loading, setLoading] = useState(false);
@@ -24,6 +19,9 @@ function AddFiles() {
 	const [rowCount, setRowCount] = useState(0);
 	const [csvErrors, setCsvErrors] = useState<string[]>([]);
 	const [jsonErrors, setJsonErrors] = useState<string[]>([]);
+
+	const { handleFileUpload } = useFileUpload();
+
 	const resetImport = () => {
 		setCsvErrors([]);
 		setJsonErrors([]);
@@ -43,107 +41,45 @@ function AddFiles() {
 			file: null,
 		},
 		onSubmit: (values) => {
-			handleFile(values.file);
+			handleFileUpload(
+				values.file,
+				setStudents,
+				setLoading,
+				setRowCount,
+				setCsvErrors,
+				setJsonErrors
+			);
 		},
 	});
 
 	useEffect(() => {
-		setSelectedFileName(() => '');
+		if (isSuccess) {
+			resetImport();
+		}
 	}, [isSuccess]);
 
-	const handleFile = (file: File | null) => {
-		if (!file) {
-			toast.error('Proszę wybrać plik.');
-			return;
-		}
-
-		setLoading(true);
-		const fileExtension = file.name.split('.').pop();
-
-		if (fileExtension === 'csv') {
-			Papa.parse<CSVRow>(file, {
-				header: true,
-				complete: (results) => {
-					const errors: string[] = [];
-					results.data.forEach((row, index) => {
-						const validation = validateCSVRow(row, index + 1);
-						if (!validation.isValid) {
-							errors.push(validation.error || `Błąd w wierszu ${index + 1}`);
-						}
-					});
-
-					if (errors.length > 0) {
-						setCsvErrors(errors);
-						setLoading(false);
-						toast.error('Nieprawidłowy format CSV.');
-					} else {
-						const students = studentsMapper(
-							results.data as unknown as CreateStudentType[]
-						);
-						setStudents(() => students);
-						setLoading(false);
-						setRowCount(results.data.length);
-						toast.success(
-							`Plik CSV został przetworzony. Dodano ${results.data.length} kursantów`
-						);
-					}
-				},
-			});
-		} else if (fileExtension === 'json') {
-			const reader = new FileReader();
-			reader.onload = (event: ProgressEvent<FileReader>) => {
-				const result = event.target?.result;
-				if (typeof result === 'string') {
-					const jsonData = JSON.parse(result);
-					const errors = validateJSON(jsonData);
-					if (errors.length > 0) {
-						setJsonErrors(errors);
-						setLoading(false);
-						toast.error(errors);
-						return;
-					} else {
-						const students = studentsMapper(
-							jsonData as unknown as CreateStudentType[]
-						);
-						setStudents(() => students);
-						setLoading(false);
-						setRowCount(jsonData.length);
-						toast.success(
-							`Plik JSON został pomyślnie wczytany. Dodano ${jsonData.length} kursantów/a`
-						);
-					}
-				}
-			};
-			reader.readAsText(file);
-		} else {
-			toast.error('Nieobsługiwany format pliku.');
-			setLoading(false);
-		}
-	};
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.currentTarget.files
 			? event.currentTarget.files[0]
 			: null;
 		if (file) {
-			const fileExtension = file.name.split('.').pop()?.toLowerCase() ?? '';
-			if (fileExtension === 'csv' || fileExtension === 'json') {
-				formik.setFieldValue('file', file);
-				setSelectedFileName(file.name);
-				setFileError('');
-			} else {
-				setFileError(
-					'Niepoprawny format pliku. Akceptowane formaty: .csv, .json'
-				);
-				formik.setFieldValue('file', null);
-				setSelectedFileName('');
-			}
+			formik.setFieldValue('file', file);
+			setSelectedFileName(file.name);
+			setFileError('');
+			resetImportErrors();
 		} else {
+			setFileError('');
 			formik.setFieldValue('file', null);
 			setSelectedFileName('');
-			setFileError('');
+			resetImportErrors();
 		}
 	};
 
+	const resetImportErrors = () => {
+		setCsvErrors([]);
+		setJsonErrors([]);
+		setRowCount(0);
+	};
 	const handleFileRemove = () => {
 		formik.setFieldValue('file', null);
 		setSelectedFileName('');
@@ -154,64 +90,21 @@ function AddFiles() {
 			<h2 style={{ color: 'white' }}>Dodawanie listy kursantów</h2>
 			<FileTemplatesForImport />
 			<form onSubmit={formik.handleSubmit} className={styles.form}>
-				<div className={styles.fileInputContainer}>
-					<label htmlFor="fileInput" className={`${styles.fileInputLabel}`}>
-						Wybierz plik
-					</label>
-					<input
-						id="fileInput"
-						type="file"
-						name="file"
-						onChange={handleFileChange}
-						className={styles.hiddenFileInput}
-					/>
-					<div className={styles.fileName}>{selectedFileName}</div>
-				</div>
-				{fileError && <div className={styles.fileError}>{fileError}</div>}
+				<FileInput
+					onFileChange={handleFileChange}
+					selectedFileName={selectedFileName}
+				/>
+				<ErrorDisplay errors={fileError ? [fileError] : []} />
+				<ErrorDisplay errors={csvErrors} />
+				<ErrorDisplay errors={jsonErrors} />
+
 				{rowCount > 0 && (
 					<div className={styles.rowCount}>
-						<Text weight="light" color="white">
-							Liczba wczytanych kursantów: {rowCount}
-						</Text>
-					</div>
-				)}
-				{csvErrors.length > 0 && (
-					<div className={styles.fileError}>
-						{csvErrors.map((error, index) => (
-							<Text key={index} weight="light" color="red">
-								{error}
-							</Text>
-						))}
-						<Button type="button" onClick={resetImport}>
-							Resetuj błędny import
-						</Button>
+						Liczba wczytanych kursantów: {rowCount}
 					</div>
 				)}
 
-				{jsonErrors.length > 0 && (
-					<div className={styles.fileError}>
-						{jsonErrors.map((error, index) => (
-							<Text key={index} weight="light" color="red">
-								{error}
-							</Text>
-						))}
-						<Button type="button" onClick={resetImport}>
-							Resetuj błędny import
-						</Button>
-					</div>
-				)}
-
-				<div className={styles.buttonsContainer}>
-					<button onClick={handleFileRemove} className={styles.removeBtn}>
-						Usuń
-					</button>
-					<Button type="submit">Importuj dane</Button>
-					{students && (
-						<Button type="button" onClick={() => sendStudents()}>
-							Zapisz
-						</Button>
-					)}
-				</div>
+				<ImportButtons onRemove={handleFileRemove} onSave={sendStudents} />
 			</form>
 			{loading && <Spinner />}
 		</div>
