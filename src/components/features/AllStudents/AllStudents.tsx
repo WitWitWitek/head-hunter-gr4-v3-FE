@@ -4,11 +4,12 @@ import { Pagination } from "../Pagination/Pagination";
 import {
   useAddStudentToInterviewMutation,
   useGetAllStudentsToHrQuery,
-} from "../../../app/api/userApiSlice";
+} from "../../../app/api/hrApiSlice";
 import Searchbar from "../Searchbar/Searchbar";
 import { StudentQueryValues } from "../../../types/StudentFormType";
 import { FormValues } from "../Filter/FilterDialog";
 import { transformQueryParams } from "../../../utils/transformQueryParams";
+import { Spinner } from "../../ui";
 
 const AllStudents = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,7 +18,7 @@ const AllStudents = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [lastPage, setLastPage] = useState(1);
 
-  const { data: studentsData } = useGetAllStudentsToHrQuery({
+  const { data: studentsData, isLoading } = useGetAllStudentsToHrQuery({
     page: currentPage,
     limit: itemsPerPage,
     queryParams,
@@ -49,6 +50,8 @@ const AllStudents = () => {
 
   const filterStudentWithSearchQuery = (text: string) =>
     setSearchQuery(() => text);
+
+  if (isLoading) return <Spinner />;
 
   return (
     <>

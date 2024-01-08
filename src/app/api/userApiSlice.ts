@@ -4,18 +4,10 @@ import { CreateHrType, CreateStudentType } from "../../types/createStudentType";
 import { ConfirmUserRequest } from "../../types/ConfirmStudentType";
 import {
   GetUserDataRequest,
-  StudentListToHrRequest,
   UpdateUserRequest,
-  StudentListToHrResponseTransformed,
-  AddStudentToInterviewRequest,
-  StudentListToInterview,
 } from "../../types/StudentFormType";
 import { IStudentData } from "../../types/IStudentData";
-import {
-  transformStudentToHrData,
-  transformStudentsToInterview,
-  transformUserData,
-} from "../../utils/transformUserData";
+import { transformUserData } from "../../utils/transformUserData";
 import { rtkErrorHandler } from "../../utils/rtkErrorHandler";
 
 type CreateUserRequest = {
@@ -103,64 +95,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
       }),
       transformResponse: transformUserData,
     }),
-    getAllStudentsToHr: builder.query<
-      StudentListToHrResponseTransformed,
-      StudentListToHrRequest
-    >({
-      query: ({ page = 1, limit = 10, queryParams, search }) => ({
-        url: `/student/hrstudentlist?page=${page}&limit=${limit}${
-          search ? `&search=${search}` : ""
-        }`,
-        method: "POST",
-        body: { ...queryParams },
-      }),
-      providesTags: ["Student"],
-      transformResponse: transformStudentToHrData,
-    }),
-    getStudentSToInterview: builder.query<StudentListToInterview, "">({
-      query: () => ({
-        url: `/hr/interviews`,
-        method: "GET",
-      }),
-      providesTags: ["Student"],
-      transformResponse: transformStudentsToInterview,
-    }),
-    addStudentToInterview: builder.mutation<
-      string,
-      AddStudentToInterviewRequest
-    >({
-      query: ({ studentId }) => ({
-        url: `/hr/interviews/${studentId}`,
-        method: "PATCH",
-      }),
-      invalidatesTags: ["Student"],
-      async onQueryStarted(_, { queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          toast.success("Student dodany do rozmowy.");
-        } catch (err) {
-          toast.error(rtkErrorHandler(err));
-        }
-      },
-    }),
-    deleteStudentFromInterview: builder.mutation<
-      string,
-      AddStudentToInterviewRequest
-    >({
-      query: ({ studentId }) => ({
-        url: `/hr/interviews/${studentId}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["Student"],
-      async onQueryStarted(_, { queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          toast.success("Student usunięty z listy.");
-        } catch (err) {
-          toast.error(rtkErrorHandler(err));
-        }
-      },
-    }),
   }),
 });
 
@@ -170,8 +104,4 @@ export const {
   useConfirmUserMutation,
   useUpdateUserProfileMutation,
   useGetUserDataMutation,
-  useGetAllStudentsToHrQuery,
-  useGetStudentSToInterviewQuery,
-  useAddStudentToInterviewMutation,
-  useDeleteStudentFromInterviewMutation,
 } = authApiSlice;

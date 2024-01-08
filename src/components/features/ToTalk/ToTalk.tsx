@@ -2,10 +2,11 @@ import { StudentCard } from "../AllStudents/StudentCard";
 import {
   useDeleteStudentFromInterviewMutation,
   useGetStudentSToInterviewQuery,
-} from "../../../app/api/userApiSlice";
+} from "../../../app/api/hrApiSlice";
+import { Spinner } from "../../ui";
 
 const ToTalk = () => {
-  const { data: studentsData } = useGetStudentSToInterviewQuery("");
+  const { data: studentsData, isLoading } = useGetStudentSToInterviewQuery("");
   const [deleteStudentFromInterview] = useDeleteStudentFromInterviewMutation();
 
   //   const navigate = useNavigate();
@@ -20,6 +21,8 @@ const ToTalk = () => {
   const handleHired = (id: string) => {
     console.log(`Zatrudniony student o ID: ${id}`);
   };
+
+  if (isLoading) return <Spinner />;
 
   return (
     <div>

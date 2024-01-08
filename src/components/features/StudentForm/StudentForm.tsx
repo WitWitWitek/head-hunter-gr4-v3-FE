@@ -6,7 +6,7 @@ import {
   ExpectedContractType,
   ExpectedTypeWork,
 } from "../../../types/StudentFormType";
-import { Input, TextArea, Select, Button } from "../../ui";
+import { Input, TextArea, Select, Button, Spinner } from "../../ui";
 import {
   useGetUserDataMutation,
   useUpdateUserProfileMutation,
@@ -19,7 +19,7 @@ import {
 import { useEffect, useState } from "react";
 export const StudentForm = () => {
   const [updateUser] = useUpdateUserProfileMutation();
-  const [getUserData] = useGetUserDataMutation();
+  const [getUserData, { isLoading }] = useGetUserDataMutation();
   const relatedEntityId = useSelector(selectRelatedEntityId);
   const role = useSelector(selectCurrentRole);
   const [initialValues, setInitialValues] = useState<IStudentFormData>({
@@ -87,6 +87,9 @@ export const StudentForm = () => {
       }
     }
   };
+
+  if (isLoading) return <Spinner />;
+
   return (
     <div className={StudentStyle.wrapper}>
       <form onSubmit={formik.handleSubmit} className={StudentStyle.form}>

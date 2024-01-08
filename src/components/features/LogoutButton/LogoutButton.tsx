@@ -17,8 +17,8 @@ export const LogoutButton = () => {
   );
 
   return (
-		<Button fullWidth={true} onClick={logOut} loading={isLoading}>
-			Wyloguj
-		</Button>
-	);
+    <Button fullWidth={true} onClick={logOut} loading={isLoading}>
+      Wyloguj
+    </Button>
+  );
 };
