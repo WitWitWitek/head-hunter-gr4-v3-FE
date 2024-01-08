@@ -50,9 +50,11 @@ const baseQueryWithReauth: BaseQueryFn<
           extraOptions
         );
         if (refreshResult.data) {
-          const { access_token, role, relatedEntityId } =
+          const { access_token, role, relatedEntityId, userData } =
             refreshResult.data as LoginResponse;
-          api.dispatch(logIn({ access_token, role, relatedEntityId }));
+          api.dispatch(
+            logIn({ access_token, role, relatedEntityId, userData })
+          );
           result = await baseQuery(args, api, extraOptions);
         } else {
           api.dispatch(logOut());

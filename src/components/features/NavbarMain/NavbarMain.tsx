@@ -5,14 +5,13 @@ import { Avatar, Button, Text } from "../../ui";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import { useState } from "react";
 import { LogoutButton } from "../LogoutButton/LogoutButton";
-import { dummyStudent } from "../../../assets/exampleFiles/dummyStudent";
-import { selectCurrentRole } from "../../../app/api/authSlice";
+import { selectCurrentRole, selectUserData } from "../../../app/api/authSlice";
 import { useSelector } from "react-redux";
 
 const NavbarMain = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { firstName, lastName } = dummyStudent;
   const role = useSelector(selectCurrentRole);
+  const userData = useSelector(selectUserData);
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -23,9 +22,9 @@ const NavbarMain = () => {
           <img src={logo} alt="Logo MegaK" className={styles.logo} />
         </Link>
         <div className={styles.container}>
-          <Avatar />
+          <Avatar githubUsername={userData?.github ?? undefined} />
           <Text weight="bold" color="white">
-            {firstName} {lastName}
+            {userData?.email}
           </Text>
           <div className={styles.dropdown}>
             <button className={styles.button} onClick={toggleDropdown}>

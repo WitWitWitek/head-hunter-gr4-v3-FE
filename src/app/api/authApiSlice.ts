@@ -12,6 +12,11 @@ export interface LoginResponse {
   access_token: string;
   role: UserRole;
   relatedEntityId: string | null;
+  userData: {
+    email: string;
+    username: string | null;
+    github: string | null;
+  };
 }
 
 export interface ErrorResponse {
@@ -29,8 +34,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          const { access_token, role, relatedEntityId } = data;
-          dispatch(logIn({ access_token, role, relatedEntityId }));
+          const { access_token, role, relatedEntityId, userData } = data;
+          dispatch(logIn({ access_token, role, relatedEntityId, userData }));
           toast.success("Zalogowano poprawnie.");
         } catch (err) {
           toast.error(
