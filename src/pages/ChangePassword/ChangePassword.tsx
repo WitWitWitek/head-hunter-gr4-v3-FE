@@ -2,6 +2,7 @@ import { Field, FieldProps, Form, Formik } from "formik";
 import { Button } from "../../components/ui/Button/Button";
 import { Input } from "../../components/ui/Input/Input";
 import { changePasswordSchema } from "../../validation/userValidationSchema";
+import { useUpdateUserPasswordMutation } from "../../app/api/userApiSlice";
 
 interface changePassowrdValues {
   oldPassword: string;
@@ -10,6 +11,8 @@ interface changePassowrdValues {
 }
 
 export const ChangePassword = () => {
+  const [updatePassword] = useUpdateUserPasswordMutation();
+
   return (
     <Formik
       initialValues={{
@@ -17,8 +20,12 @@ export const ChangePassword = () => {
         changedPassword: "",
         confirmChangedPassword: "",
       }}
-      onSubmit={(values: changePassowrdValues) => {
-        console.log(values);
+      onSubmit={async (values: changePassowrdValues, actions) => {
+        await updatePassword({
+          oldPassword: values.oldPassword,
+          newPassword: values.confirmChangedPassword,
+        });
+        actions.resetForm();
       }}
       validationSchema={changePasswordSchema}
     >

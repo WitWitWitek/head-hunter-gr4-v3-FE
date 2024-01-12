@@ -4,6 +4,7 @@ import { CreateHrType, CreateStudentType } from "../../types/createStudentType";
 import { ConfirmUserRequest } from "../../types/ConfirmStudentType";
 import {
   BasicResponse,
+  ChangePasswordRequest,
   GetUserDataRequest,
   RemindPasswordRequest,
   UpdateUserRequest,
@@ -114,6 +115,23 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
+    updateUserPassword: builder.mutation<BasicResponse, ChangePasswordRequest>({
+      query: (body) => ({
+        url: `/user/update-password`,
+        method: "PATCH",
+        body: { ...body },
+      }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          toast.success(data.message);
+        } catch (err) {
+          toast.error(
+            rtkErrorHandler(err, "Wystąpił błąd w trakcie zmiany hasła.")
+          );
+        }
+      },
+    }),
   }),
 });
 
@@ -123,5 +141,6 @@ export const {
   useConfirmUserMutation,
   useUpdateUserProfileMutation,
   useGetUserDataMutation,
+  useUpdateUserPasswordMutation,
   useRemindUserPasswordMutation,
 } = authApiSlice;
