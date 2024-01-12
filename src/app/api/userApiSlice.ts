@@ -3,7 +3,9 @@ import { toast } from "react-toastify";
 import { CreateHrType, CreateStudentType } from "../../types/createStudentType";
 import { ConfirmUserRequest } from "../../types/ConfirmStudentType";
 import {
+  BasicResponse,
   GetUserDataRequest,
+  RemindPasswordRequest,
   UpdateUserRequest,
 } from "../../types/StudentFormType";
 import { IStudentData } from "../../types/IStudentData";
@@ -95,6 +97,23 @@ export const authApiSlice = apiSlice.injectEndpoints({
       }),
       transformResponse: transformUserData,
     }),
+    remindUserPassword: builder.mutation<BasicResponse, RemindPasswordRequest>({
+      query: ({ email }) => ({
+        url: `/user/remind-password`,
+        method: "PATCH",
+        body: { email },
+      }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          toast.success(data.message);
+        } catch (err) {
+          toast.error(
+            rtkErrorHandler(err, "Wystąpił błąd w trakcie przypominania hasła.")
+          );
+        }
+      },
+    }),
   }),
 });
 
@@ -104,4 +123,5 @@ export const {
   useConfirmUserMutation,
   useUpdateUserProfileMutation,
   useGetUserDataMutation,
+  useRemindUserPasswordMutation,
 } = authApiSlice;
