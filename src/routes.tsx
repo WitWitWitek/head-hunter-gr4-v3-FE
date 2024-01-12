@@ -17,6 +17,7 @@ import {
   ToTalk,
 } from "./components/features";
 import { RouteObject } from "react-router-dom";
+import { ChangePassword } from "./pages/ChangePassword/ChangePassword";
 
 export const getRoutes = (role: string | null): RouteObject[] => [
   {
@@ -62,6 +63,10 @@ export const getRoutes = (role: string | null): RouteObject[] => [
             element: <ToTalk />,
           },
         ],
+      },
+      {
+        path: "settings",
+        element: <ChangePassword />,
       },
     ],
   },
