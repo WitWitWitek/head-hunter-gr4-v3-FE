@@ -29,7 +29,7 @@ export default function StudentsTable({ students }: Props) {
               <td>{student.projectDegree}</td>
               <td>{student.teamProjectDegree}</td>
             </tr>
-            <tr>
+            <tr key={student.bonusProjectUrls + student.email}>
               <td colSpan={6}>
                 <b>Status:</b> {student.status}
               </td>
