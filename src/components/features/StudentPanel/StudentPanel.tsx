@@ -1,17 +1,14 @@
 import { Link } from "react-router-dom";
 import { Button } from "../../ui";
 import styles from "./StudentPanel.module.scss";
-import { dummyStudent } from '../../../assets/exampleFiles/dummyStudent';
+import { useSelector } from "react-redux";
+import { selectUserData } from "../../../app/api/authSlice";
 
-// dla HR nie bedzie przy podgladzie cv widac tego gornego panelu z menu
 const StudentPanel = () => {
-  const { firstName, lastName } = dummyStudent;
-  // dane z API
+  const userData = useSelector(selectUserData);
   return (
     <div className={styles.container}>
-      <h1>
-        Witaj, {firstName} {lastName}
-      </h1>
+      <h1>Witaj, {userData?.username}</h1>
       <div>
         <Link to="/student/edit-cv" style={{ textDecoration: "none" }}>
           <Button fullWidth>Edytuj swoje CV</Button>

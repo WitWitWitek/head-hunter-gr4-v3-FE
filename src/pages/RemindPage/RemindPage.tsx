@@ -2,20 +2,22 @@ import { Field, Formik, FieldProps, Form } from "formik";
 import { passwordForgottenSchema } from "../../validation";
 import { Button, Input } from "../../components/ui";
 import Style from "./RemindPage.module.scss";
+import { useRemindUserPasswordMutation } from "../../app/api/userApiSlice";
 interface RemindValues {
   userEmail: string;
   confirmEmail: string;
 }
 
 export const RemindPage = () => {
+  const [remindPassword] = useRemindUserPasswordMutation();
   return (
     <Formik
       initialValues={{
         userEmail: "",
         confirmEmail: "",
       }}
-      onSubmit={(values: RemindValues) => {
-        console.log(values);
+      onSubmit={async (values: RemindValues) => {
+        await remindPassword({ email: values.confirmEmail });
       }}
       validationSchema={passwordForgottenSchema}
     >

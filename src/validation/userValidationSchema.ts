@@ -69,6 +69,8 @@ export const createPasswordSchema = yup.object().shape({
 });
 
 export const changePasswordSchema = yup.object().shape({
+  oldPassword: yup.string().required("Podaj stare hasło"),
+
   changedPassword: yup
     .string()
     .min(1, "Pole nie może być puste")

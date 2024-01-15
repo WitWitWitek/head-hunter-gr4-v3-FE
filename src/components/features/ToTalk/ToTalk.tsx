@@ -1,26 +1,15 @@
 import { StudentCard } from "../AllStudents/StudentCard";
 import {
   useDeleteStudentFromInterviewMutation,
-  useGetStudentSToInterviewMutation,
-} from "../../../app/api/userApiSlice";
-import { useEffect, useState } from "react";
-import { IStudentData } from "../../../types/IStudentData";
+  useGetStudentSToInterviewQuery,
+} from "../../../app/api/hrApiSlice";
+import { Spinner } from "../../ui";
 
 const ToTalk = () => {
-  const [getStudentsToInterview] = useGetStudentSToInterviewMutation();
+  const { data: studentsData, isLoading } = useGetStudentSToInterviewQuery("");
   const [deleteStudentFromInterview] = useDeleteStudentFromInterviewMutation();
-  const [students, setStudents] = useState<IStudentData[]>([]);
-
-  useEffect(() => {
-    const fetchStudentsData = async () => {
-      const data = await getStudentsToInterview("").unwrap();
-      setStudents(() => data.students);
-    };
-    fetchStudentsData();
-  }, []);
 
   //   const navigate = useNavigate();
-
   const handleShowCV = () => {
     // navigate(`/test-hr/student-cv/${id}?fromHR=true`);
   };
@@ -33,22 +22,25 @@ const ToTalk = () => {
     console.log(`Zatrudniony student o ID: ${id}`);
   };
 
+  if (isLoading) return <Spinner />;
+
   return (
     <div>
-      {students.map((student) => (
-        <StudentCard
-          key={student.id}
-          student={student}
-          getToTalk={() => {}}
-          isInToTalk={true}
-          isLast={false}
-          showFullLastName={true}
-          reservationDate=" 23.07.2022r"
-          onShowCV={() => handleShowCV()}
-          onNoInterest={() => handleNoInterest(student.id)}
-          onHired={() => handleHired(student.id)}
-        />
-      ))}
+      {studentsData &&
+        studentsData.students.map((student) => (
+          <StudentCard
+            key={student.id}
+            student={student}
+            getToTalk={() => {}}
+            isInToTalk={true}
+            isLast={false}
+            showFullLastName={true}
+            reservationDate=" 23.07.2022r"
+            onShowCV={() => handleShowCV()}
+            onNoInterest={() => handleNoInterest(student.id)}
+            onHired={() => handleHired(student.id)}
+          />
+        ))}
     </div>
   );
 };

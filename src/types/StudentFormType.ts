@@ -92,6 +92,19 @@ export interface StudentListToInterview {
   students: IStudentData[];
 }
 
+export interface RemindPasswordRequest {
+  email: string;
+}
+
+export interface ChangePasswordRequest {
+  oldPassword: string;
+  newPassword: string;
+}
+
+export interface BasicResponse {
+  message: string;
+}
+
 export interface StudentQueryValues {
   canTakeApprenticeship?: boolean;
   teamProjectDegree?: number;

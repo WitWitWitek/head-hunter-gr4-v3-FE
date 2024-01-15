@@ -3,40 +3,34 @@ import { toast } from "react-toastify";
 import { CreateHrType, CreateStudentType } from "../../types/createStudentType";
 import { ConfirmUserRequest } from "../../types/ConfirmStudentType";
 import {
+  BasicResponse,
+  ChangePasswordRequest,
   GetUserDataRequest,
-  StudentListToHrRequest,
+  RemindPasswordRequest,
   UpdateUserRequest,
-  StudentListToHrResponseTransformed,
-  AddStudentToInterviewRequest,
-  StudentListToInterview,
 } from "../../types/StudentFormType";
 import { IStudentData } from "../../types/IStudentData";
-import {
-  transformStudentToHrData,
-  transformStudentsToInterview,
-  transformUserData,
-} from "../../utils/transformUserData";
-
-type CreateUserRequest = {
-  students: CreateStudentType[];
-};
+import { transformUserData } from "../../utils/transformUserData";
+import { rtkErrorHandler } from "../../utils/rtkErrorHandler";
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createStudent: builder.mutation<string, CreateUserRequest>({
-      query: ({ students }) => ({
+    createStudent: builder.mutation<BasicResponse, CreateStudentType>({
+      query: (student) => ({
         url: "/user/add-student",
         method: "POST",
-        body: { students },
+        body: { ...student },
       }),
       async onQueryStarted(_, { queryFulfilled }) {
         try {
-          await queryFulfilled;
-          toast.success("Studenci dodani pomyślnie");
+          const { data } = await queryFulfilled;
+          toast.success(data.message);
         } catch (err) {
-          console.log(err);
           toast.error(
-            "Wystąpił błąd w trakcie dodwania studentów. Sprwadź swój plik."
+            rtkErrorHandler(
+              err,
+              "Wystąpił błąd w trakcie dodwania studentów. Sprwadź swój plik."
+            )
           );
         }
       },
@@ -52,8 +46,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
           await queryFulfilled;
           toast.success("Konto HR dodane.");
         } catch (err) {
-          console.log(err);
-          toast.error("Wystąpił błąd w trakcie dodwania HR.");
+          toast.error(
+            rtkErrorHandler(err, "Wystąpił błąd w trakcie dodwania HR.")
+          );
         }
       },
     }),
@@ -68,8 +63,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
           await queryFulfilled;
           toast.success("Użytkownik zweryfikowany. Zaloguj się.");
         } catch (err) {
-          console.log(err);
-          toast.error("Wystąpił problem z weryfikacją.");
+          toast.error(rtkErrorHandler(err, "Wystąpił problem z weryfikacją."));
         }
       },
     }),
@@ -84,8 +78,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
           await queryFulfilled;
           toast.success("Profil użytkownika zaktualizowany pomyślnie.");
         } catch (err) {
-          console.log(err);
-          toast.error("Wystąpił błąd w trakcie aktualizowania użytkownika.");
+          toast.error(
+            rtkErrorHandler(
+              err,
+              "Wystąpił błąd w trakcie aktualizowania użytkownika."
+            )
+          );
         }
       },
     }),
@@ -96,47 +94,39 @@ export const authApiSlice = apiSlice.injectEndpoints({
       }),
       transformResponse: transformUserData,
     }),
-    getAllStudentsToHr: builder.mutation<
-      StudentListToHrResponseTransformed,
-      StudentListToHrRequest
-    >({
-      query: ({ page = 1, limit = 10, queryParams, search }) => ({
-        url: `/student/hrstudentlist?page=${page}&limit=${limit}${
-          search ? `&search=${search}` : ""
-        }`,
-        method: "POST",
-        body: { ...queryParams },
-      }),
-      invalidatesTags: ["Student"],
-      transformResponse: transformStudentToHrData,
-    }),
-    getStudentSToInterview: builder.mutation<StudentListToInterview, "">({
-      query: () => ({
-        url: `/hr/interviews`,
-        method: "GET",
-      }),
-      invalidatesTags: ["Student"],
-      transformResponse: transformStudentsToInterview,
-    }),
-    addStudentToInterview: builder.mutation<
-      string,
-      AddStudentToInterviewRequest
-    >({
-      query: ({ studentId }) => ({
-        url: `/hr/interviews/${studentId}`,
+    remindUserPassword: builder.mutation<BasicResponse, RemindPasswordRequest>({
+      query: ({ email }) => ({
+        url: `/user/remind-password`,
         method: "PATCH",
+        body: { email },
       }),
-      invalidatesTags: ["Student"],
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          toast.success(data.message);
+        } catch (err) {
+          toast.error(
+            rtkErrorHandler(err, "Wystąpił błąd w trakcie przypominania hasła.")
+          );
+        }
+      },
     }),
-    deleteStudentFromInterview: builder.mutation<
-      string,
-      AddStudentToInterviewRequest
-    >({
-      query: ({ studentId }) => ({
-        url: `/hr/interviews/${studentId}`,
-        method: "DELETE",
+    updateUserPassword: builder.mutation<BasicResponse, ChangePasswordRequest>({
+      query: (body) => ({
+        url: `/user/update-password`,
+        method: "PATCH",
+        body: { ...body },
       }),
-      invalidatesTags: ["Student"],
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          toast.success(data.message);
+        } catch (err) {
+          toast.error(
+            rtkErrorHandler(err, "Wystąpił błąd w trakcie zmiany hasła.")
+          );
+        }
+      },
     }),
   }),
 });
@@ -147,8 +137,6 @@ export const {
   useConfirmUserMutation,
   useUpdateUserProfileMutation,
   useGetUserDataMutation,
-  useGetAllStudentsToHrMutation,
-  useGetStudentSToInterviewMutation,
-  useAddStudentToInterviewMutation,
-  useDeleteStudentFromInterviewMutation,
+  useUpdateUserPasswordMutation,
+  useRemindUserPasswordMutation,
 } = authApiSlice;
