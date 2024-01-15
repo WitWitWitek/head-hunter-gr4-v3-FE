@@ -13,22 +13,18 @@ import { IStudentData } from "../../types/IStudentData";
 import { transformUserData } from "../../utils/transformUserData";
 import { rtkErrorHandler } from "../../utils/rtkErrorHandler";
 
-type CreateUserRequest = {
-  students: CreateStudentType[];
-};
-
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createStudent: builder.mutation<string, CreateUserRequest>({
-      query: ({ students }) => ({
+    createStudent: builder.mutation<BasicResponse, CreateStudentType>({
+      query: (student) => ({
         url: "/user/add-student",
         method: "POST",
-        body: { students },
+        body: { ...student },
       }),
       async onQueryStarted(_, { queryFulfilled }) {
         try {
-          await queryFulfilled;
-          toast.success("Studenci dodani pomyślnie");
+          const { data } = await queryFulfilled;
+          toast.success(data.message);
         } catch (err) {
           toast.error(
             rtkErrorHandler(
