@@ -20,10 +20,10 @@ export const ChangePassword = () => {
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 	const renderPasswordField = (
-		name: keyof ChangePassowrdValues, // Typowanie jako klucz interfejsu ChangePassowrdValues
+		name: keyof ChangePassowrdValues,
 		description: string,
 		showPassword: boolean,
-		setShowPassword: React.Dispatch<React.SetStateAction<boolean>> // Poprawne typowanie dla funkcji zmieniającej stan
+		setShowPassword: React.Dispatch<React.SetStateAction<boolean>>
 	) => (
 		<Field name={name}>
 			{({ field, form }: FieldProps<string, ChangePassowrdValues>) => (
