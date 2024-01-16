@@ -1,17 +1,13 @@
 import { Outlet } from 'react-router-dom';
-import { Navbar } from '../../components/features';
-import AdminMenu from '../../components/features/AdminMenu/AdminMenu';
-import ContainerColumnFlex from '../../components/layout/Containers/ContainerColumnFlex';
+import MainLayout from '../../templates/MainLayout';
+import { Menu } from '../../components/features';
+import { adminLinks } from '../../constants/menuLinks';
 
 export const AdminView = () => {
 	return (
-		<div>
-			<Navbar />
-			<ContainerColumnFlex>
-				<AdminMenu />
-				<Outlet />
-			</ContainerColumnFlex>
-		</div>
+		<MainLayout viewComponent={<Menu links={adminLinks} />}>
+			<Outlet />
+		</MainLayout>
 	);
 };
 
