@@ -16,43 +16,41 @@ const NavbarMain = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
   return (
-    <nav className={styles.themeBgDark3}>
-      <div className={styles.navContainer}>
-        <Link to={`${role ? "/" + role : "/"}`} className="navbar-brand">
-          <img src={logo} alt="Logo MegaK" className={styles.logo} />
-        </Link>
-        <div className={styles.container}>
-          <Avatar githubUsername={userData?.github ?? undefined} />
-          <Text weight="bold" color="white">
-            {userData?.email}
-          </Text>
-          <div className={styles.dropdown}>
-            <button className={styles.button} onClick={toggleDropdown}>
-              {isDropdownOpen ? (
-                <TiArrowSortedUp size={"20px"} color={"white"} />
-              ) : (
-                <TiArrowSortedDown size={"20px"} color={"white"} />
-              )}
-            </button>
-            {isDropdownOpen && (
-              <div
-                className={`${styles.dropdownContent} ${
-                  isDropdownOpen ? styles.show : ""
-                }`}
-              >
-                <Button fullWidth={true}>
-                  <Link to="/settings">Ustawienia konta</Link>
-                </Button>
-                {/* strona z ustawieniami - zmiana hasła do konta */}
-                <LogoutButton />
-                {/* na klik akcja wylogowania */}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
+		<nav className={styles.themeBgDark3}>
+			<div className={styles.navContainer}>
+				<Link to={`${role ? '/' + role : '/'}`} className="navbar-brand">
+					<img src={logo} alt="Logo MegaK" className={styles.logo} />
+				</Link>
+				<div className={styles.container}>
+					<Avatar githubUsername={userData?.github ?? undefined} />
+					<Text weight="bold" color="white">
+						{userData?.email}
+					</Text>
+					<div className={styles.dropdown}>
+						<button className={styles.button} onClick={toggleDropdown}>
+							{isDropdownOpen ? (
+								<TiArrowSortedUp size={'20px'} color={'white'} />
+							) : (
+								<TiArrowSortedDown size={'20px'} color={'white'} />
+							)}
+						</button>
+						{isDropdownOpen && (
+							<div
+								className={`${styles.dropdownContent} ${
+									isDropdownOpen ? styles.show : ''
+								}`}
+							>
+								<Button fullWidth={true} onClick={toggleDropdown}>
+									<Link to={`/${role}/settings`}>Ustawienia konta</Link>
+								</Button>
+								<LogoutButton />
+							</div>
+						)}
+					</div>
+				</div>
+			</div>
+		</nav>
+	);
 };
 
 export default NavbarMain;

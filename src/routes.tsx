@@ -47,6 +47,10 @@ export const getRoutes = (role: string | null): RouteObject[] => [
 						path: 'add-hr',
 						element: <AddHr />,
 					},
+					{
+						path: 'settings',
+						element: <ChangePassword />,
+					},
 				],
 			},
 			{
@@ -65,6 +69,10 @@ export const getRoutes = (role: string | null): RouteObject[] => [
 						path: 'view-cv',
 						element: <Cv />,
 					},
+					{
+						path: 'settings',
+						element: <ChangePassword />,
+					},
 				],
 			},
 			{
@@ -79,11 +87,11 @@ export const getRoutes = (role: string | null): RouteObject[] => [
 						path: 'to-talk',
 						element: <ToTalk />,
 					},
+					{
+						path: 'settings',
+						element: <ChangePassword />,
+					},
 				],
-			},
-			{
-				path: 'settings',
-				element: <ChangePassword />,
 			},
 		],
 	},
