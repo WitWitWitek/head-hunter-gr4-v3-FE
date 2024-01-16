@@ -1,15 +1,36 @@
 @import "../../../styles/variables.scss";
 
 .table {
-  border: 1px solid $grey;
+  font-size: 14px;
+  margin-top: 52px;
+  border-collapse: separate; 
+  border-spacing: 3px; 
   text-align: center;
   color: $white;
-  background-color: $filer;
+  background-color: $bgNav;
+  max-width: 1000px;
+  width: 100%; 
+
+
+
   th,
   td {
-    background-color: $iconGrey;
-    border: 1px solid $grey;
+    background-color: $bgInput;
     text-align: center;
     color: $white;
+    padding: 6px 8px;
+  }
+
+  th {
+    position: relative; 
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -3px; 
+      border-bottom: 2px solid $strongRed;
+    }
   }
 }

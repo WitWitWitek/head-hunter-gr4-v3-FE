@@ -1,20 +1,16 @@
-import {
-	Navbar,
-	AddFiles,
-	AddHr,
-	UserGreeting,
-} from '../../components/features';
-import CenterContent from '../../components/ui/Containers/CenterContent';
+import { Outlet } from 'react-router-dom';
+import { Navbar } from '../../components/features';
+import AdminMenu from '../../components/features/AdminMenu/AdminMenu';
+import ContainerColumnFlex from '../../components/layout/Containers/ContainerColumnFlex';
 
 export const AdminView = () => {
 	return (
 		<div>
 			<Navbar />
-			<CenterContent>
-				<UserGreeting />
-				<AddFiles />
-				<AddHr />
-			</CenterContent>
+			<ContainerColumnFlex>
+				<AdminMenu />
+				<Outlet />
+			</ContainerColumnFlex>
 		</div>
 	);
 };

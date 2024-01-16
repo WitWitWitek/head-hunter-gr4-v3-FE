@@ -101,30 +101,33 @@ function AddFiles() {
   };
 
   return (
-    <div className={styles.container}>
-      <h2 style={{ color: "white" }}>Dodawanie listy kursantów</h2>
-      <FileTemplatesForImport />
-      <form onSubmit={formik.handleSubmit} className={styles.form}>
-        <FileInput
-          onFileChange={handleFileChange}
-          selectedFileName={selectedFileName}
-        />
-        <ErrorDisplay errors={fileError ? [fileError] : []} />
-        <ErrorDisplay errors={csvErrors} />
-        <ErrorDisplay errors={jsonErrors} />
+		<div className={styles.container}>
+			<h2 style={{ color: 'white' }}>Dodawanie listy kursantów</h2>
+			<div>
+				{' '}
+				<FileTemplatesForImport />
+				<form onSubmit={formik.handleSubmit} className={styles.form}>
+					<FileInput
+						onFileChange={handleFileChange}
+						selectedFileName={selectedFileName}
+					/>
+					<ErrorDisplay errors={fileError ? [fileError] : []} />
+					<ErrorDisplay errors={csvErrors} />
+					<ErrorDisplay errors={jsonErrors} />
 
-        {rowCount > 0 && (
-          <div className={styles.rowCount}>
-            Liczba wczytanych kursantów: {rowCount}
-          </div>
-        )}
+					{rowCount > 0 && (
+						<div className={styles.rowCount}>
+							Liczba wczytanych kursantów: {rowCount}
+						</div>
+					)}
 
-        <ImportButtons onRemove={handleFileRemove} onSave={sendStudents} />
-        {students && <StudentsTable students={students} />}
-      </form>
-      {loading && <Spinner />}
-    </div>
-  );
+					<ImportButtons onRemove={handleFileRemove} onSave={sendStudents} />
+				</form>
+				{loading && <Spinner />}
+			</div>
+			{students && <StudentsTable students={students} />}
+		</div>
+	);
 }
 
 export default AddFiles;
