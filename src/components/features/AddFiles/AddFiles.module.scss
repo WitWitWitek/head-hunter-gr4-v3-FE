@@ -1,7 +1,14 @@
 @import '../../../styles/variables.scss';
 
 .container {
-   width:459px;
+   display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: $bgInput;
+    min-height: 60vh;
+    padding:48px 0;
+    color: $colorInput;
 }
 .form {
     display: flex;

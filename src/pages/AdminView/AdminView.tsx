@@ -1,21 +1,13 @@
-import {
-	Navbar,
-	AddFiles,
-	AddHr,
-	UserGreeting,
-} from '../../components/features';
-import CenterContent from '../../components/ui/Containers/CenterContent';
+import { Outlet } from 'react-router-dom';
+import MainLayout from '../../templates/MainLayout';
+import { Menu } from '../../components/features';
+import { adminLinks } from '../../constants/menuLinks';
 
 export const AdminView = () => {
 	return (
-		<div>
-			<Navbar />
-			<CenterContent>
-				<UserGreeting />
-				<AddFiles />
-				<AddHr />
-			</CenterContent>
-		</div>
+		<MainLayout viewComponent={<Menu links={adminLinks} />}>
+			<Outlet />
+		</MainLayout>
 	);
 };
 

@@ -1,6 +1,5 @@
 export { default as AddFiles } from './AddFiles/AddFiles';
 export { default as AddHr } from './AddHr/AddHr';
-export { default as Navbar } from './Navbar/Navbar';
 export { default as UserGreeting } from './UserGreeting/UserGreeting';
 export * from './StudentForm/StudentForm';
 export { default as Cv } from './Cv/Cv';
@@ -10,5 +9,5 @@ export { default as NavbarMain } from './NavbarMain/NavbarMain';
 export { default as StudentCV } from './StudentCV/StudentCV';
 export { default as AllStudents } from './AllStudents/AllStudents';
 export { default as ToTalk } from './ToTalk/ToTalk';
-export { default as HrMenu } from './HrMenu/HrMenu';
 export { default as SearchBar } from './Searchbar/Searchbar';
+export { default as AdminPanel } from './AdminPanel/AdminPanel';

@@ -1,16 +1,14 @@
 import { Outlet } from 'react-router-dom';
-import { Menu, NavbarMain } from '../../components/features';
-import ContainerColumnFlex from '../../components/layout/Containers/ContainerColumnFlex';
-import styles from './StudentView.module.scss';
+import MainLayout from '../../templates/MainLayout';
+import { Menu } from '../../components/features';
+import { studentLinks } from '../../constants/menuLinks';
 
 export const StudentView = () => {
 	return (
-		<div className={styles.container}>
-			<NavbarMain />
-			<ContainerColumnFlex>
-				<Menu />
-				<Outlet />
-			</ContainerColumnFlex>
-		</div>
+		<MainLayout viewComponent={<Menu links={studentLinks} />}>
+			<Outlet />
+		</MainLayout>
 	);
 };
+
+export default StudentView;
